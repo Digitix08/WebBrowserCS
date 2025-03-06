@@ -1,0 +1,42 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WebBrowserCS.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="HomePage" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://www.google.com/</Value>
+    </Setting>
+    <Setting Name="Search1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://www.google.com/search?q=</Value>
+    </Setting>
+    <Setting Name="Search2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://www.bing.com/search?q=</Value>
+    </Setting>
+    <Setting Name="Search3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">undefined</Value>
+    </Setting>
+    <Setting Name="Search4" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://wikipedia.org/w/index.php?search=</Value>
+    </Setting>
+    <Setting Name="Search5" Type="System.String" Scope="User">
+      <Value Profile="(Default)">undefined</Value>
+    </Setting>
+    <Setting Name="DefaultSearch" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="Elembgcolor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Transparent</Value>
+    </Setting>
+    <Setting Name="Windowbgcolor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Control</Value>
+    </Setting>
+    <Setting Name="Textcolor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">ControlText</Value>
+    </Setting>
+    <Setting Name="FontSize" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="DefaultNewTab" Type="System.String" Scope="User">
+      <Value Profile="(Default)">IETab</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
