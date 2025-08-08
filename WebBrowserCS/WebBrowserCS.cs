@@ -111,7 +111,7 @@ namespace WebBrowserCS
             Assembly DLL; Type theType; var c = new object(); MethodInfo method;
             if (File.Exists(loc))
             {
-                DLL = DllImport(loc);
+                DLL = Assembly.LoadFile(loc);
                 theType = DLL.GetType(exe + ".IGExtension");
                 c = Activator.CreateInstance(theType);
                 method = theType.GetMethod("init");
