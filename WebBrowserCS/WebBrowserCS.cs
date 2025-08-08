@@ -11,6 +11,7 @@ namespace WebBrowserCS
     {
         readonly string home = Properties.Settings.Default.HomePage;
         string defaultsearch, ExtFile = "AvailableExtensions.txt";
+        string[] ExtDelimit = new string[] { "_;_" };
         public WebBrowserCS()
         {
             InitializeComponent();
@@ -81,13 +82,14 @@ namespace WebBrowserCS
                         ToolStripMenuItem ext = new ToolStripMenuItem { Text = line.Substring(0, line.IndexOf("_;_")) };
                         line = line.Substring(line.IndexOf("_;_") + 3, line.Length - line.IndexOf("_;_") - 3);
                         ext.Tag = line;
-                        string path = Directory.GetCurrentDirectory() + "\\" + line.Substring(0, line.Length - line.IndexOf("_;_") + 1);
+                        string[] args = line.Split(ExtDelimit, StringSplitOptions.None);
+                        string path = Directory.GetCurrentDirectory() + "\\" + args[0];
                         if (File.Exists(path))
                         {
                             newToolStripMenuItem.DropDownItems.Add(ext);
                             ext.Click += ext_Click;
                         }
-                        else MessageBox.Show("The file " + path + "does not exist");
+                        else MessageBox.Show("The file " + path + " does not exist");
                     }
                     line = extens.ReadLine();
                 }
@@ -98,17 +100,18 @@ namespace WebBrowserCS
         private void ext_Click(object sender, EventArgs e)
         {
             string tag = ((ToolStripMenuItem)sender).Tag.ToString();
-            externalLaunch(tag, "window");
+            externalLaunch(tag, home);
         }
 
         private void externalLaunch(string tag, string mode)
         {
-            string loc = Directory.GetCurrentDirectory() + "\\" + tag.Substring(0, tag.Length - tag.IndexOf("_;_") + 1);
-            string exe = tag.Substring(tag.IndexOf("_;_") + 3, tag.Length - tag.IndexOf("_;_") - 3);
+            string[] args = tag.Split(ExtDelimit, StringSplitOptions.None);
+            string loc = Directory.GetCurrentDirectory() + "\\" + args[0];
+            string exe = args[1];
             Assembly DLL; Type theType; var c = new object(); MethodInfo method;
             if (File.Exists(loc))
             {
-                DLL = Assembly.LoadFile(loc);
+                DLL = DllImport(loc);
                 theType = DLL.GetType(exe + ".IGExtension");
                 c = Activator.CreateInstance(theType);
                 method = theType.GetMethod("init");

@@ -537,7 +537,7 @@
             // Search
             // 
             this.Search.Image = global::WebBrowserCS.Properties.Resources.search;
-            this.Search.Location = new System.Drawing.Point(496, 3);
+            this.Search.Location = new System.Drawing.Point(496, 2);
             this.Search.Margin = new System.Windows.Forms.Padding(2);
             this.Search.Name = "Search";
             this.Search.Size = new System.Drawing.Size(28, 28);

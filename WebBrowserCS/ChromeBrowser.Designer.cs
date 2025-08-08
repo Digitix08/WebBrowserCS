@@ -30,7 +30,6 @@ namespace WebBrowserCS
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChromeBrowser));
-            this.chromiumWebBrowser1 = new CefSharp.WinForms.ChromiumWebBrowser();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,6 +82,7 @@ namespace WebBrowserCS
             this.Forward = new System.Windows.Forms.PictureBox();
             this.GoToUrl = new System.Windows.Forms.TextBox();
             this.GoTo = new System.Windows.Forms.PictureBox();
+            this.chromiumWebBrowser1 = new CefSharp.WinForms.ChromiumWebBrowser();
             this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -94,20 +94,6 @@ namespace WebBrowserCS
             ((System.ComponentModel.ISupportInitialize)(this.Forward)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GoTo)).BeginInit();
             this.SuspendLayout();
-            // 
-            // chromiumWebBrowser1
-            // 
-            this.chromiumWebBrowser1.ActivateBrowserOnCreation = true;
-            this.chromiumWebBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chromiumWebBrowser1.Location = new System.Drawing.Point(2, 64);
-            this.chromiumWebBrowser1.Margin = new System.Windows.Forms.Padding(2);
-            this.chromiumWebBrowser1.Name = "chromiumWebBrowser1";
-            this.chromiumWebBrowser1.Size = new System.Drawing.Size(596, 280);
-            this.chromiumWebBrowser1.TabIndex = 0;
-            this.chromiumWebBrowser1.AddressChanged += new System.EventHandler<CefSharp.AddressChangedEventArgs>(this.ChromiumWebBrowser1_AddressChanged);
-            this.chromiumWebBrowser1.TitleChanged += new System.EventHandler<CefSharp.TitleChangedEventArgs>(this.chromiumWebBrowser1_TitleChanged);
-            this.chromiumWebBrowser1.FrameLoadStart += new System.EventHandler<CefSharp.FrameLoadStartEventArgs>(this.ChromiumWebBrowser1_FrameLoadStart);
-            this.chromiumWebBrowser1.FrameLoadEnd += new System.EventHandler<CefSharp.FrameLoadEndEventArgs>(this.ChromiumWebBrowser1_FrameLoadEnd);
             // 
             // tableLayoutPanel1
             // 
@@ -496,7 +482,7 @@ namespace WebBrowserCS
             // Search
             // 
             this.Search.Image = global::WebBrowserCS.Properties.Resources.search;
-            this.Search.Location = new System.Drawing.Point(496, 3);
+            this.Search.Location = new System.Drawing.Point(496, 2);
             this.Search.Margin = new System.Windows.Forms.Padding(2);
             this.Search.Name = "Search";
             this.Search.Size = new System.Drawing.Size(28, 28);
@@ -588,6 +574,20 @@ namespace WebBrowserCS
             this.GoTo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
             this.GoTo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
             // 
+            // chromiumWebBrowser1
+            // 
+            this.chromiumWebBrowser1.ActivateBrowserOnCreation = true;
+            this.chromiumWebBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chromiumWebBrowser1.Location = new System.Drawing.Point(2, 64);
+            this.chromiumWebBrowser1.Margin = new System.Windows.Forms.Padding(2);
+            this.chromiumWebBrowser1.Name = "chromiumWebBrowser1";
+            this.chromiumWebBrowser1.Size = new System.Drawing.Size(596, 280);
+            this.chromiumWebBrowser1.TabIndex = 0;
+            this.chromiumWebBrowser1.AddressChanged += new System.EventHandler<CefSharp.AddressChangedEventArgs>(this.ChromiumWebBrowser1_AddressChanged);
+            this.chromiumWebBrowser1.TitleChanged += new System.EventHandler<CefSharp.TitleChangedEventArgs>(this.chromiumWebBrowser1_TitleChanged);
+            this.chromiumWebBrowser1.FrameLoadStart += new System.EventHandler<CefSharp.FrameLoadStartEventArgs>(this.ChromiumWebBrowser1_FrameLoadStart);
+            this.chromiumWebBrowser1.FrameLoadEnd += new System.EventHandler<CefSharp.FrameLoadEndEventArgs>(this.ChromiumWebBrowser1_FrameLoadEnd);
+            // 
             // ChromeBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -618,8 +618,6 @@ namespace WebBrowserCS
         }
 
         #endregion
-
-        private CefSharp.WinForms.ChromiumWebBrowser chromiumWebBrowser1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
@@ -672,5 +670,6 @@ namespace WebBrowserCS
         private System.Windows.Forms.PictureBox Forward;
         private System.Windows.Forms.TextBox GoToUrl;
         private System.Windows.Forms.PictureBox GoTo;
+        private CefSharp.WinForms.ChromiumWebBrowser chromiumWebBrowser1;
     }
 }
