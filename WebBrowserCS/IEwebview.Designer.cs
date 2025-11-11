@@ -31,27 +31,29 @@ namespace WebBrowserCS
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.GoToUrl = new System.Windows.Forms.TextBox();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.Search = new System.Windows.Forms.PictureBox();
             this.Back = new System.Windows.Forms.PictureBox();
             this.GoHome = new System.Windows.Forms.PictureBox();
             this.Reload = new System.Windows.Forms.PictureBox();
             this.Forward = new System.Windows.Forms.PictureBox();
+            this.GoToUrl = new System.Windows.Forms.TextBox();
             this.GoTo = new System.Windows.Forms.PictureBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.CurrentUrl = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.Search = new System.Windows.Forms.PictureBox();
+            this.ScrErr = new System.Windows.Forms.ToolStripStatusLabel();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.status = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Search)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Back)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GoHome)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Reload)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Forward)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GoTo)).BeginInit();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Search)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -88,30 +90,19 @@ namespace WebBrowserCS
             this.panel1.Size = new System.Drawing.Size(599, 30);
             this.panel1.TabIndex = 6;
             // 
-            // GoToUrl
+            // Search
             // 
-            this.GoToUrl.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.GoToUrl.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GoToUrl.Location = new System.Drawing.Point(121, 0);
-            this.GoToUrl.Margin = new System.Windows.Forms.Padding(2);
-            this.GoToUrl.MaximumSize = new System.Drawing.Size(24577, 100);
-            this.GoToUrl.Name = "GoToUrl";
-            this.GoToUrl.Size = new System.Drawing.Size(338, 29);
-            this.GoToUrl.TabIndex = 17;
-            this.GoToUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GoToUrl_KeyDown);
-            // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(2, 36);
-            this.webBrowser1.Margin = new System.Windows.Forms.Padding(2);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(15, 16);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(599, 305);
-            this.webBrowser1.TabIndex = 4;
-            this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
-            this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WebBrowser1_Navigated);
-            this.webBrowser1.ProgressChanged += new System.Windows.Forms.WebBrowserProgressChangedEventHandler(this.WebBrowser1_ProgressChanged);
+            this.Search.Image = global::WebBrowserCS.Properties.Resources.search;
+            this.Search.Location = new System.Drawing.Point(495, 0);
+            this.Search.Margin = new System.Windows.Forms.Padding(2);
+            this.Search.Name = "Search";
+            this.Search.Size = new System.Drawing.Size(28, 28);
+            this.Search.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Search.TabIndex = 19;
+            this.Search.TabStop = false;
+            this.Search.Click += new System.EventHandler(this.Search_Click);
+            this.Search.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
+            this.Search.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
             // 
             // Back
             // 
@@ -169,6 +160,18 @@ namespace WebBrowserCS
             this.Forward.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
             this.Forward.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
             // 
+            // GoToUrl
+            // 
+            this.GoToUrl.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.GoToUrl.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GoToUrl.Location = new System.Drawing.Point(121, 0);
+            this.GoToUrl.Margin = new System.Windows.Forms.Padding(2);
+            this.GoToUrl.MaximumSize = new System.Drawing.Size(24577, 100);
+            this.GoToUrl.Name = "GoToUrl";
+            this.GoToUrl.Size = new System.Drawing.Size(338, 29);
+            this.GoToUrl.TabIndex = 17;
+            this.GoToUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GoToUrl_KeyDown);
+            // 
             // GoTo
             // 
             this.GoTo.Image = global::WebBrowserCS.Properties.Resources.go;
@@ -182,6 +185,23 @@ namespace WebBrowserCS
             this.GoTo.Click += new System.EventHandler(this.GoTo_Click);
             this.GoTo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
             this.GoTo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar1,
+            this.CurrentUrl,
+            this.status,
+            this.toolStripStatusLabel2,
+            this.ScrErr});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 343);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(603, 20);
+            this.statusStrip1.TabIndex = 3;
+            this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripProgressBar1
             // 
@@ -202,34 +222,32 @@ namespace WebBrowserCS
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(52, 15);
             this.toolStripStatusLabel2.Text = "IE-based";
             // 
-            // statusStrip1
+            // ScrErr
             // 
-            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBar1,
-            this.CurrentUrl,
-            this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 343);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(603, 20);
-            this.statusStrip1.TabIndex = 3;
-            this.statusStrip1.Text = "statusStrip1";
+            this.ScrErr.Name = "ScrErr";
+            this.ScrErr.Size = new System.Drawing.Size(66, 15);
+            this.ScrErr.Text = "Log output";
+            this.ScrErr.Click += new System.EventHandler(this.ScrErr_Click);
             // 
-            // Search
+            // webBrowser1
             // 
-            this.Search.Image = global::WebBrowserCS.Properties.Resources.search;
-            this.Search.Location = new System.Drawing.Point(495, 0);
-            this.Search.Margin = new System.Windows.Forms.Padding(2);
-            this.Search.Name = "Search";
-            this.Search.Size = new System.Drawing.Size(28, 28);
-            this.Search.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.Search.TabIndex = 19;
-            this.Search.TabStop = false;
-            this.Search.Click += new System.EventHandler(this.Search_Click);
-            this.Search.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
-            this.Search.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Location = new System.Drawing.Point(3, 37);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(597, 303);
+            this.webBrowser1.TabIndex = 7;
+            this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WebBrowser_Inner_DocumentCompleted);
+            this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WebBrowser1_Navigated);
+            this.webBrowser1.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser1_Navigating);
+            this.webBrowser1.NewWindow += new System.ComponentModel.CancelEventHandler(this.WebBrowser1_NewWindow);
+            this.webBrowser1.ProgressChanged += new System.Windows.Forms.WebBrowserProgressChangedEventHandler(this.WebBrowser1_ProgressChanged);
+            // 
+            // status
+            // 
+            this.status.Name = "status";
+            this.status.Size = new System.Drawing.Size(35, 15);
+            this.status.Text = "Done";
             // 
             // IEwebview
             // 
@@ -244,6 +262,7 @@ namespace WebBrowserCS
             this.tableLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Search)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Back)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GoHome)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Reload)).EndInit();
@@ -251,7 +270,6 @@ namespace WebBrowserCS
             ((System.ComponentModel.ISupportInitialize)(this.GoTo)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Search)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -266,11 +284,13 @@ namespace WebBrowserCS
         private System.Windows.Forms.PictureBox Forward;
         private System.Windows.Forms.TextBox GoToUrl;
         private System.Windows.Forms.PictureBox GoTo;
-        internal System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.PictureBox Search;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.ToolStripStatusLabel CurrentUrl;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel ScrErr;
+        private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.ToolStripStatusLabel status;
     }
 }

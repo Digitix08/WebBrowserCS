@@ -370,14 +370,6 @@ namespace WebBrowserCS
             }
         }
 
-        private void TextBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            
-            if (e.KeyData == Keys.X && e.Modifiers == Keys.Control) { (sender as TextBox).Cut(); e.Handled = true; }
-            if (e.KeyData == Keys.C && e.Modifiers == Keys.Control) { (sender as TextBox).Copy(); e.Handled = true; }
-            if (e.KeyData == Keys.V && e.Modifiers == Keys.Control) { (sender as TextBox).Paste(); e.Handled = true; }
-        }
-
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         { 
             if (e.KeyData == Keys.Enter) NewTab(textBox1.Text);

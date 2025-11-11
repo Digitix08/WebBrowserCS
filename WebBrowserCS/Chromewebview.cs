@@ -11,6 +11,11 @@ namespace WebBrowserCS
 {
     public partial class Chromewebview : UserControl
     {
+        TableLayoutPanel table = new TableLayoutPanel();
+        Button ScrErrorClose = new Button { Text = "Close DevTools" };
+        SplitContainer split = new SplitContainer();
+        Label lb = new Label { Text = "Html dev tools" };
+        Panel DebPanel = new Panel();
         readonly string home = Properties.Settings.Default.HomePage;
         string defaultsearch;
         ChromiumWebBrowser chromiumWebBrowser1;
@@ -45,6 +50,7 @@ namespace WebBrowserCS
             this.ForeColor = Properties.Settings.Default.Textcolor;
             ColorSet.SetColorIncludingChildren(this, typeof(Panel), default, default);
             ColorSet.SetColorIncludingChildren(this, typeof(StatusStrip), default, default);
+            ColorSet.SetColorIncludingChildren(this, typeof(TableLayoutPanel), default, default);
         }
 
         private void Chromewebview_Load(object sender, EventArgs e)
@@ -56,6 +62,20 @@ namespace WebBrowserCS
             else if (defaultsearch == "2") defaultsearch = Properties.Settings.Default.Search3;
             else if (defaultsearch == "1") defaultsearch = Properties.Settings.Default.Search4;
             else if (defaultsearch == "0") defaultsearch = Properties.Settings.Default.Search5;
+            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
+            table.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            lb.Font = new Font("Arial", 15, FontStyle.Bold, GraphicsUnit.Point);
+            lb.Width = 500;
+            table.Controls.Add(ScrErrorClose, 0, 0);
+            table.Controls.Add(DebPanel, 0, 1);
+            table.Controls.Add(lb, 1, 0);
+            table.SetColumnSpan(DebPanel, 2);
+            split.Dock = table.Dock = DebPanel.Dock = DockStyle.Fill;
+            ScrErrorClose.Click += ScrDebClose_Click;
+            split.Panel2.Controls.Add(table);
+            Setcolor();
         }
 
         private void Back_Click(object sender, EventArgs e)
@@ -179,6 +199,37 @@ namespace WebBrowserCS
                 }
             }
             ((PictureBox)sender).Image = pic;
+        }
+
+        private void DebMode_Click(object sender, EventArgs e)
+        {
+            foreach (ToolStripMenuItem itm in DebMode.DropDownItems)
+            {
+                if (itm.Checked)
+                {
+                    if (itm.Text == "Docked") {
+                        //MessageBox.Show(DebPanel.Width.ToString() + " " + table.Width.ToString() + " " + table.GetColumnSpan(DebPanel).ToString());
+                        chromiumWebBrowser1.ShowDevToolsDocked(DebPanel, "DevTools", DockStyle.Fill);
+                        tableLayoutPanel1.Controls.Remove(chromiumWebBrowser1);
+                        tableLayoutPanel1.Controls.Add(split, 0, 1);
+                        split.Panel1.Controls.Add(chromiumWebBrowser1);
+                    }
+                    else chromiumWebBrowser1.ShowDevTools();
+                }
+            }     
+        }
+
+        private void ScrDebClose_Click(object sender, EventArgs e)
+        {
+            split.Panel1.Controls.Remove(chromiumWebBrowser1);
+            tableLayoutPanel1.Controls.Remove(split);
+            tableLayoutPanel1.Controls.Add(chromiumWebBrowser1, 0, 1);
+        }
+
+        private void DevToolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ToolStripMenuItem itm in ((ToolStripMenuItem)sender).GetCurrentParent().Items) itm.Checked = false;
+            ((ToolStripMenuItem)sender).Checked = true;
         }
     }
 }

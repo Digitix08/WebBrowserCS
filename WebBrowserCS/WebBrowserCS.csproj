@@ -59,10 +59,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4B9CB3AC1F70CEF8D6C065C2F7A1324938578190</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>1ABDA0574345C27ECF1E82C682973C346481F551</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>WebBrowserCS_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -189,6 +190,12 @@
     <Compile Include="IEwebview.Designer.cs">
       <DependentUpon>IEwebview.cs</DependentUpon>
     </Compile>
+    <Compile Include="ScrErrorIEControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ScrErrorIEControl.Designer.cs">
+      <DependentUpon>ScrErrorIEControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="WebBrowserCS.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -234,6 +241,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="IEwebview.resx">
       <DependentUpon>IEwebview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScrErrorIEControl.resx">
+      <DependentUpon>ScrErrorIEControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WebBrowserCS.resx">
       <DependentUpon>WebBrowserCS.cs</DependentUpon>

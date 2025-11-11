@@ -29,6 +29,11 @@ namespace WebBrowserCS
             defaultsearch = System.Convert.ToString(Properties.Settings.Default.DefaultSearch);
         }
 
+        public void SetJSErrState(bool state)
+        {
+            webBrowser1.ScriptErrorsSuppressed = state;
+        }
+
         private void Setcolor()
         {
             this.BackColor = Properties.Settings.Default.Windowbgcolor;
