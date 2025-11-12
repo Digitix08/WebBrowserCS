@@ -44,15 +44,12 @@ namespace WebBrowserCS
 
         private void StartArgsHandler(string Args)
         {
-            MessageBox.Show(Args);
             if (Args.IndexOf("\\") != -1 && Path.GetExtension(Args) != null || Args.Contains("http"))
             {
                 string path = Path.GetExtension(Args);
                 if (path == ".html" || path == ".htm" || Args.Contains("http"))
                 {
-                    DialogResult chrome = MessageBox.Show("Do you want to open in Chrome View?", "", MessageBoxButtons.YesNo);
-                    if (chrome == DialogResult.Yes) NewChromiumTab(Args);
-                    else NewIETab(Args);
+                    NewTab(Args);
                 }
                 else if (path == ".txt") NewFileTab(Args);
             }
