@@ -319,6 +319,9 @@
     <None Include="Resources\open.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\arrow_back_disabled.png" />
+    <Content Include="Resources\arrow_forward_disabled.png" />
+    <Content Include="Resources\cancel.png" />
     <None Include="func190520251642343Mon.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

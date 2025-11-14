@@ -74,6 +74,18 @@ namespace WebBrowserCS
             Setcolor();
         }
 
+        private void UriChanged(string text)
+        {
+            if (text.Length > 0)
+            {
+                CurrentUrl.Text = text;
+                if (!GoToUrl.Focused)
+                {
+                    GoToUrl.Text = text;
+                }
+            }
+        }
+
         private void WebBrowser1_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
         {
             if (e.CurrentProgress > 0 && e.MaximumProgress > 0 && e.CurrentProgress <= e.MaximumProgress)
@@ -81,7 +93,7 @@ namespace WebBrowserCS
                 long progress = 100 / (e.MaximumProgress / e.CurrentProgress);
                 if (progress >= 1) toolStripProgressBar1.Style = ProgressBarStyle.Blocks;
                 toolStripProgressBar1.Value = System.Convert.ToInt32(progress);
-                CurrentUrl.Text = System.Convert.ToString(webBrowser1.Url);
+                UriChanged(Convert.ToString(webBrowser1.Url));
                 status.Text = "Downloading...";
             }
         }
@@ -159,16 +171,16 @@ namespace WebBrowserCS
             string title = String.Concat(webBrowser1.Url.ToString());
             if (Convert.ToString(webBrowser1.Url).IndexOf("\\") == -1)
                 if (webBrowser1.Document.Title.Length > 0) title = webBrowser1.Document.Title;
-            CurrentUrl.Text = title;
+            UriChanged(Convert.ToString(webBrowser1.Url));
             if (title.Length > charlimit) title = title.Substring(0, charlimit) + "...";
             TabPage MAIN = (TabPage)this.Parent;
             if (MAIN is TabPage)
             {
                 MAIN.Text = title;
             }
-            if (!webBrowser1.CanGoBack) { Back.Image = null; Back.Enabled = false; }
+            if (!webBrowser1.CanGoBack) { Back.Image = Properties.Resources.arrow_back_disabled; Back.Enabled = false; }
             else { Back.Image = Properties.Resources.arrow_back; Back.Enabled = true; }
-            if (!webBrowser1.CanGoForward) { Forward.Image = null; Forward.Enabled = false; }
+            if (!webBrowser1.CanGoForward) { Forward.Image = Properties.Resources.arrow_forward_disabled; Forward.Enabled = false; }
             else { Forward.Image = Properties.Resources.arrow_forward; Forward.Enabled = true; }
             status.Text = "Downloaded";
         }
@@ -209,6 +221,7 @@ namespace WebBrowserCS
             tableLayoutPanel1.Controls.Remove(webBrowser1);
             tableLayoutPanel1.Controls.Add(split, 0, 1);
             split.Panel1.Controls.Add(webBrowser1);
+            tableLayoutPanel1.SetColumnSpan(split, 10);
         }
 
         private void ScrErrClose_Click(object sender, EventArgs e)
@@ -223,6 +236,27 @@ namespace WebBrowserCS
             toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
             toolStripProgressBar1.Value = 50;
             status.Text = "Searching for host...";
+            Reload.Image = Properties.Resources.cancel;
+            Reload.Click += Cancel_Click;
+        }
+
+        private void Cancel_Click(object sender, EventArgs e)
+        {
+            webBrowser1.Stop();
+            Reload.Image = Properties.Resources.arrow_reload;
+            Reload.Click += Reload_Click;
+
+            Bitmap pic = new Bitmap(((PictureBox)sender).Image);
+            for (int y = 0; (y <= (pic.Height - 1)); y++)
+            {
+                for (int x = 0; (x <= (pic.Width - 1)); x++)
+                {
+                    Color inv = pic.GetPixel(x, y);
+                    inv = Color.FromArgb(inv.A, (255 - inv.R), (255 - inv.G), (255 - inv.B));
+                    pic.SetPixel(x, y, inv);
+                }
+            }
+            ((PictureBox)sender).Image = pic;
         }
     }
 }
