@@ -37,7 +37,7 @@ namespace WebBrowserCS
                             if (pvaOut != IntPtr.Zero)
                                 Marshal.GetNativeVariantForObject(true, pvaOut);
 
-                            //return NativeMethods.S_OK;
+                            return NativeMethods.S_OK;
                         }
                     }
                 }
@@ -223,7 +223,6 @@ namespace WebBrowserCS
             toolStripProgressBar1.PerformStep();
             toolStripProgressBar1.Step = oldstep;
             status.Text = "Done";
-            MessageBox.Show("domcompleted event");
         }
         private void Window_Error(object sender, HtmlElementErrorEventArgs e)
         {     
@@ -304,7 +303,6 @@ namespace WebBrowserCS
             }
             catch (System.Runtime.InteropServices.COMException) { err.error("Cannot debug the page " + CurrentUrl.Text); }
             catch (System.NullReferenceException) { }
-            MessageBox.Show("navigated event");
         }
 
         private void GoToUrl_KeyDown(object sender, KeyEventArgs e)
