@@ -21,12 +21,9 @@ namespace WebBrowserCS
         }
         internal static void NewIETab(string url)
         {
-            webBrowserCS.NewIETab(url);
+            webBrowserCS.NewTab(url, "IETab");
         }
-        internal static void NewChromiumTab(string url)
-        {
-            webBrowserCS.NewChromiumTab(url);
-        }
+        internal static void NewChromiumTab(string url) => webBrowserCS.NewTab(url, "ChromiumTab");
     }
     
     public class Logger

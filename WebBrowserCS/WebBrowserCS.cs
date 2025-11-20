@@ -51,7 +51,7 @@ namespace WebBrowserCS
                 {
                     NewTab(Args);
                 }
-                else if (path == ".txt") NewFileTab(Args);
+                else if (path == ".txt") NewTab(Args, "FileTab");
             }
         }
         private void WebBrowserCS_Load(object sender, EventArgs e)
@@ -125,26 +125,16 @@ namespace WebBrowserCS
             {
                 if (Tabs.SelectedTab == Tabs.TabPages["creatTab"])
                 {
-                    NewIETab(home);
+                    NewTab(home, "IETab");
                 }
             }
         }
-        internal void NewIETab(string url)
+        internal void NewIETab(string url, TabPage tab)
         {
             string title = "IETab " + (Tabs.TabCount + 1).ToString();
-            TabPage myTabPage = new TabPage(title);
-            if (Tabs.SelectedIndex == 0)
-            {
-                Tabs.TabPages.Insert(Tabs.SelectedIndex + 1, myTabPage);
-                Tabs.SelectedIndex += 1;
-            }
-            else
-            {
-                Tabs.TabPages.Insert(Tabs.SelectedIndex, myTabPage);
-                Tabs.SelectedIndex -= 1;
-            }
+            tab.Text = title;
             IEwebview newTab = new IEwebview(url);
-            myTabPage.Controls.Add(newTab);
+            tab.Controls.Add(newTab);
             newTab.Dock = DockStyle.Fill;
         }
 
@@ -159,14 +149,12 @@ namespace WebBrowserCS
             Tabs.SelectedIndex = Tabs.TabCount - 2;
         }
 
-        internal void NewChromiumTab(string url)
+        internal void NewChromiumTab(string url, TabPage tab)
         {
             string title = "Tab " + (Tabs.TabCount + 1).ToString();
-            TabPage myTabPage = new TabPage(title);
-            Tabs.TabPages.Insert(Tabs.TabPages.Count - 1, myTabPage);
-            Tabs.SelectedIndex = Tabs.TabPages.Count - 2;
+            tab.Text = title;
             Chromewebview ChromeTab = new Chromewebview(url);
-            myTabPage.Controls.Add(ChromeTab);
+            tab.Controls.Add(ChromeTab);
             ChromeTab.Dock = DockStyle.Fill;
         }
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e) => Application.Exit();
@@ -183,24 +171,14 @@ namespace WebBrowserCS
             settings.Show();
         }
 
-        internal void NewFileTab(string path)
+        internal void NewFileTab(string path, TabPage tab)
         {
             string title = "FileTab " + (Tabs.TabCount + 1).ToString();
-            TabPage myTabPage = new TabPage(title);
-            if (Tabs.SelectedIndex == 0)
-            {
-                Tabs.TabPages.Insert(Tabs.SelectedIndex + 1, myTabPage);
-                Tabs.SelectedIndex += 1;
-            }
-            else
-            {
-                Tabs.TabPages.Insert(Tabs.SelectedIndex, myTabPage);
-                Tabs.SelectedIndex -= 1;
-            }
+            tab.Text = title;
             FileTab newTab;
             if (path != "NewFile") { newTab = new FileTab() { filePath = path }; }
             else newTab = new FileTab();
-            myTabPage.Controls.Add(newTab);
+            tab.Controls.Add(newTab);
             newTab.Dock = DockStyle.Fill;
         }
 
@@ -219,10 +197,10 @@ namespace WebBrowserCS
             e.Cancel = true;
         }
 
-        private void CreateTab_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => NewIETab(home);
-        private void IETabToolStripMenuItem_Click(object sender, EventArgs e) => NewIETab(home);
-        private void FileToolStripMenuItem1_Click(object sender, EventArgs e) => NewFileTab("NewFile");
-        private void NewChromeTabToolStripMenuItem_Click(object sender, EventArgs e) => NewChromiumTab(home);
+        private void CreateTab_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => NewTab(home);
+        private void IETabToolStripMenuItem_Click(object sender, EventArgs e) => NewTab(home);
+        private void FileToolStripMenuItem1_Click(object sender, EventArgs e) => NewTab("NewFile", "FileTab");
+        private void NewChromeTabToolStripMenuItem_Click(object sender, EventArgs e) => NewTab(home, "ChromiumTab");
 
         private void TestChromiumVersionToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -250,21 +228,35 @@ namespace WebBrowserCS
             NewTab("");
         }
 
-        private void NewTab(string URL) 
+        public void NewTab(string URL, string TabType = null) 
         {
             if(String.IsNullOrEmpty(URL))URL = home;
             string NewTabType = Properties.Settings.Default.DefaultNewTab;
+            if (TabType != null) NewTabType = TabType;
             if (NewTabType != null)
+            {
+                TabPage myTabPage = new TabPage();
+                if (Tabs.SelectedIndex == 0 && Tabs.TabCount > 1)
+                {
+                    Tabs.TabPages.Insert(Tabs.SelectedIndex + 1, myTabPage);
+                    Tabs.SelectedIndex += 1;
+                }
+                else
+                {
+                    Tabs.TabPages.Insert(Tabs.SelectedIndex, myTabPage);
+                    Tabs.SelectedIndex -= 1;
+                }
                 switch (NewTabType)
                 {
-                    case ("IETab"): NewIETab(URL); return;
-                    case ("ChromiumTab"): NewChromiumTab(URL); return;
-                    case ("FileTab"): NewIETab(URL); return;
+                    case ("IETab"): NewIETab(URL, myTabPage); return;
+                    case ("ChromiumTab"): NewChromiumTab(URL, myTabPage); return;
+                    case ("FileTab"): NewFileTab(URL, myTabPage); return;
                     default:
                         Options options = new Options();
-                        if (MessageBox.Show("The current setting for default new tab is invalid! Do you want to go to options and set it to accepted value?", "Invalid setting!", MessageBoxButtons.YesNo) == DialogResult.Yes)options.Show();
+                        if (MessageBox.Show("The current setting for default new tab is invalid! Do you want to go to options and set it to accepted value?", "Invalid setting!", MessageBoxButtons.YesNo) == DialogResult.Yes) options.Show();
                         return;
                 }
+            }
         }
 
         private void Forward_Click(object sender, EventArgs e)
@@ -333,7 +325,7 @@ namespace WebBrowserCS
             String Url;
             if (String.IsNullOrEmpty(textBox1.Text)) Url = home;
             else Url = textBox1.Text;
-            NewIETab(Url);
+            NewTab(Url, "IETab");
         }
 
         private void chromiumTabToolStripMenuItem_Click(object sender, EventArgs e)
@@ -341,14 +333,25 @@ namespace WebBrowserCS
             String Url;
             if (String.IsNullOrEmpty(textBox1.Text)) Url = home;
             else Url = textBox1.Text;
-            NewChromiumTab(Url);
+            TabPage myTabPage = new TabPage();
+            if (Tabs.SelectedIndex == 0 && Tabs.TabCount > 1)
+            {
+                Tabs.TabPages.Insert(Tabs.SelectedIndex + 1, myTabPage);
+                Tabs.SelectedIndex += 1;
+            }
+            else
+            {
+                Tabs.TabPages.Insert(Tabs.SelectedIndex, myTabPage);
+                Tabs.SelectedIndex -= 1;
+            }
+            NewChromiumTab(Url, myTabPage);
         }
 
         private void fileTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
             String Path = null;
             if (!String.IsNullOrEmpty(textBox1.Text))Path = textBox1.Text;
-            NewFileTab(Path);
+            NewTab(Path, "FileTab");
         }
 
         private void browseToolStripMenuItem_Click(object sender, EventArgs e)

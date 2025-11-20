@@ -169,7 +169,7 @@ namespace WebBrowserCS
             WebBrowserCS MAIN = (WebBrowserCS)this.ParentForm;
             if (this.ParentForm is WebBrowserCS)
             {
-                MAIN.NewIETab(fileDir);
+                MAIN.NewTab(fileDir, "IETab");
             }
         }
 
@@ -178,7 +178,7 @@ namespace WebBrowserCS
             WebBrowserCS MAIN = (WebBrowserCS)this.ParentForm;
             if (this.ParentForm is WebBrowserCS)
             {
-                MAIN.NewChromiumTab(fileDir);
+                MAIN.NewTab(fileDir, "ChromiumTab");
             }
         }
 

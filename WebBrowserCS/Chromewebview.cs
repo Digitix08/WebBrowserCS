@@ -36,7 +36,8 @@ namespace WebBrowserCS
         private void InitializeBrowser()
         {
             chromiumWebBrowser1 = new ChromiumWebBrowser();
-            tableLayoutPanel1.Controls.Add(chromiumWebBrowser1, 1, 0);
+            tableLayoutPanel1.Controls.Add(chromiumWebBrowser1, 0, 1);
+            tableLayoutPanel1.SetColumnSpan(chromiumWebBrowser1, 10);
             chromiumWebBrowser1.Dock = DockStyle.Fill;
             chromiumWebBrowser1.FrameLoadEnd += ChromiumWebBrowser1_FrameLoadEnd;
             chromiumWebBrowser1.FrameLoadStart += ChromiumWebBrowser1_FrameLoadStart;
@@ -62,6 +63,8 @@ namespace WebBrowserCS
             else if (defaultsearch == "2") defaultsearch = Properties.Settings.Default.Search3;
             else if (defaultsearch == "1") defaultsearch = Properties.Settings.Default.Search4;
             else if (defaultsearch == "0") defaultsearch = Properties.Settings.Default.Search5;
+            split.Dock = DockStyle.Fill;
+            table.Dock = DockStyle.Fill;
             table.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
             table.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
@@ -69,10 +72,8 @@ namespace WebBrowserCS
             lb.Font = new Font("Arial", 15, FontStyle.Bold, GraphicsUnit.Point);
             lb.Width = 500;
             table.Controls.Add(ScrErrorClose, 0, 0);
-            table.Controls.Add(DebPanel, 0, 1);
             table.Controls.Add(lb, 1, 0);
             table.SetColumnSpan(DebPanel, 2);
-            split.Dock = table.Dock = DebPanel.Dock = DockStyle.Fill;
             ScrErrorClose.Click += ScrDebClose_Click;
             split.Panel2.Controls.Add(table);
             Setcolor();
@@ -126,7 +127,7 @@ namespace WebBrowserCS
             chromiumWebBrowser1.Load(defaultsearch + GoToUrl.Text);
         }
 
-        private async void ToolStripStatusLabel1_Click(object sender, EventArgs e)
+        private async void CurrentUrl_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(CurrentUrl.Text);
             CurrentUrl.Text = "Copied to clipboard";
@@ -209,9 +210,15 @@ namespace WebBrowserCS
                 {
                     if (itm.Text == "Docked") {
                         //MessageBox.Show(DebPanel.Width.ToString() + " " + table.Width.ToString() + " " + table.GetColumnSpan(DebPanel).ToString());
-                        chromiumWebBrowser1.ShowDevToolsDocked(DebPanel, "DevTools", DockStyle.Fill);
+                        table.Controls.Add(DebPanel, 0, 1);
+                        table.SetColumnSpan(DebPanel, 2);
                         tableLayoutPanel1.Controls.Remove(chromiumWebBrowser1);
                         tableLayoutPanel1.Controls.Add(split, 0, 1);
+                        tableLayoutPanel1.SetColumnSpan(split, 10);
+                        DebPanel.Dock = DockStyle.Fill;
+                        if (chromiumWebBrowser1.ShowDevToolsDocked(DebPanel, "DevTools") != null)
+                            MessageBox.Show("Please reopen the tab", "Error opening DevTools");
+                        chromiumWebBrowser1.ShowDevToolsDocked(DebPanel, "DevTools");
                         split.Panel1.Controls.Add(chromiumWebBrowser1);
                     }
                     else chromiumWebBrowser1.ShowDevTools();

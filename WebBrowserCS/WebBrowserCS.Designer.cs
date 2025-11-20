@@ -89,14 +89,6 @@ namespace WebBrowserCS
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.Back = new System.Windows.Forms.ToolStripButton();
-            this.Reload = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.Forward = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.StartPage = new System.Windows.Forms.UserControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -120,7 +112,6 @@ namespace WebBrowserCS
             this.tabContextMenu.SuspendLayout();
             this.StartTab.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.MoreContextMenuStrip.SuspendLayout();
             this.SearchContextMenuStrip.SuspendLayout();
@@ -130,17 +121,16 @@ namespace WebBrowserCS
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.Tabs, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.Tabs, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.menuStrip1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.toolStrip1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(628, 412);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -152,11 +142,11 @@ namespace WebBrowserCS
             this.Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tabs.HotTrack = true;
             this.Tabs.ItemSize = new System.Drawing.Size(75, 30);
-            this.Tabs.Location = new System.Drawing.Point(2, 50);
+            this.Tabs.Location = new System.Drawing.Point(2, 26);
             this.Tabs.Margin = new System.Windows.Forms.Padding(2);
             this.Tabs.Name = "Tabs";
             this.Tabs.SelectedIndex = 0;
-            this.Tabs.Size = new System.Drawing.Size(624, 360);
+            this.Tabs.Size = new System.Drawing.Size(624, 384);
             this.Tabs.TabIndex = 0;
             this.Tabs.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Tabs_MouseClick);
             // 
@@ -210,7 +200,7 @@ namespace WebBrowserCS
             this.StartTab.Margin = new System.Windows.Forms.Padding(2);
             this.StartTab.Name = "StartTab";
             this.StartTab.Padding = new System.Windows.Forms.Padding(2);
-            this.StartTab.Size = new System.Drawing.Size(616, 322);
+            this.StartTab.Size = new System.Drawing.Size(616, 346);
             this.StartTab.TabIndex = 0;
             this.StartTab.Text = "Start Tab";
             this.StartTab.UseVisualStyleBackColor = true;
@@ -659,88 +649,6 @@ namespace WebBrowserCS
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Back,
-            this.Reload,
-            this.toolStripButton3,
-            this.Forward,
-            this.toolStripSeparator6,
-            this.toolStripTextBox1,
-            this.toolStripButton5});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(291, 24);
-            this.toolStrip1.TabIndex = 3;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // Back
-            // 
-            this.Back.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Back.Image = global::WebBrowserCS.Properties.Resources.arrow_back;
-            this.Back.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Back.Name = "Back";
-            this.Back.Size = new System.Drawing.Size(24, 21);
-            this.Back.Text = "toolStripButton1";
-            this.Back.ToolTipText = "Back";
-            this.Back.Click += new System.EventHandler(this.Back_Click);
-            // 
-            // Reload
-            // 
-            this.Reload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Reload.Image = global::WebBrowserCS.Properties.Resources.arrow_reload;
-            this.Reload.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Reload.Name = "Reload";
-            this.Reload.Size = new System.Drawing.Size(24, 21);
-            this.Reload.Text = "toolStripButton2";
-            this.Reload.ToolTipText = "Reload";
-            this.Reload.Click += new System.EventHandler(this.Reload_Click);
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = global::WebBrowserCS.Properties.Resources.home;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(24, 21);
-            this.toolStripButton3.Text = "Home";
-            this.toolStripButton3.ToolTipText = "Home";
-            this.toolStripButton3.Click += new System.EventHandler(this.ToolStripButton3_Click);
-            // 
-            // Forward
-            // 
-            this.Forward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Forward.Image = global::WebBrowserCS.Properties.Resources.arrow_forward;
-            this.Forward.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Forward.Name = "Forward";
-            this.Forward.Size = new System.Drawing.Size(24, 21);
-            this.Forward.Text = "toolStripButton4";
-            this.Forward.ToolTipText = "Forward";
-            this.Forward.Click += new System.EventHandler(this.Forward_Click);
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 24);
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(151, 24);
-            // 
-            // toolStripButton5
-            // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton5.Image = global::WebBrowserCS.Properties.Resources.go;
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(24, 21);
-            this.toolStripButton5.Text = "toolStripButton5";
-            this.toolStripButton5.ToolTipText = "Go";
-            // 
             // StartPage
             // 
             this.StartPage.Location = new System.Drawing.Point(365, 209);
@@ -885,8 +793,6 @@ namespace WebBrowserCS
             this.StartTab.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
             this.MoreContextMenuStrip.ResumeLayout(false);
             this.SearchContextMenuStrip.ResumeLayout(false);
@@ -904,14 +810,6 @@ namespace WebBrowserCS
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newChromiumTabToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newTextFileToolStripMenuItem;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton Back;
-        private System.Windows.Forms.ToolStripButton Reload;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
-        private System.Windows.Forms.ToolStripButton Forward;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
         private System.Windows.Forms.UserControl StartPage;
         private System.Windows.Forms.LinkLabel CreateTab;
         private System.Windows.Forms.Label Text1;

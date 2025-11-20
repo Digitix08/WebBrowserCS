@@ -3,11 +3,107 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using System.Globalization;
+using mshtml;
 
 namespace WebBrowserCS
 {
+    public class WebBrowserEx : WebBrowser
+    {
+        class WebBrowserSiteEx : WebBrowserSite, NativeMethods.IOleCommandTarget
+        {
+            public WebBrowserSiteEx(WebBrowser browser) : base(browser)
+            {
+            }
+
+            public int QueryStatus(IntPtr pguidCmdGroup, uint cCmds, NativeMethods.OLECMD[] prgCmds, ref NativeMethods.OLECMDTEXT CmdText)
+            {
+                return NativeMethods.OLECMDERR_E_UNKNOWNGROUP;
+            }
+
+            public int Exec(IntPtr pguidCmdGroup, uint nCmdId, uint nCmdExecOpt, IntPtr pvaIn, IntPtr pvaOut)
+            {
+                if (pguidCmdGroup != IntPtr.Zero)
+                {
+                    Guid guid = (Guid)Marshal.PtrToStructure(pguidCmdGroup, typeof(Guid));
+                    if (guid == NativeMethods.CGID_DocHostCommandHandler)
+                    {
+                        if (nCmdId == NativeMethods.OLECMDID_SHOWSCRIPTERROR)
+                        {
+                            // for dom: dynamic document = Marshal.GetObjectForNativeVariant(nCmdId);
+
+                            // continue running scripts
+                            if (pvaOut != IntPtr.Zero)
+                                Marshal.GetNativeVariantForObject(true, pvaOut);
+
+                            //return NativeMethods.S_OK;
+                        }
+                    }
+                }
+                return NativeMethods.OLECMDERR_E_UNKNOWNGROUP;
+            }
+        }
+
+        protected override WebBrowserSiteBase CreateWebBrowserSiteBase()
+        {
+            return new WebBrowserSiteEx(this);
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            this.ResumeLayout(false);
+
+        }
+    }
+
+    static class NativeMethods
+    {
+        [StructLayout(LayoutKind.Sequential)]
+        public struct OLECMD
+        {
+            public uint cmdID;
+            public uint cmdf;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct OLECMDTEXT
+        {
+            public UInt32 cmdtextf;
+            public UInt32 cwActual;
+            public UInt32 cwBuf;
+            public char rgwz;
+        }
+
+        public const int OLECMDERR_E_UNKNOWNGROUP = unchecked((int)0x80040102);
+        public const int OLECMDID_SHOWSCRIPTERROR = 40;
+        public static readonly Guid CGID_DocHostCommandHandler = new Guid("f38bc242-b950-11d1-8918-00c04fc2c836");
+        public const int S_OK = 0;
+
+        [ComImport, Guid("b722bccb-4e68-101b-a2bc-00aa00404770"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        public interface IOleCommandTarget
+        {
+            [PreserveSig]
+            int QueryStatus(
+                IntPtr pguidCmdGroup,
+                UInt32 cCmds,
+                [In, Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] OLECMD[] prgCmds,
+                ref OLECMDTEXT CmdText);
+
+            [PreserveSig]
+            int Exec(
+                IntPtr pguidCmdGroup,
+                uint nCmdId,
+                uint nCmdExecOpt,
+                IntPtr pvaIn,
+                IntPtr pvaOut);
+        }
+    }
+
     public partial class IEwebview : UserControl
     {
+        WebBrowserEx webBrowser1;
         SCRErrorIEControl err;
         TableLayoutPanel table = new TableLayoutPanel();
         Button ScrErrorClose = new Button {Text = "Close Log" };
@@ -19,11 +115,25 @@ namespace WebBrowserCS
         int charlimit = 30;
         public IEwebview(string url)
         {
+            err = new SCRErrorIEControl(this);
             InitializeComponent();
+            InitIEWebview();
+            tableLayoutPanel1.Controls.Add(webBrowser1, 0, 1);
+            tableLayoutPanel1.SetColumnSpan(webBrowser1, 10);
             webBrowser1.Navigate(url);
             defaultsearch = System.Convert.ToString(Properties.Settings.Default.DefaultSearch);
-            err = new SCRErrorIEControl(this);
             err.sendData(webBrowser1.ScriptErrorsSuppressed);
+        }
+        private void InitIEWebview()
+        {
+            webBrowser1 = new WebBrowserEx();
+            webBrowser1.Dock = DockStyle.Fill;
+            webBrowser1.ProgressChanged += WebBrowser1_ProgressChanged;
+            webBrowser1.NewWindow += WebBrowser1_NewWindow;
+            webBrowser1.Navigated += WebBrowser1_Navigated;
+            webBrowser1.Navigating += WebBrowser1_Navigating;
+            webBrowser1.DocumentCompleted += WebBrowser1_DocumentCompleted;
+            webBrowser1.ObjectForScripting = err;
         }
 
         public void SetJSErrState(bool state)
@@ -94,13 +204,13 @@ namespace WebBrowserCS
                 if (progress >= 1) toolStripProgressBar1.Style = ProgressBarStyle.Blocks;
                 toolStripProgressBar1.Value = System.Convert.ToInt32(progress);
                 UriChanged(Convert.ToString(webBrowser1.Url));
+                if(status.Text != "Loading Scripts")
                 status.Text = "Downloading...";
             }
         }
 
-        private void WebBrowser_Inner_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void WebBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            ((WebBrowser)sender).Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
             if (toolStripProgressBar1.Style != ProgressBarStyle.Blocks)
             {
                 toolStripProgressBar1.Style = ProgressBarStyle.Blocks;
@@ -113,6 +223,7 @@ namespace WebBrowserCS
             toolStripProgressBar1.PerformStep();
             toolStripProgressBar1.Step = oldstep;
             status.Text = "Done";
+            MessageBox.Show("domcompleted event");
         }
         private void Window_Error(object sender, HtmlElementErrorEventArgs e)
         {     
@@ -182,7 +293,18 @@ namespace WebBrowserCS
             else { Back.Image = Properties.Resources.arrow_back; Back.Enabled = true; }
             if (!webBrowser1.CanGoForward) { Forward.Image = Properties.Resources.arrow_forward_disabled; Forward.Enabled = false; }
             else { Forward.Image = Properties.Resources.arrow_forward; Forward.Enabled = true; }
-            status.Text = "Downloaded";
+            status.Text = "Loading Scripts";
+            try
+            {
+                HtmlElement head = webBrowser1.Document.GetElementsByTagName("head")[0];
+                HtmlElement scriptEl = webBrowser1.Document.CreateElement("script");
+                ((IHTMLScriptElement)scriptEl.DomElement).src = AppDomain.CurrentDomain.BaseDirectory + "func190520251642343Mon.js";
+                head.InnerHtml = scriptEl + head.InnerHtml;
+                err.GetText("FOR DEBUG:", head.InnerHtml);
+            }
+            catch (System.Runtime.InteropServices.COMException) { err.error("Cannot debug the page " + CurrentUrl.Text); }
+            catch (System.NullReferenceException) { }
+            MessageBox.Show("navigated event");
         }
 
         private void GoToUrl_KeyDown(object sender, KeyEventArgs e)
@@ -231,7 +353,7 @@ namespace WebBrowserCS
             tableLayoutPanel1.Controls.Add(webBrowser1, 0, 1);
         }
 
-        private void webBrowser1_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        private void WebBrowser1_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
             toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
             toolStripProgressBar1.Value = 50;

@@ -30,14 +30,13 @@ namespace WebBrowserCS
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.GoToUrl = new System.Windows.Forms.TextBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.CurrentUrl = new System.Windows.Forms.ToolStripStatusLabel();
             this.status = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.ScrErr = new System.Windows.Forms.ToolStripStatusLabel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.GoToUrl = new System.Windows.Forms.TextBox();
             this.GoTo = new System.Windows.Forms.PictureBox();
             this.Search = new System.Windows.Forms.PictureBox();
             this.Back = new System.Windows.Forms.PictureBox();
@@ -66,7 +65,6 @@ namespace WebBrowserCS
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.statusStrip1, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.webBrowser1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.GoToUrl, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.GoTo, 5, 0);
             this.tableLayoutPanel1.Controls.Add(this.Search, 6, 0);
@@ -85,33 +83,23 @@ namespace WebBrowserCS
             this.tableLayoutPanel1.Size = new System.Drawing.Size(603, 363);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // webBrowser1
+            // statusStrip1
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.webBrowser1, 8);
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(3, 33);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(597, 307);
-            this.webBrowser1.TabIndex = 7;
-            this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WebBrowser_Inner_DocumentCompleted);
-            this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WebBrowser1_Navigated);
-            this.webBrowser1.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser1_Navigating);
-            this.webBrowser1.NewWindow += new System.ComponentModel.CancelEventHandler(this.WebBrowser1_NewWindow);
-            this.webBrowser1.ProgressChanged += new System.Windows.Forms.WebBrowserProgressChangedEventHandler(this.WebBrowser1_ProgressChanged);
-            // 
-            // GoToUrl
-            // 
-            this.GoToUrl.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.GoToUrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GoToUrl.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GoToUrl.Location = new System.Drawing.Point(122, 2);
-            this.GoToUrl.Margin = new System.Windows.Forms.Padding(2);
-            this.GoToUrl.MaximumSize = new System.Drawing.Size(24577, 100);
-            this.GoToUrl.Name = "GoToUrl";
-            this.GoToUrl.Size = new System.Drawing.Size(419, 29);
-            this.GoToUrl.TabIndex = 24;
-            this.GoToUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GoToUrl_KeyDown);
+            this.tableLayoutPanel1.SetColumnSpan(this.statusStrip1, 8);
+            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar1,
+            this.CurrentUrl,
+            this.status,
+            this.toolStripStatusLabel2,
+            this.ScrErr});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 343);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(603, 20);
+            this.statusStrip1.TabIndex = 3;
+            this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripProgressBar1
             // 
@@ -145,23 +133,18 @@ namespace WebBrowserCS
             this.ScrErr.Text = "Log output";
             this.ScrErr.Click += new System.EventHandler(this.ScrErr_Click);
             // 
-            // statusStrip1
+            // GoToUrl
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.statusStrip1, 8);
-            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBar1,
-            this.CurrentUrl,
-            this.status,
-            this.toolStripStatusLabel2,
-            this.ScrErr});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 343);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(603, 20);
-            this.statusStrip1.TabIndex = 3;
-            this.statusStrip1.Text = "statusStrip1";
+            this.GoToUrl.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.GoToUrl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GoToUrl.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GoToUrl.Location = new System.Drawing.Point(122, 2);
+            this.GoToUrl.Margin = new System.Windows.Forms.Padding(2);
+            this.GoToUrl.MaximumSize = new System.Drawing.Size(24577, 100);
+            this.GoToUrl.Name = "GoToUrl";
+            this.GoToUrl.Size = new System.Drawing.Size(419, 29);
+            this.GoToUrl.TabIndex = 24;
+            this.GoToUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GoToUrl_KeyDown);
             // 
             // GoTo
             // 
@@ -279,7 +262,6 @@ namespace WebBrowserCS
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.TextBox GoToUrl;
         private System.Windows.Forms.PictureBox GoTo;
         private System.Windows.Forms.PictureBox Back;
