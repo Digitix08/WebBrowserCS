@@ -20,6 +20,7 @@ namespace WebBrowserCS
         string search5 = Properties.Settings.Default.Search5;
         int defaultSearch = Properties.Settings.Default.DefaultSearch;
         int RegVal;
+        bool RequiresRestart = false;
         public Options()
         {
             InitializeComponent();
@@ -54,6 +55,9 @@ namespace WebBrowserCS
                 if (RegVal == 11) RegEdit(11000);
             }
             Setcolor();
+            if (RequiresRestart)
+                if (MessageBox.Show("To apply options, you need to restart the program" + Environment.NewLine + "Do you want to restart it now?", "Restart required", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    Application.Restart();
         }
         private void RegEdit(int reg)
         {
@@ -135,6 +139,7 @@ namespace WebBrowserCS
                 if (colorDialog.Color != Color.Transparent)
                 { textBox3.BackColor = colorDialog.Color; textBox3.Clear(); }
                 else textBox3.Text = "Transparent";
+                RequiresRestart = true;
             }
         }
 
@@ -146,6 +151,7 @@ namespace WebBrowserCS
                 if (colorDialog.Color != Color.Transparent)
                 { textBox4.BackColor = colorDialog.Color; textBox4.Clear(); }
                 else textBox4.Text = "Transparent";
+                RequiresRestart = true;
             }
         }
         private void TextBox5_Click(object sender, EventArgs e)
@@ -156,6 +162,7 @@ namespace WebBrowserCS
                 if (colorDialog.Color != Color.Transparent)
                 { textBox5.BackColor = colorDialog.Color; textBox5.Clear(); }
                 else textBox5.Text = "Transparent";
+                RequiresRestart = true;
             }
         }
 
@@ -171,6 +178,11 @@ namespace WebBrowserCS
             if (e.KeyData == Keys.X && e.Modifiers == Keys.Control) (sender as TextBox).Cut();
             if (e.KeyData == Keys.C && e.Modifiers == Keys.Control) (sender as TextBox).Copy();
             if (e.KeyData == Keys.V && e.Modifiers == Keys.Control) (sender as TextBox).Paste();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            RequiresRestart = true;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Windows.Forms;
 
 namespace WebBrowserCS
@@ -10,8 +11,8 @@ namespace WebBrowserCS
         readonly WebBrowser EditViewer = new WebBrowser();
         readonly TabPage WebEdit = new TabPage();
         public string filePath;
-        string fileDir; int row = 0, inUse = 0;
-        private bool IsHTML;
+        string fileDir, fileDispName; int row = 0, inUse = 0;
+        private bool IsHTML = false;
         public FileTab()
         {
             InitializeComponent();
@@ -52,13 +53,24 @@ namespace WebBrowserCS
                 string line;
                 FPath.Text = fd.FileName;
                 fileDir = fd.FileName;
+                fileDispName = fd.FileName;
+                if (fileDispName.Contains("\\")) {
+                    fileDispName = fileDispName.Substring(fileDispName.LastIndexOf("\\") + 1, fileDispName.Length - fileDispName.LastIndexOf("\\") - 1);
+                }
+                TabPage MAIN = (TabPage)this.Parent;
+                if (MAIN is TabPage)
+                {
+                    MAIN.Text = fileDispName;
+                }
                 if (Path.GetExtension(fd.FileName) == ".htm" || Path.GetExtension(fd.FileName) == ".html" || Path.GetExtension(fd.FileName) == ".xhtm" || Path.GetExtension(fd.FileName) == ".xhtml")
                 {
                     HtmlPreparations(fd.FileName);
+                    IsHTML = true;
                 }
                 else
                 {
                     if (EditModes.TabPages.Contains(WebEdit)) EditModes.TabPages.Remove(WebEdit);
+                    IsHTML = false;
                     previewToolStripMenuItem.Visible = false;
                     StreamReader filecontent = new StreamReader(fd.FileName);
                     line = filecontent.ReadLine();
@@ -72,13 +84,6 @@ namespace WebBrowserCS
                     }
                     filecontent.Close();
                     MainText.SelectionStart = 0; MainText.ScrollToCaret();
-                }
-                FPath.Text = fileDir;
-                string title = Path.GetFileName(fileDir);
-                TabPage MAIN = (TabPage)this.Parent;
-                if (MAIN is TabPage)
-                {
-                    MAIN.Text = title;
                 }
             }
         }
@@ -153,11 +158,15 @@ namespace WebBrowserCS
                 File.WriteAllText(sd.FileName, MainText.Text);
                 fileDir = sd.FileName;
                 FPath.Text = fileDir;
-                string title = Path.GetFileName(fileDir);
-                WebBrowserCS MAIN = (WebBrowserCS)this.ParentForm;
-                if (this.ParentForm is WebBrowserCS)
+                fileDispName = Path.GetFileName(fileDir);
+                if (fileDispName.Contains("\\"))
                 {
-                    MAIN.Text = title;
+                    fileDispName = fileDispName.Substring(fileDispName.LastIndexOf("\\"), fileDispName.Length - fileDispName.LastIndexOf("\\"));
+                }
+                TabPage MAIN = (TabPage)this.Parent;
+                if (MAIN is TabPage)
+                {
+                    MAIN.Text = fileDispName;
                 }
             }
         }
@@ -216,21 +225,37 @@ namespace WebBrowserCS
                 }
                 catch (System.IO.FileNotFoundException) { MessageBox.Show("The file \"" + filePath + "\" does not exist. Creating new file", "File not found"); filePath = null; fileDir = null; }
                 catch (System.IO.DirectoryNotFoundException) { MessageBox.Show("The path \"" + filePath + "\" does not exist. Creating new file", "Path not found"); filePath = null; fileDir = null; }
+                catch (System.NotSupportedException) { 
+                    string textFromFile = (new WebClient()).DownloadString(filePath);
+                    MainText.Text = textFromFile;
+                    FPath.Text = filePath;
+                }
+               
                 finally
                 {
                     MainText.SelectionStart = 0; MainText.ScrollToCaret();
-                    string title = Path.GetFileName(filePath);
+                    fileDispName = Path.GetFileName(filePath);
+                    if(fileDispName != null)
+                        if (fileDispName.Contains("\\"))
+                    {
+                        fileDispName = fileDispName.Substring(fileDispName.LastIndexOf("\\") + 1, fileDispName.Length - fileDispName.LastIndexOf("\\") - 1);
+                    }
                     TabPage MAIN = (TabPage)this.Parent;
                     if (MAIN is TabPage)
                     {
-                        MAIN.Text = title;
+                        MAIN.Text = fileDispName;
                     }
                     MainText.SelectionStart = 0; MainText.ScrollToCaret();
                     if (Path.GetExtension(filePath) == ".htm" || Path.GetExtension(filePath) == ".html" || Path.GetExtension(filePath) == ".xhtm" || Path.GetExtension(filePath) == ".xhtml")
                     {
                         HtmlPreparations(filePath);
+                        IsHTML = true;
                     }
-                    else if (EditModes.TabPages.Contains(WebEdit)) EditModes.TabPages.Remove(WebEdit);
+                    else
+                    {
+                        if (EditModes.TabPages.Contains(WebEdit)) EditModes.TabPages.Remove(WebEdit);
+                        IsHTML = false;
+                    }
                     previewToolStripMenuItem.Visible = false;
                 }
             }
@@ -240,14 +265,17 @@ namespace WebBrowserCS
         private void MainText_TextChanged(object sender, EventArgs e)
         {
             string TempFile;
-            if (fileDir == null) TempFile = "___unsaved.html";
-            else TempFile = Path.GetDirectoryName(fileDir) + "\\___unsaved.html";
-            if (inUse == 0)
+            if (IsHTML)
             {
-                StreamWriter HTMLTemp = new StreamWriter(TempFile);
-                HTMLTemp.Write(MainText.Text);
-                HTMLTemp.Close();
-                EditViewer.Navigate(TempFile);
+                if (fileDir == null) TempFile = "___unsaved.html";
+                else TempFile = Path.GetDirectoryName(fileDir) + "\\___unsaved.html";
+                if (inUse == 0)
+                {
+                    StreamWriter HTMLTemp = new StreamWriter(TempFile);
+                    HTMLTemp.Write(MainText.Text);
+                    HTMLTemp.Close();
+                    EditViewer.Navigate(TempFile);
+                }
             }
         }
 
