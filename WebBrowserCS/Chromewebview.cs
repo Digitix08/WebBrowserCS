@@ -18,7 +18,6 @@ namespace WebBrowserCS
         Panel DebPanel = new Panel();
         readonly string home = Properties.Settings.Default.HomePage;
         string defaultsearch;
-        int charlimit = 30;
         ChromiumWebBrowser chromiumWebBrowser1;
         public Chromewebview(string url)
         {
@@ -139,7 +138,6 @@ namespace WebBrowserCS
         private void ChromiumWebBrowser1_TitleChanged(object sender, TitleChangedEventArgs e)
         {
             string title = e.Title;
-            if (title.Length > charlimit) title = title.Substring(0, charlimit) + "...";
             ComplicationRequired(title);
         }
         public void ComplicationRequired(string text)
@@ -164,9 +162,9 @@ namespace WebBrowserCS
         private void ChromiumWebBrowser1_AddressChanged(object sender, AddressChangedEventArgs e)
         {
             CurrentUrl.Text = System.Convert.ToString(chromiumWebBrowser1.Address);
-            if (!chromiumWebBrowser1.CanGoBack) Change(Back, false, Properties.Resources.arrow_back_disabled);
+            if (!chromiumWebBrowser1.CanGoBack) Change(Back, false, null);
             else Change(Back, true, Properties.Resources.arrow_back);
-            if (!chromiumWebBrowser1.CanGoForward) Change(Forward, false, Properties.Resources.arrow_forward_disabled);
+            if (!chromiumWebBrowser1.CanGoForward) Change(Forward, false, null);
             else Change(Forward, true, Properties.Resources.arrow_forward);
         }
 

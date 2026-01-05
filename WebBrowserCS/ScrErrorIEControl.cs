@@ -21,6 +21,10 @@ namespace WebBrowserCS
         public void sendData(bool JSDisabled)
         {
             disableJS.Checked = JSDisabled;
+            string JStatus = "Browser has JS ";
+            if (JSDisabled) JStatus += "enabled";
+            else JStatus += "enabled";
+            info(JStatus);
         }
         public void log(string s)
         {
@@ -85,7 +89,7 @@ namespace WebBrowserCS
                 if (listView1.SelectedItems.Count > 0)
                 {
                     tableLayoutPanel1.SetColumnSpan(listView1, 1);
-                    tableLayoutPanel1.Controls.Add(textBox1, 1, 1);
+                    tableLayoutPanel1.Controls.Add(textBox1, 1, 0);
                     textBox1.Multiline = true;
                     textBox1.Dock = DockStyle.Fill;
                     textBox1.Text = listView1.SelectedItems[0].SubItems[1].Text;

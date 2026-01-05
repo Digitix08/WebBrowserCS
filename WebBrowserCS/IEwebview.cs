@@ -37,7 +37,7 @@ namespace WebBrowserCS
                             if (pvaOut != IntPtr.Zero)
                                 Marshal.GetNativeVariantForObject(true, pvaOut);
 
-                            return NativeMethods.S_OK;
+                            //return NativeMethods.S_OK;
                         }
                     }
                 }
@@ -298,7 +298,7 @@ namespace WebBrowserCS
                 HtmlElement head = webBrowser1.Document.GetElementsByTagName("head")[0];
                 HtmlElement scriptEl = webBrowser1.Document.CreateElement("script");
                 ((IHTMLScriptElement)scriptEl.DomElement).src = AppDomain.CurrentDomain.BaseDirectory + "func190520251642343Mon.js";
-                head.InnerHtml = scriptEl + head.InnerHtml;
+                head.InsertAdjacentElement(HtmlElementInsertionOrientation.AfterBegin, scriptEl);
                 err.GetText("FOR DEBUG:", head.InnerHtml);
             }
             catch (System.Runtime.InteropServices.COMException) { err.error("Cannot debug the page " + CurrentUrl.Text); }

@@ -48,7 +48,6 @@ namespace WebBrowserCS
             string[] row = { text };
             var listViewItem = listView1.Items.Add(desc);
             listViewItem.SubItems.AddRange(row);
-
         }
         public SCRErrorIE()
         {

@@ -81,10 +81,22 @@ namespace WebBrowserCS
                         ext.Tag = line;
                         string[] args = line.Split(ExtDelimit, StringSplitOptions.None);
                         string path = Directory.GetCurrentDirectory() + "\\" + args[0];
+
+                        bool isTab = false;
+                        if (args.Length >= 3) if (args[2] == "isTab") isTab = true;
                         if (File.Exists(path))
                         {
-                            newToolStripMenuItem.DropDownItems.Add(ext);
-                            ext.Click += ext_Click;
+                            if (isTab)
+                            {
+                                newTabToolStripMenuItem.DropDownItems.Add(ext);
+                                tabContextMenu.Items.Add(ext);
+                                ext.Click += Ext_Tab_Click;
+                            }
+                            else
+                            {
+                                newWindowToolStripMenuItem.DropDownItems.Add(ext);
+                                ext.Click += Ext_Click;
+                            }
                         }
                         else MessageBox.Show("The file " + path + " does not exist");
                     }
@@ -94,25 +106,66 @@ namespace WebBrowserCS
             }
         }
 
-        private void ext_Click(object sender, EventArgs e)
+        private void Ext_Click(object sender, EventArgs e)
         {
             string tag = ((ToolStripMenuItem)sender).Tag.ToString();
-            externalLaunch(tag, home);
+            externalLaunch(tag, ((ToolStripMenuItem)sender).Text, false, home);
         }
 
-        private void externalLaunch(string tag, string mode)
+        private void Ext_Tab_Click(object sender, EventArgs e)
+        {
+            string tag = ((ToolStripMenuItem)sender).Tag.ToString();
+            externalLaunch(tag, ((ToolStripMenuItem)sender).Text, true, home);
+        }
+
+        private void externalLaunch(string tag, string name, bool isTab, string vars = "")
         {
             string[] args = tag.Split(ExtDelimit, StringSplitOptions.None);
             string loc = Directory.GetCurrentDirectory() + "\\" + args[0];
             string exe = args[1];
+
             Assembly DLL; Type theType; var c = new object(); MethodInfo method;
             if (File.Exists(loc))
             {
-                DLL = Assembly.LoadFile(loc);
-                theType = DLL.GetType(exe + ".IGExtension");
-                c = Activator.CreateInstance(theType);
-                method = theType.GetMethod("init");
-                method.Invoke(c, new object[] { @mode });
+                if (isTab) try
+                    {
+                        DLL = Assembly.LoadFile(loc);
+                        theType = DLL.GetType(exe + ".IGTab");
+                        c = Activator.CreateInstance(theType);
+                        method = theType.GetMethod("init");
+                        var tabRaw = method.Invoke(c, new object[] { @vars });
+                        if (tabRaw is UserControl)
+                        {
+                            UserControl tab = (UserControl)tabRaw;
+                            TabPage myTabPage = new TabPage();
+                            if (Tabs.SelectedIndex == 0 && Tabs.TabCount > 1)
+                            {
+                                Tabs.TabPages.Insert(Tabs.SelectedIndex + 1, myTabPage);
+                                Tabs.SelectedIndex += 1;
+                            }
+                            else
+                            {
+                                Tabs.TabPages.Insert(Tabs.SelectedIndex, myTabPage);
+                                Tabs.SelectedIndex -= 1;
+                            }
+                            string title = name + " " + (Tabs.TabCount + 1).ToString();
+                            myTabPage.Text = title;
+                            myTabPage.Controls.Add(tab);
+                            tab.Dock = DockStyle.Fill;
+                        }
+                        else MessageBox.Show("The call did not return the adequate contents for a tab", "Invalid value returned");
+                    }
+                    catch (System.BadImageFormatException) { MessageBox.Show("The build you are using is not compatible with this extension." + Environment.NewLine + "Details:" + Environment.NewLine + loc + Environment.NewLine + "Name: " + name, "Invalid extension runtime version"); }
+                    catch (System.ArgumentNullException) { MessageBox.Show("The extension you are using does not support tabs." + Environment.NewLine + "Details:" + Environment.NewLine + loc + Environment.NewLine + "Name: " + name, "Invalid extension call mode"); }
+                else try
+                    {
+                        DLL = Assembly.LoadFile(loc);
+                        theType = DLL.GetType(exe + ".IGExtension");
+                        c = Activator.CreateInstance(theType);
+                        method = theType.GetMethod("init");
+                        method.Invoke(c, new object[] { @vars });
+                    }
+                    catch (System.BadImageFormatException) { MessageBox.Show("The build you are using is not compatible with this extension." + Environment.NewLine + "Details:" + Environment.NewLine + loc + Environment.NewLine + "Name: " + name, "Invalid extension runtime version"); }
             }
             else MessageBox.Show("The file " + loc + "does not exist");
         }
@@ -129,6 +182,7 @@ namespace WebBrowserCS
                 }
             }
         }
+
         internal void NewIETab(string url, TabPage tab)
         {
             string title = "IETab " + (Tabs.TabCount + 1).ToString();
@@ -199,10 +253,10 @@ namespace WebBrowserCS
 
         private void CreateTab_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => NewTab(home);
         private void IETabToolStripMenuItem_Click(object sender, EventArgs e) => NewTab(home);
-        private void FileToolStripMenuItem1_Click(object sender, EventArgs e) => NewTab("NewFile", "FileTab");
+        private void FileTabToolStripMenuItem1_Click(object sender, EventArgs e) => NewTab("NewFile", "FileTab");
         private void NewChromeTabToolStripMenuItem_Click(object sender, EventArgs e) => NewTab(home, "ChromiumTab");
 
-        private void TestChromiumVersionToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ChromiumWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChromeBrowser chrome = new ChromeBrowser();
             chrome.Show();
@@ -215,7 +269,7 @@ namespace WebBrowserCS
             settings.Show();
         }
 
-        private void OldToolStripMenuItem_Click(object sender, EventArgs e)
+        private void IEWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Browser browser = new Browser();
             browser.Show();
@@ -378,6 +432,18 @@ namespace WebBrowserCS
         private void textBox2_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter) NewTab(defaultsearch + textBox2.Text);
+        }
+
+        private void textEditWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileEdit fedit = new FileEdit();
+            fedit.Show();
+        }
+
+        private void tabbedWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WebBrowserCS wbcs = new WebBrowserCS();
+            wbcs.Show();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
