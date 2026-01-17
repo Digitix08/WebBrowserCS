@@ -25,7 +25,7 @@ namespace WebBrowserCS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://www.google.com/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("igbrowser://home")]
         public string HomePage {
             get {
                 return ((string)(this["HomePage"]));
@@ -37,7 +37,7 @@ namespace WebBrowserCS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://www.google.com/search?q=")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://html.duckduckgo.com/html/?q=")]
         public string Search1 {
             get {
                 return ((string)(this["Search1"]));
@@ -49,7 +49,7 @@ namespace WebBrowserCS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://www.bing.com/search?q=")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.google.com/search?q=")]
         public string Search2 {
             get {
                 return ((string)(this["Search2"]));
@@ -61,7 +61,7 @@ namespace WebBrowserCS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("undefined")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.bing.com/search?q=")]
         public string Search3 {
             get {
                 return ((string)(this["Search3"]));
@@ -85,7 +85,7 @@ namespace WebBrowserCS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("undefined")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://tube.redtro.net/search.php?q=")]
         public string Search5 {
             get {
                 return ((string)(this["Search5"]));

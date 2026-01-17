@@ -11,11 +11,10 @@ using System.Windows.Forms;
 
 namespace WebBrowserCS
 {
-    [ComVisible(true)]
     public partial class SCRErrorIEControl : UserControl
     {
         IEwebview webview = null;
-        Browser standalone = null;
+        IEWindow standalone = null;
         TextBox textBox1 = new TextBox();
         DateTime time = new DateTime();
         public void sendData(bool JSDisabled)
@@ -26,6 +25,7 @@ namespace WebBrowserCS
             else JStatus += "enabled";
             info(JStatus);
         }
+
         public void log(string s)
         {
             time = DateTime.Now;
@@ -58,9 +58,9 @@ namespace WebBrowserCS
             string[] row = { text };
             var listViewItem = listView1.Items.Add(desc);
             listViewItem.SubItems.AddRange(row);
-
         }
-        public SCRErrorIEControl(IEwebview ieW = null, Browser ieS = null)
+
+        public SCRErrorIEControl(IEwebview ieW = null, IEWindow ieS = null)
         {
             InitializeComponent();
             if (ieW != null) webview = ieW;
@@ -106,6 +106,12 @@ namespace WebBrowserCS
         {
             if (webview != null) webview.SetJSErrState(disableJS.Checked);
             if (standalone != null) standalone.SetJSErrState(disableJS.Checked);
+        }
+
+        private void disableErrorLog_CheckedChanged(object sender, EventArgs e)
+        {
+            if (webview != null) webview.SetCLogState(disableJS.Checked);
+            if (standalone != null) standalone.SetCLogState(disableJS.Checked);
         }
     }
 }

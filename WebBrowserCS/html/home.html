@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta content="en-us" http-equiv="Content-Language" />
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<title>WebBrowserCS home</title>
+<style type="text/css">
+body{
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+h1{
+	background-color:#003300;
+	color: #ffffff;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	border-bottom: 5px #009900 solid;
+}
+input[type=button], input[type=submit], input[type=reset], button, select{
+	BACKGROUND-COLOR:#e2e2e2;
+	color: #000000;
+	BORDER-BOTTOM: #a0a0a0 2px solid;
+	BORDER-LEFT: #f0f0f0 2px solid;
+	BORDER-RIGHT: #a0a0a0 2px solid;
+	BORDER-TOP: #f0f0f0 2px solid;
+}
+input[type=button]:active, input[type=submit]:active, input[type=reset]:active, button:active, select:active{
+	BACKGROUND-COLOR:#d4d4d4;
+	color: #000000;
+	BORDER-BOTTOM: #f0f0f0  2px solid;
+	BORDER-LEFT: #a0a0a0 2px solid;
+	BORDER-RIGHT: #f0f0f0  2px solid;
+	BORDER-TOP: #a0a0a0 2px solid;
+}
+input[type=text], input[type=date], input[type=password]{
+	BACKGROUND-COLOR:#f5f5f5;
+	color: #000000;
+	BORDER-BOTTOM: #f0f0f0  2px solid;
+	BORDER-LEFT: #a0a0a0 2px solid;
+	BORDER-RIGHT: #f0f0f0  2px solid;
+	BORDER-TOP: #a0a0a0 2px solid;
+}
+
+.panel{
+	BACKGROUND-COLOR:#e2e2e2;
+	color: #656565;
+	font-weight: bold;
+	PADDING-BOTTOM: 2px;
+	PADDING-LEFT: 2px;
+	PADDING-RIGHT: 2px;
+}
+
+.panel span{
+	cursor: pointer;
+	color: #000000;
+	font-weight: normal;
+}
+</style>
+<script type="text/javascript">
+
+function parseJSON(str) {
+  return eval("(" + str + ")");
+}
+
+function getBrowserPrefs(){
+  if(typeof external.GetBrowserVer != "undefined"){
+    var DMXVer = external.GetBrowserVer();
+    document.getElementById("darkH1").innerHTML = "Welcome!";
+    document.getElementById("DMXDiv").innerHTML = "<p>This is the default home page of your browser</p><p>You are currently using WebBrowserCS version " + DMXVer + "</p>";
+    getSearchEngines();
+    getAvailTabs();
+  }
+}
+var defaultSearch = "www.google.com/search?q=";
+function getSearchEngines(){
+  var DMXSearchEngines = parseJSON(external.GetSearchEngines(window.location.href)).SearchEngines;
+  //document.getElementById("DMXDiv").innerHTML = external.getSearchEngines();
+  var html = '';
+  var i = 0
+  defaultSearch = DMXSearchEngines[0];
+  for (i = 0; i < DMXSearchEngines.length && i < 25; i++) {
+    var engine = DMXSearchEngines[i];
+    var EngDisplay = engine;
+    if(EngDisplay.indexOf("://") > -1){ EngDisplay = EngDisplay.substring(EngDisplay.indexOf("://") + 3); }
+    if(EngDisplay.indexOf("/") > 3){ EngDisplay = EngDisplay.substring(0, EngDisplay.indexOf("/")); }
+
+    html += '<span onclick="GoToPage(\'' + engine + '\' + document.getElementById(\'SRText\').value)">' + EngDisplay + '</span>';
+    if(DMXSearchEngines.length>1 && i < DMXSearchEngines.length - 1){ html += '<br>'; }
+  }
+  if(html.length>0){ document.getElementById('SearchEngDiv').innerHTML = html; }
+  document.getElementById("NewSearch").setAttribute("onclick", "GoToPage('" + defaultSearch + "' + document.getElementById('SRText').value)")
+}
+
+function getAvailTabs(){
+  var DMXTabs = parseJSON(external.GetAvailableTabs(window.location.href)).AvailableTabs;
+  var html = '';
+  var i = 0
+  for (i = 0; i < DMXTabs.length && i < 25; i++) {
+    var tab = DMXTabs[i];
+    var name = tab.name;
+    var command = tab.command;
+    
+    var shtml = '<span onclick="GoToPageNewTab(document.getElementById(\'OPText\').value, \'' + command + '\')">' + name + '</span>';
+    
+    if (tab.hasOwnProperty("tab_name")){
+      shtml = '<span onclick="GoToPageNewTab(document.getElementById(\'OPText\').value, \'' + command + "_;_" + tab.tab_name + '\')">' + name + '</span>';
+    }
+    html += shtml;
+    if(DMXTabs.length>1 && i < DMXTabs.length - 1){ html += '<br>'; }
+  }
+  if(html.length>0){ document.getElementById('NewTabsDiv').innerHTML = html; }
+}
+
+function GoToPage(pageUrl){
+  if(pageUrl.length == 0)return;
+  if(pageUrl.indexOf('http://') != 0 && pageUrl.indexOf('https://') != 0){
+    if(pageUrl.indexOf('://') > 0 && pageUrl.indexOf('://') <= 10){ alert("unsupported format"); return; }
+    else if(pageUrl.indexOf('://') == 0) pageUrl = 'http' + pageUrl;
+    else pageUrl = 'http://' + pageUrl;
+  }
+  window.location.href=pageUrl;
+}
+
+function GoToPageNewTab(pageUrl, NewPageMode){
+  if(pageUrl.length == 0)return;
+  if(pageUrl.indexOf('http://') != 0 && pageUrl.indexOf('https://') != 0){
+    if(pageUrl.indexOf('://') > 0 && pageUrl.indexOf('://') <= 10){ alert("unsupported format"); return; }
+    else if(pageUrl.indexOf('://') == 0) pageUrl = 'http' + pageUrl;
+    else pageUrl = 'http://' + pageUrl;
+  }
+  if(NewPageMode != 'default'){
+    var textToLoad = external.warn("failed attempt at loading tab")
+    if(NewPageMode.indexOf("NewUserTab") == 0 && NewPageMode.indexOf("_;_") != NewPageMode.length - 1){
+      textToLoad = "external.NewUserTab('" + window.location.href + "', '" + NewPageMode.substring(NewPageMode.indexOf("_;_") + 3) + "', '" + pageUrl + "')";
+    }
+    else textToLoad = "external." + NewPageMode + "('" + window.location.href + "', '" + pageUrl + "')";
+    alert(textToLoad);
+    eval(textToLoad);
+  }
+  else window.open(pageUrl, '_blank')
+}
+
+function togglePanel(str) {
+  var desc = document.getElementById(str);
+  desc.style.display = (desc.style.display === "none" || desc.style.display === "" ? "block" : "none")
+}
+
+function toggleInline(str) {
+  var desc = document.getElementById(str);
+  desc.style.display = (desc.style.display === "none" || desc.style.display === "" ? "inline" : "none")
+}
+
+function enterPress(e, text, issearch) {
+  var code = (e.keyCode ? e.keyCode : e.which);
+  if (code == 13) { //Enter keycode
+	if (issearch == true) {
+	  eval("GoToPage('" + defaultSearch + "' + text)");
+    }
+    else GoToPage(text)
+  }
+}
+
+window.onload = function () {
+  if (typeof window.external != "undefined") getBrowserPrefs();
+}
+</script>
+</head>
+
+<body>
+
+		<h1 id="darkH1">Web Browser CS Home</h1>
+		<div class="content" style="margin-right: 5px; margin-left: 5px;">
+		<div id="DMXDiv">
+		<p>Welcome to the landing page for WebBrowserCS.</p>
+		<p>For a better experience please use <strong>IE tab</strong> from 
+		within WebBrowserCS 
+		to visit this page.</p>
+		</div>
+		<p style="margin-bottom: 5px">To begin, go to a page:</p>
+		<table align="left">
+		  <tr>
+		  <td>
+			<input id="OPText" type="text" style="width: 491px" onkeydown="enterPress(event, this.value, false)" />
+		  </td>
+		  <td style="position: relative; padding: 0; width: 50%">
+		    <input id="NewPage" type="button" value="Open" onclick="GoToPage(document.getElementById('OPText').value)" onkeydown="enterpressalert(event, false)" /><input id="more1" type="button" onclick="togglePanel('DMXMoreDiv1'); toggleInline('NewSearch'); toggleInline('more2')" value="\/" />
+			<div id="DMXMoreDiv1" class="panel" style="position:absolute; top: 100%; left:0; display:none; z-index: 1000001">
+			  Open in...
+			  <div id="NewTabsDiv">
+			  <span onclick="GoToPageNewTab(document.getElementById('OPText').value, 'default')">New tab</span>
+			  </div>
+			</div>
+		  </td>
+		  </tr>
+		</table><br /><br />
+		<p style="margin-bottom: 5px">Or search something:</p>
+		<table align="left">
+		  <tr>
+		  <td>
+			<input id="SRText" type="text" style="width: 491px" onkeydown="enterPress(event, this.value, true)" />
+		  </td>
+		  <td style="position: relative; padding: 0; width: 50%">
+		    <input id="NewSearch" type="button" value="Search" style="display:inline" onclick="GoToPage('google.com/search?q=' + document.getElementById('SRText').value)" /><input id="more2" type="button" style="display:inline" onclick="togglePanel('DMXMoreDiv2')" value="\/" />
+			<div id="DMXMoreDiv2" class="panel" style="position:absolute; top: 100%; left:0; display:none; z-index: 1000000">
+			  Search with...
+			  <div id="SearchEngDiv">
+			  <span onclick="GoToPage('google.com/search?q=' + document.getElementById('SRText').value)">Google</span>
+			  <br/><span onclick="GoToPage('bing.com/search?q=' + document.getElementById('SRText').value)">Bing</span>
+			  <br/><span onclick="GoToPage('duckduckgo.com/?q=' + document.getElementById('SRText').value)">DuckDuckGo</span>
+			  <br/><span onclick="GoToPage('wikipedia.org/w/index.php?search=' + document.getElementById('SRText').value)">Wikipedia</span>
+			  <br/><span onclick="GoToPage('tube.redtro.net/search.php?q=' + document.getElementById('SRText').value)">RedTro Tube</span>
+			  </div>
+			</div>
+		  </td>
+		  </tr>
+		</table><br />
+		<p>&nbsp;</p>
+</div>
+</body>
+
+</html>

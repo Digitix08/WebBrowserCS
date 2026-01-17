@@ -1,7 +1,7 @@
 ﻿
 namespace WebBrowserCS
 {
-    partial class Chromewebview
+    partial class ChromeWebview
     {
         /// <summary> 
         /// Required designer variable.

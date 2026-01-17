@@ -3,22 +3,22 @@
   <Profiles />
   <Settings>
     <Setting Name="HomePage" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://www.google.com/</Value>
+      <Value Profile="(Default)">igbrowser://home</Value>
     </Setting>
     <Setting Name="Search1" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://www.google.com/search?q=</Value>
+      <Value Profile="(Default)">https://html.duckduckgo.com/html/?q=</Value>
     </Setting>
     <Setting Name="Search2" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://www.bing.com/search?q=</Value>
+      <Value Profile="(Default)">http://www.google.com/search?q=</Value>
     </Setting>
     <Setting Name="Search3" Type="System.String" Scope="User">
-      <Value Profile="(Default)">undefined</Value>
+      <Value Profile="(Default)">http://www.bing.com/search?q=</Value>
     </Setting>
     <Setting Name="Search4" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://wikipedia.org/w/index.php?search=</Value>
     </Setting>
     <Setting Name="Search5" Type="System.String" Scope="User">
-      <Value Profile="(Default)">undefined</Value>
+      <Value Profile="(Default)">http://tube.redtro.net/search.php?q=</Value>
     </Setting>
     <Setting Name="DefaultSearch" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>

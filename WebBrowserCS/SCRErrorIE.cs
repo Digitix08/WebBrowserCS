@@ -11,7 +11,6 @@ using System.Windows.Forms;
 
 namespace WebBrowserCS
 {
-    [ComVisible(true)]
     public partial class SCRErrorIE : Form
     {
         TextBox textBox1 = new TextBox();

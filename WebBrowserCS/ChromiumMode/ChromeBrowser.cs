@@ -144,7 +144,7 @@ namespace WebBrowserCS
 
         private void NewIEInstanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Browser browser = new Browser();
+            IEWindow browser = new IEWindow();
             browser.Show();
         }
 

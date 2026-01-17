@@ -112,7 +112,7 @@ namespace WebBrowserCS
 
         private void MDIParent1_Load(object sender, EventArgs e)
         {
-            Browser child = new Browser
+            IEWindow child = new IEWindow
             {
                 MdiParent = this
             };

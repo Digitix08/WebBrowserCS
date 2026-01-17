@@ -12,14 +12,19 @@ using System.Windows.Forms;
 
 namespace WebBrowserCS
 {
-    public partial class Browser : Form
+    public partial class IEWindow : Form
     {
-        readonly string home = Properties.Settings.Default.HomePage;
+        string home = Properties.Settings.Default.HomePage;
         bool newtab = true;
+        bool useExtJS = false;
         string defaultsearch;
-        SCRErrorIE err = new SCRErrorIE();
-        public Browser()
+        IEExternalScript err;
+        IGNetworkHandler igNet = new IGNetworkHandler();
+        Form errForm = null;
+        public IEWindow()
         {
+            err = new IEExternalScript();
+            errForm = err.createStandaloneElement(this); 
             InitializeComponent();
             /*Search1.Text = Properties.Settings.Default.Search1;
             Search2.Text = Properties.Settings.Default.Search2;
@@ -29,9 +34,22 @@ namespace WebBrowserCS
             defaultsearch = System.Convert.ToString(Properties.Settings.Default.DefaultSearch);
         }
 
+        public void SetCLogState(bool state)
+        {
+            useExtJS = state;
+        }
+
         public void SetJSErrState(bool state)
         {
             webBrowser1.ScriptErrorsSuppressed = state;
+        }
+
+        public void OpenIE()
+        {
+            newtab = false;
+            webBrowser1.Navigate(home, "_blank");
+            newtab = true;
+            this.Close();
         }
 
         private void Setcolor()
@@ -48,6 +66,8 @@ namespace WebBrowserCS
         private void Browser_Load(object sender, EventArgs e)
         {
             Setcolor();
+            if (igNet.Check_mode(home) != "false")
+                home = igNet.Check_mode(home);
             webBrowser1.Navigate(home);
             webBrowser1.ObjectForScripting = err;
             if (defaultsearch == "4") defaultsearch = Properties.Settings.Default.Search1;
@@ -64,9 +84,33 @@ namespace WebBrowserCS
             if (newtab)
             {
                 Processed = true;
-                Browser browser = new Browser();
+                IEWindow browser = new IEWindow();
                 browser.Show();
                 browser.webBrowser1.Navigate(URL);
+            }
+        }
+
+        private void UriChanged(string text = null)
+        {
+            string url = "New Page";
+            string title = url;
+            if (webBrowser1.Url != null)
+            {
+                url = String.Concat(webBrowser1.Url.ToString());
+                title = url;
+                if (Convert.ToString(webBrowser1.Url).IndexOf("\\") == -1)
+                    if (webBrowser1.Document.Title.Length > 0) title = webBrowser1.Document.Title;
+            }
+            if (text != null) title = text;
+            CurrentUrl.Text = url;
+            if (!GoToUrl.Focused)
+            {
+                GoToUrl.Text = url;
+            }
+            TabPage MAIN = (TabPage)this.Parent;
+            if (MAIN is TabPage)
+            {
+                MAIN.Text = title;
             }
         }
 
@@ -114,16 +158,6 @@ namespace WebBrowserCS
             Application.Exit();
         }
         
-        private void WebBrowser1_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
-        {
-            if (e.CurrentProgress > 0 && e.MaximumProgress >0 && e.CurrentProgress <= e.MaximumProgress)
-            {
-                long progress = 100/(e.MaximumProgress/e.CurrentProgress);
-                toolStripProgressBar1.Value = System.Convert.ToInt32(progress);
-                CurrentUrl.Text = System.Convert.ToString(webBrowser1.Url);
-            }
-        }
-        
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutBox aboutBox = new AboutBox();
@@ -139,7 +173,7 @@ namespace WebBrowserCS
 
         private void NewWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Browser browser = new Browser();
+            IEWindow browser = new IEWindow();
             browser.Show();
         }
 
@@ -163,6 +197,91 @@ namespace WebBrowserCS
         private void Search_Click(object sender, EventArgs e)
         {
             webBrowser1.Navigate(defaultsearch + GoToUrl.Text);
+        }
+
+        private void WebBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            if (toolStripProgressBar1.Style != ProgressBarStyle.Blocks)
+            {
+                toolStripProgressBar1.Style = ProgressBarStyle.Blocks;
+                toolStripProgressBar1.Value = 100;
+            }
+            string title = String.Concat(webBrowser1.Url.ToString());
+            int oldstep = toolStripProgressBar1.Step;
+            int step = oldstep;
+            step = toolStripProgressBar1.Maximum - toolStripProgressBar1.Value;
+            toolStripProgressBar1.Step = step;
+            toolStripProgressBar1.PerformStep();
+            toolStripProgressBar1.Step = oldstep;
+            status.Text = "Done";
+            UriChanged();
+            Reload.Image = Properties.Resources.arrow_reload;
+            Reload.Click += Reload_Click;
+        }
+
+        private void WebBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
+        {
+            UriChanged();
+            if (!webBrowser1.CanGoBack) { Back.Image = Properties.Resources.arrow_back_disabled; Back.Enabled = false; }
+            else { Back.Image = Properties.Resources.arrow_back; Back.Enabled = true; }
+            if (!webBrowser1.CanGoForward) { Forward.Image = Properties.Resources.arrow_forward_disabled; Forward.Enabled = false; }
+            else { Forward.Image = Properties.Resources.arrow_forward; Forward.Enabled = true; }
+            status.Text = "Loading Scripts";
+            if (useExtJS)
+                try
+                {
+                    HtmlElement head = webBrowser1.Document.GetElementsByTagName("head")[0];
+                    HtmlElement scriptEl = webBrowser1.Document.CreateElement("script");
+                    ((IHTMLScriptElement)scriptEl.DomElement).src = AppDomain.CurrentDomain.BaseDirectory + "func190520251642343Mon.js";
+                    head.InsertAdjacentElement(HtmlElementInsertionOrientation.AfterBegin, scriptEl);
+                    err.log("FOR DEBUG:" + head.InnerHtml);
+                }
+                catch (System.Runtime.InteropServices.COMException) { err.error("Cannot debug the page " + CurrentUrl.Text); }
+                catch (System.NullReferenceException) { }
+        }
+
+        private void WebBrowser1_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        {
+            toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
+            toolStripProgressBar1.Value = 50;
+            if (igNet.Check_mode(e.Url.ToString()) != "false")
+                webBrowser1.Navigate(igNet.Check_mode(e.Url.ToString()));
+            status.Text = "Searching for host...";
+            UriChanged();
+            Reload.Image = Properties.Resources.cancel;
+            Reload.Click += Cancel_Click;
+        }
+
+        private void WebBrowser1_NewWindow(object sender, CancelEventArgs e)
+        {
+            var url = webBrowser1.Document.ActiveElement.GetAttribute("href");
+            if (newtab)
+            {
+                e.Cancel = true;
+                IEWindow browser = new IEWindow();
+                browser.Show();
+                browser.webBrowser1.Navigate(url);
+            }
+        }
+
+        private void WebBrowser1_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
+        {
+            if (e.CurrentProgress > 0 && e.MaximumProgress > 0 && e.CurrentProgress <= e.MaximumProgress)
+            {
+                long progress = 100 / (e.MaximumProgress / e.CurrentProgress);
+                if (progress >= 1) toolStripProgressBar1.Style = ProgressBarStyle.Blocks;
+                toolStripProgressBar1.Value = System.Convert.ToInt32(progress);
+                if (status.Text != "Loading Scripts")
+                    status.Text = "Downloading...";
+            }
+        }
+
+        private async void CurrentUrl_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(CurrentUrl.Text);
+            CurrentUrl.Text = "Copied to clipboard";
+            await Task.Delay(500);
+            CurrentUrl.Text = System.Convert.ToString(webBrowser1.Url);
         }
 
         private void TabbedVersionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -222,42 +341,9 @@ namespace WebBrowserCS
         private void Search4_Click(object sender, EventArgs e) => webBrowser1.Navigate(Search4.Text + GoToUrl.Text);
         private void Search5_Click(object sender, EventArgs e) => webBrowser1.Navigate(Search5.Text + GoToUrl.Text);*/
 
-        private async void CurrentUrl_Click(object sender, EventArgs e)
-        {
-            Clipboard.SetText(CurrentUrl.Text);
-            CurrentUrl.Text = "Copied to clipboard";
-            await Task.Delay(500);
-            CurrentUrl.Text = System.Convert.ToString(webBrowser1.Url);
-        }
-
         private void scriptErrorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            err.Show();
-        }
-
-        private void WebBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
-        {
-            string title = String.Concat(webBrowser1.Url.ToString());
-            if (Convert.ToString(webBrowser1.Url).IndexOf("\\") == -1)
-                if (webBrowser1.Document.Title.Length > 0) title = webBrowser1.Document.Title;
-            this.Text = title + " (IE browser)";
-            CurrentUrl.Text = title;
-            if (!webBrowser1.CanGoBack) { Back.Image = null; Back.Enabled = false; }
-            else { Back.Image = Properties.Resources.arrow_back; Back.Enabled = true; }
-            if (!webBrowser1.CanGoForward) { Forward.Image = null; Forward.Enabled = false; }
-            else { Forward.Image = Properties.Resources.arrow_forward; Forward.Enabled = true; }
-            toolStripStatusLabel2.Text = "Loading Scripts";
-            try
-            {
-                HtmlElement head = webBrowser1.Document.GetElementsByTagName("head")[0];
-                HtmlElement scriptEl = webBrowser1.Document.CreateElement("script");
-                ((IHTMLScriptElement)scriptEl.DomElement).src = AppDomain.CurrentDomain.BaseDirectory + "func190520251642343Mon.js";
-                head.InsertAdjacentElement((HtmlElementInsertionOrientation)1, scriptEl);
-                err.GetText("FOR DEBUG:", head.InnerHtml);
-            }
-            catch (System.Runtime.InteropServices.COMException) { err.error("Cannot debug the page " + CurrentUrl.Text); }
-            catch (System.NullReferenceException) { }
-            toolStripStatusLabel2.Text = "Done";
+            errForm.Show();
         }
 
         private void Picture_invert(object sender, MouseEventArgs e)
@@ -273,6 +359,25 @@ namespace WebBrowserCS
                 }
             }
             ((PictureBox)sender).Image = pic;
+        }
+
+        private void Cancel_Click(object sender, EventArgs e)
+        {
+            webBrowser1.Stop();
+            Reload.Image = Properties.Resources.arrow_reload;
+            Reload.Click += Reload_Click;
+
+            Bitmap pic = new Bitmap(((PictureBox)sender).Image);
+            for (int y = 0; (y <= (pic.Height - 1)); y++)
+            {
+                for (int x = 0; (x <= (pic.Width - 1)); x++)
+                {
+                    Color inv = pic.GetPixel(x, y);
+                    inv = Color.FromArgb(inv.A, (255 - inv.R), (255 - inv.G), (255 - inv.B));
+                    pic.SetPixel(x, y, inv);
+                }
+            }
+    ((PictureBox)sender).Image = pic;
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace WebBrowserCS
 {
-    public partial class Chromewebview : UserControl
+    public partial class ChromeWebview : UserControl
     {
         TableLayoutPanel table = new TableLayoutPanel();
         Button ScrErrorClose = new Button { Text = "Close DevTools" };
@@ -19,7 +19,7 @@ namespace WebBrowserCS
         readonly string home = Properties.Settings.Default.HomePage;
         string defaultsearch;
         ChromiumWebBrowser chromiumWebBrowser1;
-        public Chromewebview(string url)
+        public ChromeWebview(string url)
         {
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
             {

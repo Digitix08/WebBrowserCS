@@ -35,16 +35,19 @@ namespace WebBrowserCS
             this.Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Desc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.disableJS = new System.Windows.Forms.CheckBox();
+            this.disableErrorLog = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.button1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.listView1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.disableErrorLog, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.disableJS, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -71,7 +74,7 @@ namespace WebBrowserCS
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Type,
             this.Desc});
-            this.tableLayoutPanel1.SetColumnSpan(this.listView1, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this.listView1, 3);
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.FullRowSelect = true;
             this.listView1.HideSelection = false;
@@ -105,6 +108,17 @@ namespace WebBrowserCS
             this.disableJS.UseVisualStyleBackColor = true;
             this.disableJS.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // disableErrorLog
+            // 
+            this.disableErrorLog.AutoSize = true;
+            this.disableErrorLog.Location = new System.Drawing.Point(253, 245);
+            this.disableErrorLog.Name = "disableErrorLog";
+            this.disableErrorLog.Size = new System.Drawing.Size(156, 17);
+            this.disableErrorLog.TabIndex = 5;
+            this.disableErrorLog.Text = "Disable console.log redirect";
+            this.disableErrorLog.UseVisualStyleBackColor = true;
+            this.disableErrorLog.CheckedChanged += new System.EventHandler(this.disableErrorLog_CheckedChanged);
+            // 
             // SCRErrorIEControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -126,5 +140,6 @@ namespace WebBrowserCS
         private System.Windows.Forms.ColumnHeader Type;
         private System.Windows.Forms.ColumnHeader Desc;
         private System.Windows.Forms.CheckBox disableJS;
+        private System.Windows.Forms.CheckBox disableErrorLog;
     }
 }
