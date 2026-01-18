@@ -19,6 +19,8 @@ namespace WebBrowserCS
         readonly string home = Properties.Settings.Default.HomePage;
         string defaultsearch;
         ChromiumWebBrowser chromiumWebBrowser1;
+        int charlimit = 30;
+        IGNetworkHandler igNet = new IGNetworkHandler();
         public ChromeWebview(string url)
         {
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
@@ -39,10 +41,9 @@ namespace WebBrowserCS
             tableLayoutPanel1.Controls.Add(chromiumWebBrowser1, 0, 1);
             tableLayoutPanel1.SetColumnSpan(chromiumWebBrowser1, 10);
             chromiumWebBrowser1.Dock = DockStyle.Fill;
-            chromiumWebBrowser1.FrameLoadEnd += ChromiumWebBrowser1_FrameLoadEnd;
-            chromiumWebBrowser1.FrameLoadStart += ChromiumWebBrowser1_FrameLoadStart;
             chromiumWebBrowser1.TitleChanged += ChromiumWebBrowser1_TitleChanged;
             chromiumWebBrowser1.AddressChanged += ChromiumWebBrowser1_AddressChanged;
+            chromiumWebBrowser1.LoadingStateChanged += ChromiumWebBrowser1_LoadingStateChanged;
         }
 
         private void Setcolor()
@@ -79,32 +80,54 @@ namespace WebBrowserCS
             Setcolor();
         }
 
+        private void UriChanged(string text = null)
+        {
+            string url = "New Page";
+            string title = url;
+            if (chromiumWebBrowser1.Address != null)
+            {
+                url = chromiumWebBrowser1.Address;
+                title = url;
+            }
+            if (text != null) title = text;
+            CurrentUrl.GetCurrentParent().Invoke(new Action(() => CurrentUrl.Text = url));
+            bool isFocused = false;
+            GoToUrl.Invoke(new Action(() => isFocused = GoToUrl.Focused));
+            if (!isFocused)
+            {
+                GoToUrl.Invoke(new Action(() => GoToUrl.Text = url));
+            }
+            if (title.Length > charlimit) title = title.Substring(0, charlimit) + "...";
+            ComplicationRequired(title);
+        }
+
         private void Back_Click(object sender, EventArgs e)
         {
             chromiumWebBrowser1.Back();
         }
 
-        private void ChromiumWebBrowser1_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
-        {
-            ProgressBarChangeLoad(ProgressBarStyle.Continuous, 0);
-        }
-
-        public void ProgressBarChangeLoad(ProgressBarStyle style, int value)
-        {
-            if (this.InvokeRequired)
-            {
-                Action safeWrite = delegate { ProgressBarChangeLoad(style, value); };
-                this.Invoke(safeWrite);
-            }
-            else
-            {
-                toolStripProgressBar1.Style = style;
-                toolStripProgressBar1.Value = value;
-            }
-        }
         private void Reload_Click(object sender, EventArgs e)
         {
-            chromiumWebBrowser1.Refresh();
+            chromiumWebBrowser1.Reload();
+        }
+
+        private void Cancel_Click(object sender, EventArgs e)
+        {
+            chromiumWebBrowser1.Stop();
+            Reload.Image = Properties.Resources.arrow_reload;
+            Reload.Click += Reload_Click;
+
+            Bitmap pic = new Bitmap(((PictureBox)sender).Image);
+            for (int y = 0; (y <= (pic.Height - 1)); y++)
+            {
+                for (int x = 0; (x <= (pic.Width - 1)); x++)
+                {
+                    Color inv = pic.GetPixel(x, y);
+                    inv = Color.FromArgb(inv.A, (255 - inv.R), (255 - inv.G), (255 - inv.B));
+                    pic.SetPixel(x, y, inv);
+                }
+            }
+            ((PictureBox)sender).Image = pic;
         }
 
         private void GoHome_Click(object sender, EventArgs e)
@@ -119,7 +142,10 @@ namespace WebBrowserCS
 
         private void GoTo_Click(object sender, EventArgs e)
         {
-            chromiumWebBrowser1.Load(GoToUrl.Text);
+            if (!string.IsNullOrEmpty(GoToUrl.Text))
+            {
+                chromiumWebBrowser1.Load(GoToUrl.Text);
+            }
         }
 
         private void Search_Click(object sender, EventArgs e)
@@ -129,17 +155,22 @@ namespace WebBrowserCS
 
         private async void CurrentUrl_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(CurrentUrl.Text);
-            CurrentUrl.Text = "Copied to clipboard";
+            Clipboard.SetText(status.Text);
+            status.Text = "Copied to clipboard";
             await Task.Delay(500);
-            CurrentUrl.Text = System.Convert.ToString(chromiumWebBrowser1.Address);
+            status.Text = System.Convert.ToString(chromiumWebBrowser1.Address);
         }
 
+        private void ChromiumWebBrowser1_AddressChanged(object sender, AddressChangedEventArgs e)
+        {
+            UriChanged();
+        }
+        
         private void ChromiumWebBrowser1_TitleChanged(object sender, TitleChangedEventArgs e)
         {
-            string title = e.Title;
-            ComplicationRequired(title);
+            UriChanged(e.Title);
         }
+
         public void ComplicationRequired(string text)
         {
             TabPage MAIN = (TabPage)this.Parent;
@@ -154,18 +185,60 @@ namespace WebBrowserCS
             }
         }
 
-        private void ChromiumWebBrowser1_FrameLoadStart(object sender, FrameLoadStartEventArgs e)
+        private void ChromiumWebBrowser1_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
         {
-            ProgressBarChangeLoad(ProgressBarStyle.Marquee, 50);
+            if (e.IsLoading)StartBrowse();
+            if (!e.IsLoading)CompleteBrowse();
         }
 
-        private void ChromiumWebBrowser1_AddressChanged(object sender, AddressChangedEventArgs e)
+        private void StartBrowse()
         {
-            CurrentUrl.Text = System.Convert.ToString(chromiumWebBrowser1.Address);
-            if (!chromiumWebBrowser1.CanGoBack) Change(Back, false, null);
-            else Change(Back, true, Properties.Resources.arrow_back);
-            if (!chromiumWebBrowser1.CanGoForward) Change(Forward, false, null);
-            else Change(Forward, true, Properties.Resources.arrow_forward);
+            if (this.InvokeRequired)
+            {
+                Action safeWrite = delegate { StartBrowse(); };
+                this.Invoke(safeWrite);
+            }
+            else
+            {
+                toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
+                toolStripProgressBar1.Value = 50;
+                if (igNet.Check_mode(chromiumWebBrowser1.Address) != "false")
+                    chromiumWebBrowser1.Load(igNet.Check_mode(chromiumWebBrowser1.Address));
+                status.Text = "Loading...";
+                Reload.Image = Properties.Resources.cancel;
+                Reload.Click += Cancel_Click;
+            }
+        }
+
+        private void CompleteBrowse()
+        {
+            if (this.InvokeRequired)
+            {
+                Action safeWrite = delegate { CompleteBrowse(); };
+                this.Invoke(safeWrite);
+            }
+            else
+            {
+                if (toolStripProgressBar1.Style != ProgressBarStyle.Blocks)
+                {
+                    toolStripProgressBar1.Style = ProgressBarStyle.Blocks;
+                    toolStripProgressBar1.Value = 100;
+                }
+                string title = chromiumWebBrowser1.Address;
+                int oldstep = toolStripProgressBar1.Step;
+                int step = oldstep;
+                step = toolStripProgressBar1.Maximum - toolStripProgressBar1.Value;
+                toolStripProgressBar1.Step = step;
+                toolStripProgressBar1.PerformStep();
+                toolStripProgressBar1.Step = oldstep;
+                status.Text = "Done";
+                Reload.Image = Properties.Resources.arrow_reload;
+                Reload.Click += Reload_Click;
+                if (!chromiumWebBrowser1.CanGoBack) Change(Back, false, Properties.Resources.arrow_back_disabled);
+                else Change(Back, true, Properties.Resources.arrow_back);
+                if (!chromiumWebBrowser1.CanGoForward) Change(Forward, false, Properties.Resources.arrow_forward_disabled);
+                else Change(Forward, true, Properties.Resources.arrow_forward);
+            }
         }
 
         public void Change(Control place, bool ToChange, Bitmap image)
@@ -216,7 +289,7 @@ namespace WebBrowserCS
                         tableLayoutPanel1.Controls.Add(split, 0, 1);
                         tableLayoutPanel1.SetColumnSpan(split, 10);
                         DebPanel.Dock = DockStyle.Fill;
-                        if (chromiumWebBrowser1.ShowDevToolsDocked(DebPanel, "DevTools") != null)
+                        if (chromiumWebBrowser1.ShowDevToolsDocked(DebPanel, "DevTools") == null)
                             MessageBox.Show("Please reopen the tab", "Error opening DevTools");
                         chromiumWebBrowser1.ShowDevToolsDocked(DebPanel, "DevTools");
                         split.Panel1.Controls.Add(chromiumWebBrowser1);

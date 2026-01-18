@@ -24,7 +24,7 @@ namespace WebBrowserCS
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutBox aboutBox = new AboutBox();
-            aboutBox.ShowDialog();
+            aboutBox.Show();
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)

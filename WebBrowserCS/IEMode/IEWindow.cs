@@ -107,11 +107,7 @@ namespace WebBrowserCS
             {
                 GoToUrl.Text = url;
             }
-            TabPage MAIN = (TabPage)this.Parent;
-            if (MAIN is TabPage)
-            {
-                MAIN.Text = title;
-            }
+            this.Text = title;
         }
 
         private void GoTo_Click(object sender, EventArgs e)
@@ -164,6 +160,18 @@ namespace WebBrowserCS
             aboutBox.ShowDialog();
         }
 
+        private void iEWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IEWindow browser = new IEWindow();
+            browser.Show();
+        }
+
+        private void chromiumWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChromeBrowser chrome = new ChromeBrowser();
+            chrome.Show();
+        }
+
         private void NewIEInstanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             newtab = false;
@@ -171,10 +179,10 @@ namespace WebBrowserCS
             newtab = true;
         }
 
-        private void NewWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        private void textEditWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            IEWindow browser = new IEWindow();
-            browser.Show();
+            FileEdit newfile = new FileEdit();
+            newfile.Show();
         }
 
         private void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -186,12 +194,6 @@ namespace WebBrowserCS
         private void GoHome_Click(object sender, EventArgs e)
         {
             webBrowser1.Navigate(home);
-        }
-
-        private void testChromiumVersionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChromeBrowser chrome = new ChromeBrowser();
-            chrome.Show();
         }
 
         private void Search_Click(object sender, EventArgs e)
@@ -252,6 +254,11 @@ namespace WebBrowserCS
             Reload.Click += Cancel_Click;
         }
 
+        internal void GoToOuter(string url)
+        {
+            webBrowser1.Navigate(url);
+        }
+
         private void WebBrowser1_NewWindow(object sender, CancelEventArgs e)
         {
             var url = webBrowser1.Document.ActiveElement.GetAttribute("href");
@@ -260,7 +267,7 @@ namespace WebBrowserCS
                 e.Cancel = true;
                 IEWindow browser = new IEWindow();
                 browser.Show();
-                browser.webBrowser1.Navigate(url);
+                browser.GoToOuter(url);
             }
         }
 
@@ -284,7 +291,7 @@ namespace WebBrowserCS
             CurrentUrl.Text = System.Convert.ToString(webBrowser1.Url);
         }
 
-        private void TabbedVersionToolStripMenuItem_Click(object sender, EventArgs e)
+        private void tabbedWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WebBrowserCS tabbed = new WebBrowserCS();
             tabbed.Show();
@@ -306,12 +313,6 @@ namespace WebBrowserCS
                 fileEdit = new FileEdit() { fileDir = fd.FileName };
                 fileEdit.Show();
             }
-        }
-
-        private void FileToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            FileEdit newfile = new FileEdit();
-            newfile.Show();
         }
 
         private void MdiparentToolStripMenuItem_Click(object sender, EventArgs e)
@@ -377,7 +378,7 @@ namespace WebBrowserCS
                     pic.SetPixel(x, y, inv);
                 }
             }
-    ((PictureBox)sender).Image = pic;
+            ((PictureBox)sender).Image = pic;
         }
     }
 }

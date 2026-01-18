@@ -145,6 +145,7 @@
     <Compile Include="ChromiumMode\ChromeWebview.Designer.cs">
       <DependentUpon>ChromeWebview.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChromiumMode\IGLiveSpanHandler.cs" />
     <Compile Include="IGNetworkHandler.cs" />
     <Compile Include="ColorSet.cs" />
     <Compile Include="ChromiumMode\CtrlExtensions.cs" />

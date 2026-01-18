@@ -105,7 +105,7 @@ namespace WebBrowserCS
 
         public string GetAvailableTabs(string callerURL)
         {
-            if (callerURL != null)
+            if (callerURL != null && IsInTab)
             {
                 string AvailableTabs = "{\"AvailableTabs\": [";
                 string[][] NewTabs = TabbedWindow.AvailTabs.ToArray();

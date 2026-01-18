@@ -110,7 +110,7 @@ namespace WebBrowserCS
                 if (temp0 != -1)
                 {
                     int temp1 = Lowerline.IndexOf(">", temp0) + 1;
-                    line = line.Substring(0, temp0 + temp1) + "<div id='DffD_199870960_Edit0' contentEditable='true'>";
+                    line = line.Substring(0, temp1) + "<div id='DffD_199870960_Edit0' contentEditable='true'>";
                     if (Lowerline.Length != temp1) line += line.Substring(temp0 + temp1, Lowerline.Length);
                 }
                 MainText.AppendText(line); MainText.AppendText(Environment.NewLine);

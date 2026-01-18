@@ -149,7 +149,7 @@ namespace WebBrowserCS
 
         private void Reload_Click(object sender, EventArgs e)
         {
-            webBrowser1.Refresh();
+            webBrowser1.Navigate(webBrowser1.Url.ToString());
         }
 
         private void Forward_Click(object sender, EventArgs e)
@@ -225,7 +225,7 @@ namespace WebBrowserCS
                 e.Cancel = true;
                 IEWindow browser = new IEWindow();
                 browser.Show();
-                browser.webBrowser1.Navigate(url);
+                browser.GoToOuter(url);
             }
         }
 

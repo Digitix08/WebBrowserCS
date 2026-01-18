@@ -12,8 +12,11 @@ body{
 	margin: 0;
 	padding: 0;
 }
-
+.table500{
+	width: 500px;
+}
 h1{
+	margin-top: 0;
 	background-color:#003300;
 	color: #ffffff;
 	padding-top: 5px;
@@ -66,10 +69,11 @@ input[type=text], input[type=date], input[type=password]{
 function parseJSON(str) {
   return eval("(" + str + ")");
 }
-
+var versionName = "WebBrowserCS v";
 function getBrowserPrefs(){
   if(typeof external.GetBrowserVer != "undefined"){
-    var DMXVer = external.GetBrowserVer();
+	var DMXVer = external.GetBrowserVer();
+    if (DMXVer.indexOf(versionName) == 0) DMXVer = DMXVer.substring(versionName.length);
     document.getElementById("darkH1").innerHTML = "Welcome!";
     document.getElementById("DMXDiv").innerHTML = "<p>This is the default home page of your browser</p><p>You are currently using WebBrowserCS version " + DMXVer + "</p>";
     getSearchEngines();
@@ -97,23 +101,28 @@ function getSearchEngines(){
 }
 
 function getAvailTabs(){
-  var DMXTabs = parseJSON(external.GetAvailableTabs(window.location.href)).AvailableTabs;
-  var html = '';
-  var i = 0
-  for (i = 0; i < DMXTabs.length && i < 25; i++) {
-    var tab = DMXTabs[i];
-    var name = tab.name;
-    var command = tab.command;
+  var DMXTabsRaw = external.GetAvailableTabs(window.location.href);
+  if (DMXTabsRaw != null){
+    var DMXTabs = parseJSON(DMXTabsRaw).AvailableTabs;
+    var html = '';
+    var i = 0
+    for (i = 0; i < DMXTabs.length && i < 25; i++) {
+      var tab = DMXTabs[i];
+      var name = tab.name;
+      var command = tab.command;
     
-    var shtml = '<span onclick="GoToPageNewTab(document.getElementById(\'OPText\').value, \'' + command + '\')">' + name + '</span>';
+      while (name.indexOf(" ") > -1){ name = name.substring(0, name.indexOf(" ")) + "&nbsp;" + name.substring(name.indexOf(" ") + 1); }
     
-    if (tab.hasOwnProperty("tab_name")){
-      shtml = '<span onclick="GoToPageNewTab(document.getElementById(\'OPText\').value, \'' + command + "_;_" + tab.tab_name + '\')">' + name + '</span>';
+      var shtml = '<span onclick="GoToPageNewTab(document.getElementById(\'OPText\').value, \'' + command + '\')">' + name + '</span>';
+    
+      if (tab.hasOwnProperty("tab_name")){
+        shtml = '<span onclick="GoToPageNewTab(document.getElementById(\'OPText\').value, \'' + command + "_;_" + tab.tab_name + '\')">' + name + '</span>';
+      }
+      html += shtml;
+      if(DMXTabs.length>1 && i < DMXTabs.length - 1){ html += '<br>'; }
     }
-    html += shtml;
-    if(DMXTabs.length>1 && i < DMXTabs.length - 1){ html += '<br>'; }
+    if(html.length>0){ document.getElementById('NewTabsDiv').innerHTML = html; }
   }
-  if(html.length>0){ document.getElementById('NewTabsDiv').innerHTML = html; }
 }
 
 function GoToPage(pageUrl){
@@ -177,43 +186,43 @@ window.onload = function () {
 		<div class="content" style="margin-right: 5px; margin-left: 5px;">
 		<div id="DMXDiv">
 		<p>Welcome to the landing page for WebBrowserCS.</p>
-		<p>For a better experience please use <strong>IE tab</strong> from 
+		<p>For a better experience please use <strong>IE tab or window</strong> from 
 		within WebBrowserCS 
 		to visit this page.</p>
 		</div>
 		<p style="margin-bottom: 5px">To begin, go to a page:</p>
-		<table align="left">
+		<table align="left" class="table500">
 		  <tr>
-		  <td>
-			<input id="OPText" type="text" style="width: 491px" onkeydown="enterPress(event, this.value, false)" />
+		  <td style="padding: 0 0 0 10px">
+			<input id="OPText" type="text" style="width: 98%" onkeydown="enterPress(event, this.value, false)" />
 		  </td>
-		  <td style="position: relative; padding: 0; width: 50%">
-		    <input id="NewPage" type="button" value="Open" onclick="GoToPage(document.getElementById('OPText').value)" onkeydown="enterpressalert(event, false)" /><input id="more1" type="button" onclick="togglePanel('DMXMoreDiv1'); toggleInline('NewSearch'); toggleInline('more2')" value="\/" />
+		  <td style="position: relative; padding: 0; width: 90px">
+		    <input id="NewPage" type="button" value="Open" onclick="GoToPage(document.getElementById('OPText').value)" /><input id="more1" type="button" onclick="togglePanel('DMXMoreDiv1'); toggleInline('NewSearch'); toggleInline('more2')" value="\/" />
 			<div id="DMXMoreDiv1" class="panel" style="position:absolute; top: 100%; left:0; display:none; z-index: 1000001">
-			  Open in...
+			  Open&nbsp;in...
 			  <div id="NewTabsDiv">
-			  <span onclick="GoToPageNewTab(document.getElementById('OPText').value, 'default')">New tab</span>
+			  <span onclick="GoToPageNewTab(document.getElementById('OPText').value, 'default')">New&nbsp;window</span>
 			  </div>
 			</div>
 		  </td>
 		  </tr>
 		</table><br /><br />
 		<p style="margin-bottom: 5px">Or search something:</p>
-		<table align="left">
+		<table align="left" class="table500">
 		  <tr>
-		  <td>
-			<input id="SRText" type="text" style="width: 491px" onkeydown="enterPress(event, this.value, true)" />
+		  <td style="padding: 0 0 0 10px">
+			<input id="SRText" type="text" style="width: 98%" onkeydown="enterPress(event, this.value, true)" />
 		  </td>
-		  <td style="position: relative; padding: 0; width: 50%">
+		  <td style="position: relative; padding: 0; width: 90px">
 		    <input id="NewSearch" type="button" value="Search" style="display:inline" onclick="GoToPage('google.com/search?q=' + document.getElementById('SRText').value)" /><input id="more2" type="button" style="display:inline" onclick="togglePanel('DMXMoreDiv2')" value="\/" />
 			<div id="DMXMoreDiv2" class="panel" style="position:absolute; top: 100%; left:0; display:none; z-index: 1000000">
-			  Search with...
+			  Search&nbsp;with...
 			  <div id="SearchEngDiv">
 			  <span onclick="GoToPage('google.com/search?q=' + document.getElementById('SRText').value)">Google</span>
 			  <br/><span onclick="GoToPage('bing.com/search?q=' + document.getElementById('SRText').value)">Bing</span>
 			  <br/><span onclick="GoToPage('duckduckgo.com/?q=' + document.getElementById('SRText').value)">DuckDuckGo</span>
 			  <br/><span onclick="GoToPage('wikipedia.org/w/index.php?search=' + document.getElementById('SRText').value)">Wikipedia</span>
-			  <br/><span onclick="GoToPage('tube.redtro.net/search.php?q=' + document.getElementById('SRText').value)">RedTro Tube</span>
+			  <br/><span onclick="GoToPage('tube.redtro.net/search.php?q=' + document.getElementById('SRText').value)">RedTro&nbsp;Tube</span>
 			  </div>
 			</div>
 		  </td>

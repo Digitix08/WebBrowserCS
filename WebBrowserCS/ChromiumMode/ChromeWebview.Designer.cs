@@ -35,6 +35,7 @@ namespace WebBrowserCS
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.CurrentUrl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.status = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.DebStart = new System.Windows.Forms.ToolStripStatusLabel();
             this.DebMode = new System.Windows.Forms.ToolStripDropDownButton();
@@ -122,6 +123,7 @@ namespace WebBrowserCS
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1,
             this.CurrentUrl,
+            this.status,
             this.toolStripStatusLabel2,
             this.DebStart,
             this.DebMode});
@@ -144,7 +146,13 @@ namespace WebBrowserCS
             this.CurrentUrl.Name = "CurrentUrl";
             this.CurrentUrl.Size = new System.Drawing.Size(62, 15);
             this.CurrentUrl.Text = "CurrentUrl";
-            this.CurrentUrl.Click += new System.EventHandler(this.CurrentUrl_Click);
+            // 
+            // status
+            // 
+            this.status.Name = "status";
+            this.status.Size = new System.Drawing.Size(35, 15);
+            this.status.Text = "Done";
+            this.status.Click += new System.EventHandler(this.CurrentUrl_Click);
             // 
             // toolStripStatusLabel2
             // 
@@ -256,13 +264,13 @@ namespace WebBrowserCS
             this.GoToUrl.TabIndex = 17;
             this.GoToUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GoToUrl_KeyDown);
             // 
-            // Chromewebview
+            // ChromeWebview
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Chromewebview";
+            this.Name = "ChromeWebview";
             this.Size = new System.Drawing.Size(533, 306);
             this.Load += new System.EventHandler(this.Chromewebview_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -288,13 +296,14 @@ namespace WebBrowserCS
         private System.Windows.Forms.TextBox GoToUrl;
         private System.Windows.Forms.PictureBox GoTo;
         private System.Windows.Forms.PictureBox Search;
-        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
-        private System.Windows.Forms.ToolStripStatusLabel CurrentUrl;
+        private System.Windows.Forms.ToolStripStatusLabel status;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel DebStart;
         private System.Windows.Forms.ToolStripDropDownButton DebMode;
         private System.Windows.Forms.ToolStripMenuItem dockedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem standaloneWindowToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel CurrentUrl;
     }
 }
