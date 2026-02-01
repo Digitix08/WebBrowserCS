@@ -316,7 +316,7 @@ namespace WebBrowserCS
             };
             if (fd.ShowDialog() == DialogResult.OK)
             {
-                fileEdit = new FileEdit() { fileDir = fd.FileName };
+                fileEdit = new FileEdit(fd.FileName);
                 fileEdit.Show();
             }
         }

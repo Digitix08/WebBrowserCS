@@ -277,7 +277,7 @@ namespace WebBrowserCS
             string title = "FileTab " + (Tabs.TabCount + 1).ToString();
             tab.Text = title;
             FileTab newTab;
-            if (path != "NewFile") { newTab = new FileTab() { filePath = path }; }
+            if (path != "NewFile") { newTab = new FileTab(path); }
             else newTab = new FileTab();
             tab.Controls.Add(newTab);
             newTab.Dock = DockStyle.Fill;

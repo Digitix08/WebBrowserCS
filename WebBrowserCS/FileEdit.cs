@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,10 +14,11 @@ namespace WebBrowserCS
 {
     public partial class FileEdit : Form
     {
-        public string fileDir; int row = 0;
-        public FileEdit()
+        string filePath, fileDir; int row = 0;
+        public FileEdit(string fpath = null)
         {
             InitializeComponent();
+            if (fpath != null) filePath = fpath;
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e) => this.Close();
@@ -42,6 +44,7 @@ namespace WebBrowserCS
                 MainText.Clear();
                 string line;
                 this.Text = fd.FileName;
+                status.Text = "Loading...";
                 fileDir = fd.FileName;
                 StreamReader filecontent = new StreamReader(fd.FileName);
                 line = filecontent.ReadLine();
@@ -51,6 +54,7 @@ namespace WebBrowserCS
                     MainText.AppendText(Environment.NewLine);
                     line = filecontent.ReadLine();
                 }
+                status.Text = "Done";
                 filecontent.Close();
             }
         }
@@ -97,20 +101,54 @@ namespace WebBrowserCS
             {
                 row = 0;
                 MainText.Clear();
-                string line;
-                this.Text = fileDir;
-                StreamReader filecontent = new StreamReader(fileDir);
-                line = filecontent.ReadLine();
-                while (line != null)
+                try
                 {
-                    MainText.AppendText(line);
-                    MainText.AppendText(Environment.NewLine);
+                    string line;
+                    status.Text = "Loading...";
+                    this.Text = filePath;
+                    fileDir = filePath;
+                    StreamReader filecontent = new StreamReader(filePath);
                     line = filecontent.ReadLine();
-                    toolStripStatusLabel3.Text = System.Convert.ToString(row);
-                    row++;
+                    while (line != null)
+                    {
+                        MainText.AppendText(line);
+                        MainText.AppendText(Environment.NewLine);
+                        line = filecontent.ReadLine();
+                        toolStripStatusLabel3.Text = System.Convert.ToString(row);
+                        row++;
+                    }
+                    filecontent.Close();
+                    status.Text = "Done";
                 }
-                filecontent.Close();
-                MainText.SelectionStart = 0; MainText.ScrollToCaret();
+                catch (System.IO.FileNotFoundException) { MessageBox.Show("The file \"" + filePath + "\" does not exist. Creating new file", "File not found"); filePath = null; fileDir = null; }
+                catch (System.IO.DirectoryNotFoundException) { MessageBox.Show("The path \"" + filePath + "\" does not exist. Creating new file", "Path not found"); filePath = null; fileDir = null; }
+                catch (System.NotSupportedException)
+                {
+                    string textFromFile = (new WebClient()).DownloadString(filePath);
+                    string textWithNewLine = textFromFile;
+                    if (!textWithNewLine.Contains(Environment.NewLine))
+                    {
+                        textWithNewLine = textFromFile.Replace("\n", Environment.NewLine);
+                        status.Text = "Converted to ";
+                        if (Environment.NewLine.Contains("\r")) status.Text += "CR";
+                        status.Text += "LF";
+                    }
+                    MainText.Text = textWithNewLine;
+                    this.Text = filePath;
+                }
+
+                finally
+                {
+                    MainText.SelectionStart = 0; MainText.ScrollToCaret();
+                    string fileDispName = Path.GetFileName(filePath);
+                    if (fileDispName != null)
+                        if (fileDispName.Contains("\\"))
+                        {
+                            fileDispName = fileDispName.Substring(fileDispName.LastIndexOf("\\") + 1, fileDispName.Length - fileDispName.LastIndexOf("\\") - 1);
+                        }
+                    this.Text = fileDispName;
+                    MainText.SelectionStart = 0; MainText.ScrollToCaret();
+                }
             }
             MainText.Font = new Font(MainText.Font.FontFamily, Properties.Settings.Default.FontSize);
         }

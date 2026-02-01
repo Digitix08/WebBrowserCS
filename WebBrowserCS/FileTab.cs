@@ -10,15 +10,15 @@ namespace WebBrowserCS
     {
         readonly WebBrowser EditViewer = new WebBrowser();
         readonly TabPage WebEdit = new TabPage();
-        public string filePath;
-        string fileDir, fileDispName; int row = 0, inUse = 0;
+        string filePath, fileDir, fileDispName; int row = 0, inUse = 0;
         private bool IsHTML = false;
-        public FileTab()
+        public FileTab(string fpath = null)
         {
             InitializeComponent();
             WebEdit.Text = "Visual HTML";
             EditViewer.Dock = DockStyle.Fill;
             EditViewer.ScriptErrorsSuppressed = true;
+            if (fpath != null) filePath = fpath;
         }
 
         private void Setcolor()
@@ -52,6 +52,7 @@ namespace WebBrowserCS
                 MainText.Clear();
                 string line;
                 FPath.Text = fd.FileName;
+                status.Text = "Loading...";
                 fileDir = fd.FileName;
                 fileDispName = fd.FileName;
                 if (fileDispName.Contains("\\")) {
@@ -82,8 +83,9 @@ namespace WebBrowserCS
                         toolStripStatusLabel3.Text = System.Convert.ToString(row);
                         row++;
                     }
-                    filecontent.Close();
                     MainText.SelectionStart = 0; MainText.ScrollToCaret();
+                    status.Text = "Done";
+                    filecontent.Close();
                 }
             }
         }
@@ -209,6 +211,7 @@ namespace WebBrowserCS
                 try
                 {
                     string line;
+                    status.Text = "Loading...";
                     FPath.Text = filePath;
                     fileDir = filePath;
                     StreamReader filecontent = new StreamReader(filePath);
@@ -222,12 +225,20 @@ namespace WebBrowserCS
                         row++;
                     }
                     filecontent.Close();
+                    status.Text = "Done";
                 }
                 catch (System.IO.FileNotFoundException) { MessageBox.Show("The file \"" + filePath + "\" does not exist. Creating new file", "File not found"); filePath = null; fileDir = null; }
                 catch (System.IO.DirectoryNotFoundException) { MessageBox.Show("The path \"" + filePath + "\" does not exist. Creating new file", "Path not found"); filePath = null; fileDir = null; }
                 catch (System.NotSupportedException) { 
                     string textFromFile = (new WebClient()).DownloadString(filePath);
-                    MainText.Text = textFromFile;
+                    string textWithNewLine = textFromFile;
+                    if (!textWithNewLine.Contains(Environment.NewLine)) {
+                        textWithNewLine = textFromFile.Replace("\n", Environment.NewLine);
+                        status.Text = "Converted to ";
+                        if (Environment.NewLine.Contains("\r")) status.Text += "CR";
+                        status.Text += "LF";
+                    }
+                    MainText.Text = textWithNewLine;
                     FPath.Text = filePath;
                 }
                

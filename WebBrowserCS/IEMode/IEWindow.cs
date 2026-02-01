@@ -47,7 +47,10 @@ namespace WebBrowserCS
         public void OpenIE()
         {
             newtab = false;
-            webBrowser1.Navigate(home, "_blank");
+            string urlHome = home;
+            if (igNet.Check_mode(urlHome) != "false")
+                urlHome = igNet.Check_mode(urlHome);
+            webBrowser1.Navigate(urlHome, "_blank");
             newtab = true;
             this.Close();
         }
@@ -149,11 +152,8 @@ namespace WebBrowserCS
             }
         }
 
-        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-        
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e) => Application.Exit();
+
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutBox aboutBox = new AboutBox();
@@ -172,12 +172,8 @@ namespace WebBrowserCS
             chrome.Show();
         }
 
-        private void NewIEInstanceToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            newtab = false;
-            webBrowser1.Navigate(home, "_blank");
-            newtab = true;
-        }
+        private void NewIEInstanceToolStripMenuItem_Click(object sender, EventArgs e) => OpenIE();
+
 
         private void textEditWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -310,7 +306,7 @@ namespace WebBrowserCS
             };
             if (fd.ShowDialog() == DialogResult.OK)
             {
-                fileEdit = new FileEdit() { fileDir = fd.FileName };
+                fileEdit = new FileEdit(fd.FileName);
                 fileEdit.Show();
             }
         }
