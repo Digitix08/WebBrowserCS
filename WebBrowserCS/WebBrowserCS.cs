@@ -15,9 +15,11 @@ namespace WebBrowserCS
         string home = Properties.Settings.Default.HomePage;
         string defaultsearch, ExtFile = "AvailableExtensions.txt";
         string[] ExtDelimit = new string[] { "_;_" };
-        int OpenTabs = 0;
+        int OpenTabs = 0, pos = 0, SelectedTab = 0;
         IGNetworkHandler igNet = new IGNetworkHandler();
         public List<string[]> AvailTabs = new List<string[]>();
+        List<Panel> Tabs = new List<Panel>();
+        List<Button> TabSelectors = new List<Button>();
 
         public WebBrowserCS()
         {
@@ -40,13 +42,15 @@ namespace WebBrowserCS
                 Properties.Settings.Default.Textcolor = inv;
                 Properties.Settings.Default.Save();
             }
+            
             this.BackColor = Properties.Settings.Default.Windowbgcolor;
             this.ForeColor = Properties.Settings.Default.Textcolor;
             ColorSet.SetColorIncludingChildren(this, typeof(Button), default, default);
             ColorSet.SetColorIncludingChildren(this, typeof(TextBox), default, default);
-            ColorSet.SetColorIncludingChildren(this, typeof(TabPage), default, default);
+            ColorSet.SetColorIncludingChildren(this, typeof(Panel), default, default);
             ColorSet.SetColorIncludingChildren(this, typeof(MenuStrip), default, default);
             ColorSet.SetColorIncludingChildren(this, typeof(ToolStrip), default, default);
+            TabSelectPanel.BackColor = Properties.Settings.Default.Windowbgcolor;
         }
 
         private void StartArgsHandler(string Args)
@@ -68,6 +72,55 @@ namespace WebBrowserCS
             IEWindow NewIE = new IEWindow();
             NewIE.OpenIE();
             Application.Exit();
+        }
+
+        public void SetTitle(string title)
+        {
+            TabSelectors[SelectedTab].Text = title;
+        }
+
+        private void AddTab(Panel pnl, Button btn)
+        {
+            Tabs.Add(pnl);
+            TabSelectors.Add(btn);
+            pnl.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Controls.Remove(tableLayoutPanel1.GetControlFromPosition(0, 2));
+            tableLayoutPanel1.Controls.Add(pnl, 0, 2);
+            TabSelectPanel.Controls.Add(btn);
+            btn.Location = new Point(pos, 0);
+            pos += btn.Width + 5;
+            NewTabBtn.Location = new Point(pos, 0);
+            TabSelectors[SelectedTab].Enabled = true;
+            SelectedTab = Tabs.Count - 1;
+            TabSelectors[SelectedTab].Enabled = false;
+        }
+
+        private void SelectTab(int tabIndex)
+        {
+            if (tabIndex < Tabs.Count)
+            {
+                tableLayoutPanel1.Controls.Remove(tableLayoutPanel1.GetControlFromPosition(0, 2));
+                SelectedTab = tabIndex;
+                for (int index = 0; index < Tabs.Count; index++)
+                {
+                    var panel = Tabs[index];
+                    if(index == SelectedTab)
+                    {
+                        tableLayoutPanel1.Controls.Add(panel, 0, 2);
+                        TabSelectors[index].Enabled = false;
+                    }
+                    else TabSelectors[index].Enabled = true;
+                }
+
+                /*btnLeft.Enabled = m_current > 0;
+                btnRight.Enabled = m_current < m_tabs.Count - 1;*/
+            }
+        }
+        
+        private void Tab_Click(object sender, EventArgs e)
+        {
+            int num = TabSelectors.IndexOf((Button)sender);
+            SelectTab(num);
         }
 
         public CancellationTokenSource SetTimeout(Action action, int millis)
@@ -100,6 +153,8 @@ namespace WebBrowserCS
             else if (defaultsearch == "2") defaultsearch = Properties.Settings.Default.Search3;
             else if (defaultsearch == "1") defaultsearch = Properties.Settings.Default.Search4;
             else if (defaultsearch == "0") defaultsearch = Properties.Settings.Default.Search5;
+
+            AddTab(Tab0, TabBtn1);
             AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[0].Text, "NewIETab" });
             AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[1].Text, "NewChromiumTab" });
             if (File.Exists(ExtFile))
@@ -177,18 +232,20 @@ namespace WebBrowserCS
                         if (tabRaw is UserControl)
                         {
                             UserControl tab = (UserControl)tabRaw;
-                            TabPage myTabPage = new TabPage();
-                            if (Tabs.SelectedIndex == 0 && Tabs.TabCount > 1)
-                            {
-                                Tabs.TabPages.Insert(Tabs.SelectedIndex + 1, myTabPage);
-                                Tabs.SelectedIndex += 1;
-                            }
+                            Panel myTabPage = new Panel();
+                            string title = name + " " + (Tabs.Count + 1).ToString();
+                            Button myTabSelector = new Button { Text = title, Tag = title };
+                            myTabSelector.Click += Tab_Click;
+                            /*if (Tabs.SelectedIndex == 0 && Tabs.Controls.Count > 0)
+                            {*/
+                            AddTab(myTabPage, myTabSelector);
+                            //Tabs.SelectedIndex += 1;
+                            /*}
                             else
                             {
                                 Tabs.TabPages.Insert(Tabs.SelectedIndex, myTabPage);
-                                Tabs.SelectedIndex -= 1;
-                            }
-                            string title = name + " " + (Tabs.TabCount + 1).ToString();
+                                //Tabs.SelectedIndex -= 1;
+                            }*/
                             myTabPage.Text = title;
                             myTabPage.Controls.Add(tab);
                             tab.Dock = DockStyle.Fill;
@@ -216,7 +273,7 @@ namespace WebBrowserCS
             else MessageBox.Show("The file " + loc + "does not exist");
         }
 
-        private void Tabs_MouseClick(object sender, MouseEventArgs e)
+        /*private void Tabs_MouseClick(object sender, MouseEventArgs e) //not needed
         {
             Point pointerXY = new Point((Size)e.Location);
             pointerXY.Offset(Location);
@@ -227,34 +284,41 @@ namespace WebBrowserCS
                     NewTab(home, "IETab");
                 }
             }
-        }
+        }*/
 
-        internal void NewIETab(string url, TabPage tab)
+        internal void NewIETab(string url, Panel tab)
         {
-            string title = "IETab " + (Tabs.TabCount + 1).ToString();
+            string title = "IETab " + (Tabs.Count + 1).ToString();
             tab.Text = title;
             IEwebview newTab = new IEwebview(url, this);
+            Button myTabSelector = new Button { Text = title, Tag = title };
+            myTabSelector.Click += Tab_Click;
+            AddTab(tab, myTabSelector);
             tab.Controls.Add(newTab);
             newTab.Dock = DockStyle.Fill;
         }
 
         private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Tabs.SelectedIndex < Tabs.TabCount - 1)
-                Tabs.TabPages.Remove(Tabs.SelectedTab);
-            else
+            /*if (Tabs.SelectedIndex < Tabs.TabCount - 1)*/
+            Tabs.Remove(Tabs[SelectedTab]);
+            /*else
             {
                 MessageBox.Show("you can't do that");
-            }
-            Tabs.SelectedIndex = Tabs.TabCount - 2;
-            OpenTabsLabel.Text = (Tabs.TabCount - 1).ToString() + " tabs open";
+            }*/
+            SelectedTab = Tabs.Count;
+            SelectTab(Tabs.Count - 1);
+            OpenTabsLabel.Text = (Tabs.Count - 1).ToString() + " tabs open";
         }
 
-        internal void NewChromiumTab(string url, TabPage tab)
+        internal void NewChromiumTab(string url, Panel tab)
         {
-            string title = "Tab " + (Tabs.TabCount + 1).ToString();
+            string title = "Tab " + (Tabs.Count + 1).ToString();
             tab.Text = title;
-            ChromeWebview ChromeTab = new ChromeWebview(url);
+            ChromeWebview ChromeTab = new ChromeWebview(url, this);
+            Button myTabSelector = new Button { Text = title, Tag = title };
+            myTabSelector.Click += Tab_Click;
+            AddTab(tab, myTabSelector);
             tab.Controls.Add(ChromeTab);
             ChromeTab.Dock = DockStyle.Fill;
         }
@@ -272,18 +336,21 @@ namespace WebBrowserCS
             settings.Show();
         }
 
-        internal void NewFileTab(string path, TabPage tab)
+        internal void NewFileTab(string path, Panel tab)
         {
-            string title = "FileTab " + (Tabs.TabCount + 1).ToString();
+            string title = "FileTab " + (Tabs.Count + 1).ToString();
             tab.Text = title;
             FileTab newTab;
             if (path != "NewFile") { newTab = new FileTab(path); }
             else newTab = new FileTab();
+            Button myTabSelector = new Button { Text = title, Tag = title };
+            myTabSelector.Click += Tab_Click;
+            AddTab(tab, myTabSelector);
             tab.Controls.Add(newTab);
             newTab.Dock = DockStyle.Fill;
         }
 
-        private void TabContextMenu_Opening(object sender, CancelEventArgs e)
+        /*private void TabContextMenu_Opening(object sender, CancelEventArgs e)//not needed
         {
             Point p = this.Tabs.PointToClient(Cursor.Position);
             for (int i = 0; i < this.Tabs.TabCount; i++)
@@ -296,7 +363,7 @@ namespace WebBrowserCS
                 }
             }
             e.Cancel = true;
-        }
+        }*/
 
         private void CreateTab_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => NewTab(home);
         private void IETabToolStripMenuItem_Click(object sender, EventArgs e) => NewTab(home);
@@ -334,8 +401,8 @@ namespace WebBrowserCS
             {
                 if (OpenTabs <= 5)
                 {
-                    TabPage myTabPage = new TabPage();
-                    if (Tabs.SelectedIndex == 0 && Tabs.TabCount > 1)
+                    Panel myTabPage = new Panel();
+                    /*if (Tabs.SelectedIndex == 0 && Tabs.TabCount > 1)
                     {
                         Tabs.TabPages.Insert(Tabs.SelectedIndex + 1, myTabPage);
                         Tabs.SelectedIndex += 1;
@@ -344,7 +411,7 @@ namespace WebBrowserCS
                     {
                         Tabs.TabPages.Insert(Tabs.SelectedIndex, myTabPage);
                         Tabs.SelectedIndex -= 1;
-                    }
+                    }*/
                     switch (NewTabType)
                     {
                         case ("IETab"): NewIETab(URL, myTabPage); break;
@@ -355,7 +422,7 @@ namespace WebBrowserCS
                             if (MessageBox.Show("The current setting for default new tab is invalid! Do you want to go to options and set it to accepted value?", "Invalid setting!", MessageBoxButtons.YesNo) == DialogResult.Yes) options.Show();
                             break;
                     }
-                    OpenTabsLabel.Text = (Tabs.TabCount - 1).ToString() + " tabs open";
+                    OpenTabsLabel.Text = Tabs.Count.ToString() + " tabs open";
                     OpenTabs++;
                     var timeout = SetTimeout(() =>
                     {
@@ -421,7 +488,10 @@ namespace WebBrowserCS
             if (String.IsNullOrEmpty(textBox1.Text)) Url = home;
             else Url = textBox1.Text;
             TabPage myTabPage = new TabPage();
-            if (Tabs.SelectedIndex == 0 && Tabs.TabCount > 1)
+            string title = "Tab " + (Tabs.Count + 1).ToString();
+            Button myTabSelector = new Button { Text = title, Tag = title };
+            myTabSelector.Click += Tab_Click;
+            /*if (Tabs.SelectedIndex == 0 && Tabs.TabCount > 1)
             {
                 Tabs.TabPages.Insert(Tabs.SelectedIndex + 1, myTabPage);
                 Tabs.SelectedIndex += 1;
@@ -430,7 +500,8 @@ namespace WebBrowserCS
             {
                 Tabs.TabPages.Insert(Tabs.SelectedIndex, myTabPage);
                 Tabs.SelectedIndex -= 1;
-            }
+            }*/
+            AddTab(myTabPage, myTabSelector);
             NewChromiumTab(Url, myTabPage);
         }
 

@@ -32,12 +32,7 @@ namespace WebBrowserCS
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebBrowserCS));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.Tabs = new System.Windows.Forms.TabControl();
-            this.tabContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.newChromiumTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.StartTab = new System.Windows.Forms.TabPage();
+            this.Tab0 = new System.Windows.Forms.Panel();
             this.OpenTabsLabel = new System.Windows.Forms.Label();
             this.More2 = new System.Windows.Forms.Button();
             this.Search = new System.Windows.Forms.Button();
@@ -50,7 +45,6 @@ namespace WebBrowserCS
             this.CreateTab = new System.Windows.Forms.LinkLabel();
             this.Text1 = new System.Windows.Forms.Label();
             this.Hello = new System.Windows.Forms.Label();
-            this.creatTab = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,6 +87,13 @@ namespace WebBrowserCS
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TabSelectPanel = new System.Windows.Forms.Panel();
+            this.NewTabBtn = new System.Windows.Forms.Button();
+            this.TabBtn1 = new System.Windows.Forms.Button();
+            this.tabContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.newChromiumTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StartPage = new System.Windows.Forms.UserControl();
             this.MoreContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,10 +111,10 @@ namespace WebBrowserCS
             this.Search5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1.SuspendLayout();
-            this.Tabs.SuspendLayout();
-            this.tabContextMenu.SuspendLayout();
-            this.StartTab.SuspendLayout();
+            this.Tab0.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.TabSelectPanel.SuspendLayout();
+            this.tabContextMenu.SuspendLayout();
             this.MoreContextMenuStrip.SuspendLayout();
             this.SearchContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -122,229 +123,158 @@ namespace WebBrowserCS
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.Tabs, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.Tab0, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.menuStrip1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.TabSelectPanel, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(793, 491);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // Tabs
+            // Tab0
             // 
-            this.Tabs.ContextMenuStrip = this.tabContextMenu;
-            this.Tabs.Controls.Add(this.StartTab);
-            this.Tabs.Controls.Add(this.creatTab);
-            this.Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tabs.HotTrack = true;
-            this.Tabs.ItemSize = new System.Drawing.Size(75, 30);
-            this.Tabs.Location = new System.Drawing.Point(2, 26);
-            this.Tabs.Margin = new System.Windows.Forms.Padding(2);
-            this.Tabs.Name = "Tabs";
-            this.Tabs.SelectedIndex = 0;
-            this.Tabs.Size = new System.Drawing.Size(789, 463);
-            this.Tabs.TabIndex = 0;
-            this.Tabs.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Tabs_MouseClick);
-            // 
-            // tabContextMenu
-            // 
-            this.tabContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.tabContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.newChromiumTabToolStripMenuItem,
-            this.newTextFileToolStripMenuItem});
-            this.tabContextMenu.Name = "newTabContextMenu";
-            this.tabContextMenu.Size = new System.Drawing.Size(181, 70);
-            this.tabContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.TabContextMenu_Opening);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem1.Text = "Close";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.CloseToolStripMenuItem_Click);
-            // 
-            // newChromiumTabToolStripMenuItem
-            // 
-            this.newChromiumTabToolStripMenuItem.Name = "newChromiumTabToolStripMenuItem";
-            this.newChromiumTabToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.newChromiumTabToolStripMenuItem.Text = "New Chromium Tab";
-            this.newChromiumTabToolStripMenuItem.Click += new System.EventHandler(this.NewChromeTabToolStripMenuItem_Click);
-            // 
-            // newTextFileToolStripMenuItem
-            // 
-            this.newTextFileToolStripMenuItem.Name = "newTextFileToolStripMenuItem";
-            this.newTextFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.newTextFileToolStripMenuItem.Text = "New text file";
-            this.newTextFileToolStripMenuItem.Click += new System.EventHandler(this.FileTabToolStripMenuItem1_Click);
-            // 
-            // StartTab
-            // 
-            this.StartTab.Controls.Add(this.OpenTabsLabel);
-            this.StartTab.Controls.Add(this.More2);
-            this.StartTab.Controls.Add(this.Search);
-            this.StartTab.Controls.Add(this.More1);
-            this.StartTab.Controls.Add(this.Go);
-            this.StartTab.Controls.Add(this.label2);
-            this.StartTab.Controls.Add(this.Text2);
-            this.StartTab.Controls.Add(this.textBox2);
-            this.StartTab.Controls.Add(this.textBox1);
-            this.StartTab.Controls.Add(this.CreateTab);
-            this.StartTab.Controls.Add(this.Text1);
-            this.StartTab.Controls.Add(this.Hello);
-            this.StartTab.ImageIndex = 0;
-            this.StartTab.Location = new System.Drawing.Point(4, 34);
-            this.StartTab.Margin = new System.Windows.Forms.Padding(2);
-            this.StartTab.Name = "StartTab";
-            this.StartTab.Padding = new System.Windows.Forms.Padding(2);
-            this.StartTab.Size = new System.Drawing.Size(781, 425);
-            this.StartTab.TabIndex = 0;
-            this.StartTab.Text = "Start Tab";
-            this.StartTab.UseVisualStyleBackColor = true;
+            this.Tab0.Controls.Add(this.OpenTabsLabel);
+            this.Tab0.Controls.Add(this.More2);
+            this.Tab0.Controls.Add(this.Search);
+            this.Tab0.Controls.Add(this.More1);
+            this.Tab0.Controls.Add(this.Go);
+            this.Tab0.Controls.Add(this.label2);
+            this.Tab0.Controls.Add(this.Text2);
+            this.Tab0.Controls.Add(this.textBox2);
+            this.Tab0.Controls.Add(this.textBox1);
+            this.Tab0.Controls.Add(this.CreateTab);
+            this.Tab0.Controls.Add(this.Text1);
+            this.Tab0.Controls.Add(this.Hello);
+            this.Tab0.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Tab0.Location = new System.Drawing.Point(3, 57);
+            this.Tab0.Name = "Tab0";
+            this.Tab0.Size = new System.Drawing.Size(787, 431);
+            this.Tab0.TabIndex = 6;
             // 
             // OpenTabsLabel
             // 
             this.OpenTabsLabel.AutoSize = true;
-            this.OpenTabsLabel.Location = new System.Drawing.Point(12, 180);
+            this.OpenTabsLabel.Location = new System.Drawing.Point(10, 166);
             this.OpenTabsLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.OpenTabsLabel.Name = "OpenTabsLabel";
             this.OpenTabsLabel.Size = new System.Drawing.Size(0, 13);
-            this.OpenTabsLabel.TabIndex = 17;
+            this.OpenTabsLabel.TabIndex = 41;
             // 
             // More2
             // 
-            this.More2.Location = new System.Drawing.Point(406, 143);
+            this.More2.Location = new System.Drawing.Point(404, 129);
             this.More2.Margin = new System.Windows.Forms.Padding(2);
             this.More2.Name = "More2";
             this.More2.Size = new System.Drawing.Size(25, 24);
-            this.More2.TabIndex = 16;
+            this.More2.TabIndex = 40;
             this.More2.Text = "⏷";
             this.More2.UseVisualStyleBackColor = true;
-            this.More2.Click += new System.EventHandler(this.More2_Click);
             // 
             // Search
             // 
-            this.Search.Location = new System.Drawing.Point(351, 143);
+            this.Search.Location = new System.Drawing.Point(349, 129);
             this.Search.Margin = new System.Windows.Forms.Padding(2);
             this.Search.Name = "Search";
             this.Search.Size = new System.Drawing.Size(56, 24);
-            this.Search.TabIndex = 15;
+            this.Search.TabIndex = 39;
             this.Search.Text = "Search";
             this.Search.UseVisualStyleBackColor = true;
-            this.Search.Click += new System.EventHandler(this.Search_Click);
             // 
             // More1
             // 
-            this.More1.Location = new System.Drawing.Point(406, 85);
+            this.More1.Location = new System.Drawing.Point(404, 71);
             this.More1.Margin = new System.Windows.Forms.Padding(2);
             this.More1.Name = "More1";
             this.More1.Size = new System.Drawing.Size(25, 24);
-            this.More1.TabIndex = 14;
+            this.More1.TabIndex = 38;
             this.More1.Text = "⏷";
             this.More1.UseVisualStyleBackColor = true;
-            this.More1.Click += new System.EventHandler(this.More1_Click);
             // 
             // Go
             // 
-            this.Go.Location = new System.Drawing.Point(351, 85);
+            this.Go.Location = new System.Drawing.Point(349, 71);
             this.Go.Margin = new System.Windows.Forms.Padding(2);
             this.Go.Name = "Go";
             this.Go.Size = new System.Drawing.Size(56, 24);
-            this.Go.TabIndex = 13;
+            this.Go.TabIndex = 37;
             this.Go.Text = "Go!";
             this.Go.UseVisualStyleBackColor = true;
-            this.Go.Click += new System.EventHandler(this.Go_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 122);
+            this.label2.Location = new System.Drawing.Point(10, 108);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(102, 13);
-            this.label2.TabIndex = 12;
+            this.label2.TabIndex = 36;
             this.label2.Text = "or search something";
             // 
             // Text2
             // 
             this.Text2.AutoSize = true;
-            this.Text2.Location = new System.Drawing.Point(166, 59);
+            this.Text2.Location = new System.Drawing.Point(164, 45);
             this.Text2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Text2.Name = "Text2";
             this.Text2.Size = new System.Drawing.Size(83, 13);
-            this.Text2.TabIndex = 11;
+            this.Text2.TabIndex = 35;
             this.Text2.Text = "or go to an URL";
             // 
             // textBox2
             // 
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(12, 143);
+            this.textBox2.Location = new System.Drawing.Point(10, 129);
             this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(335, 26);
-            this.textBox2.TabIndex = 10;
-            this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
+            this.textBox2.TabIndex = 34;
             // 
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(12, 85);
+            this.textBox1.Location = new System.Drawing.Point(10, 71);
             this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(335, 26);
-            this.textBox1.TabIndex = 9;
-            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
+            this.textBox1.TabIndex = 33;
             // 
             // CreateTab
             // 
             this.CreateTab.AutoSize = true;
-            this.CreateTab.Location = new System.Drawing.Point(125, 59);
+            this.CreateTab.Location = new System.Drawing.Point(123, 45);
             this.CreateTab.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.CreateTab.Name = "CreateTab";
             this.CreateTab.Size = new System.Drawing.Size(48, 13);
-            this.CreateTab.TabIndex = 8;
+            this.CreateTab.TabIndex = 32;
             this.CreateTab.TabStop = true;
             this.CreateTab.Text = "new tab,";
-            this.CreateTab.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CreateTab_LinkClicked);
             // 
             // Text1
             // 
             this.Text1.AutoSize = true;
-            this.Text1.Location = new System.Drawing.Point(10, 59);
+            this.Text1.Location = new System.Drawing.Point(8, 45);
             this.Text1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Text1.Name = "Text1";
             this.Text1.Size = new System.Drawing.Size(118, 13);
-            this.Text1.TabIndex = 7;
+            this.Text1.TabIndex = 31;
             this.Text1.Text = "To get started, create a";
             // 
             // Hello
             // 
             this.Hello.AutoSize = true;
             this.Hello.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Hello.Location = new System.Drawing.Point(4, 14);
+            this.Hello.Location = new System.Drawing.Point(2, 0);
             this.Hello.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Hello.Name = "Hello";
             this.Hello.Size = new System.Drawing.Size(134, 31);
-            this.Hello.TabIndex = 6;
+            this.Hello.TabIndex = 30;
             this.Hello.Text = "Welcome!";
-            // 
-            // creatTab
-            // 
-            this.creatTab.Location = new System.Drawing.Point(4, 34);
-            this.creatTab.Margin = new System.Windows.Forms.Padding(2);
-            this.creatTab.Name = "creatTab";
-            this.creatTab.Padding = new System.Windows.Forms.Padding(2);
-            this.creatTab.Size = new System.Drawing.Size(616, 346);
-            this.creatTab.TabIndex = 1;
-            this.creatTab.Text = "new";
-            this.creatTab.UseVisualStyleBackColor = true;
-            this.creatTab.Click += new System.EventHandler(this.NewTab_Click);
-            this.creatTab.Enter += new System.EventHandler(this.NewTab_Click);
             // 
             // menuStrip1
             // 
@@ -687,6 +617,69 @@ namespace WebBrowserCS
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
+            // TabSelectPanel
+            // 
+            this.TabSelectPanel.AutoScroll = true;
+            this.TabSelectPanel.Controls.Add(this.NewTabBtn);
+            this.TabSelectPanel.Controls.Add(this.TabBtn1);
+            this.TabSelectPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TabSelectPanel.Location = new System.Drawing.Point(3, 27);
+            this.TabSelectPanel.Name = "TabSelectPanel";
+            this.TabSelectPanel.Size = new System.Drawing.Size(787, 24);
+            this.TabSelectPanel.TabIndex = 5;
+            // 
+            // NewTabBtn
+            // 
+            this.NewTabBtn.Location = new System.Drawing.Point(80, 1);
+            this.NewTabBtn.Name = "NewTabBtn";
+            this.NewTabBtn.Size = new System.Drawing.Size(23, 23);
+            this.NewTabBtn.TabIndex = 1;
+            this.NewTabBtn.Text = "+";
+            this.NewTabBtn.UseVisualStyleBackColor = true;
+            this.NewTabBtn.Click += new System.EventHandler(this.NewTab_Click);
+            // 
+            // TabBtn1
+            // 
+            this.TabBtn1.Location = new System.Drawing.Point(0, 1);
+            this.TabBtn1.Name = "TabBtn1";
+            this.TabBtn1.Size = new System.Drawing.Size(75, 23);
+            this.TabBtn1.TabIndex = 0;
+            this.TabBtn1.Tag = "0";
+            this.TabBtn1.Text = "Start Page";
+            this.TabBtn1.UseVisualStyleBackColor = true;
+            this.TabBtn1.Click += new System.EventHandler(this.Tab_Click);
+            // 
+            // tabContextMenu
+            // 
+            this.tabContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.tabContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.newChromiumTabToolStripMenuItem,
+            this.newTextFileToolStripMenuItem});
+            this.tabContextMenu.Name = "newTabContextMenu";
+            this.tabContextMenu.Size = new System.Drawing.Size(181, 70);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "Close";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.CloseToolStripMenuItem_Click);
+            // 
+            // newChromiumTabToolStripMenuItem
+            // 
+            this.newChromiumTabToolStripMenuItem.Name = "newChromiumTabToolStripMenuItem";
+            this.newChromiumTabToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newChromiumTabToolStripMenuItem.Text = "New Chromium Tab";
+            this.newChromiumTabToolStripMenuItem.Click += new System.EventHandler(this.NewChromeTabToolStripMenuItem_Click);
+            // 
+            // newTextFileToolStripMenuItem
+            // 
+            this.newTextFileToolStripMenuItem.Name = "newTextFileToolStripMenuItem";
+            this.newTextFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newTextFileToolStripMenuItem.Text = "New text file";
+            this.newTextFileToolStripMenuItem.Click += new System.EventHandler(this.FileTabToolStripMenuItem1_Click);
+            // 
             // StartPage
             // 
             this.StartPage.Location = new System.Drawing.Point(365, 209);
@@ -810,12 +803,12 @@ namespace WebBrowserCS
             this.Load += new System.EventHandler(this.WebBrowserCS_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.Tabs.ResumeLayout(false);
-            this.tabContextMenu.ResumeLayout(false);
-            this.StartTab.ResumeLayout(false);
-            this.StartTab.PerformLayout();
+            this.Tab0.ResumeLayout(false);
+            this.Tab0.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.TabSelectPanel.ResumeLayout(false);
+            this.tabContextMenu.ResumeLayout(false);
             this.MoreContextMenuStrip.ResumeLayout(false);
             this.SearchContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -825,15 +818,10 @@ namespace WebBrowserCS
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TabPage StartTab;
-        private System.Windows.Forms.TabPage creatTab;
         private System.Windows.Forms.ContextMenuStrip tabContextMenu;
         private System.Windows.Forms.ToolStripMenuItem newChromiumTabToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newTextFileToolStripMenuItem;
         private System.Windows.Forms.UserControl StartPage;
-        private System.Windows.Forms.LinkLabel CreateTab;
-        private System.Windows.Forms.Label Text1;
-        private System.Windows.Forms.Label Hello;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -869,15 +857,6 @@ namespace WebBrowserCS
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem scriptErrorsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mdiparentToolStripMenuItem;
-        private System.Windows.Forms.TabControl Tabs;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label Text2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button More2;
-        private System.Windows.Forms.Button Search;
-        private System.Windows.Forms.Button More1;
-        private System.Windows.Forms.Button Go;
         private System.Windows.Forms.ContextMenuStrip MoreContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem openInToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem iETabToolStripMenuItem1;
@@ -900,7 +879,22 @@ namespace WebBrowserCS
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem textEditWindowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newIEInstanceactualToolStripMenuItem;
-        private System.Windows.Forms.Label OpenTabsLabel;
         public System.Windows.Forms.ToolStripMenuItem newTabToolStripMenuItem;
+        private System.Windows.Forms.Panel TabSelectPanel;
+        private System.Windows.Forms.Button TabBtn1;
+        private System.Windows.Forms.Button NewTabBtn;
+        private System.Windows.Forms.Panel Tab0;
+        private System.Windows.Forms.Label OpenTabsLabel;
+        private System.Windows.Forms.Button More2;
+        private System.Windows.Forms.Button Search;
+        private System.Windows.Forms.Button More1;
+        private System.Windows.Forms.Button Go;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label Text2;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.LinkLabel CreateTab;
+        private System.Windows.Forms.Label Text1;
+        private System.Windows.Forms.Label Hello;
     }
 }

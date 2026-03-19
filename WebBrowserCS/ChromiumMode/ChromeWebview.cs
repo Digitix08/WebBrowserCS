@@ -11,6 +11,7 @@ namespace WebBrowserCS
 {
     public partial class ChromeWebview : UserControl
     {
+        WebBrowserCS TabbedWindow; 
         TableLayoutPanel table = new TableLayoutPanel();
         Button ScrErrorClose = new Button { Text = "Close DevTools" };
         SplitContainer split = new SplitContainer();
@@ -21,10 +22,11 @@ namespace WebBrowserCS
         ChromiumWebBrowser chromiumWebBrowser1;
         int charlimit = 30;
         IGNetworkHandler igNet = new IGNetworkHandler();
-        public ChromeWebview(string url)
+        public ChromeWebview(string url, WebBrowserCS parent)
         {
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
             {
+                TabbedWindow = parent; 
                 InitializeComponent();
                 InitializeBrowser();
                 DisplayHandler displayer = new DisplayHandler();
@@ -173,15 +175,14 @@ namespace WebBrowserCS
 
         public void ComplicationRequired(string text)
         {
-            TabPage MAIN = (TabPage)this.Parent;
-            if (MAIN is TabPage)
+            if (TabbedWindow != null)
             {
-                if (MAIN.InvokeRequired)
+                if (TabbedWindow.InvokeRequired)
                 {
                     Action safeWrite = delegate { ComplicationRequired($"{text} (THREAD2)"); };
-                    MAIN.Invoke(safeWrite);
+                    TabbedWindow.Invoke(safeWrite);
                 }
-                else MAIN.Text = text.Substring(0, text.Length-10);
+                else TabbedWindow.SetTitle(text);
             }
         }
 

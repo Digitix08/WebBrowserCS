@@ -58,10 +58,10 @@ namespace WebBrowserCS
                 if (fileDispName.Contains("\\")) {
                     fileDispName = fileDispName.Substring(fileDispName.LastIndexOf("\\") + 1, fileDispName.Length - fileDispName.LastIndexOf("\\") - 1);
                 }
-                TabPage MAIN = (TabPage)this.Parent;
-                if (MAIN is TabPage)
+                WebBrowserCS MAIN = (WebBrowserCS)this.ParentForm;
+                if (MAIN is WebBrowserCS)
                 {
-                    MAIN.Text = fileDispName;
+                    MAIN.SetTitle(fileDispName);
                 }
                 if (Path.GetExtension(fd.FileName) == ".htm" || Path.GetExtension(fd.FileName) == ".html" || Path.GetExtension(fd.FileName) == ".xhtm" || Path.GetExtension(fd.FileName) == ".xhtml")
                 {

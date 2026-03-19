@@ -125,11 +125,7 @@ namespace WebBrowserCS
                 GoToUrl.Text = url;
             }
             if (title.Length > charlimit) title = title.Substring(0, charlimit) + "...";
-            TabPage MAIN = (TabPage)this.Parent;
-            if (MAIN is TabPage)
-            {
-                MAIN.Text = title;
-            }
+            if (TabbedWindow != null) TabbedWindow.SetTitle(title);
         }
 
         private void Window_Error(object sender, HtmlElementErrorEventArgs e)
