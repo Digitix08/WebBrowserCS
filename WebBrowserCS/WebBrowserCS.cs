@@ -17,6 +17,7 @@ namespace WebBrowserCS
         string[] ExtDelimit = new string[] { "_;_" };
         int OpenTabs = 0, pos = 0, SelectedTab = 0;
         IGNetworkHandler igNet = new IGNetworkHandler();
+        MainHistory History;
         public List<string[]> AvailTabs = new List<string[]>();
         List<Panel> Tabs = new List<Panel>();
         List<Button> TabSelectors = new List<Button>();
@@ -30,6 +31,7 @@ namespace WebBrowserCS
             Search4.Text = Properties.Settings.Default.Search4;
             Search5.Text = Properties.Settings.Default.Search5;
             defaultsearch = System.Convert.ToString(Properties.Settings.Default.DefaultSearch);
+            History = new MainHistory(this);
         }
 
         private void Setcolor()
@@ -296,6 +298,52 @@ namespace WebBrowserCS
             AddTab(tab, myTabSelector);
             tab.Controls.Add(newTab);
             newTab.Dock = DockStyle.Fill;
+            newTab.TitleChanged += ChangeTitle;
+            newTab.HistoryNewEntry += AppendHistory;
+        }
+
+        internal void NewChromiumTab(string url, TabPage tab)
+        {
+            string title = "Tab " + (Tabs.TabCount + 1).ToString();
+            tab.Text = title;
+            ChromeWebview ChromeTab = new ChromeWebview(url);
+            tab.Controls.Add(ChromeTab);
+            ChromeTab.Dock = DockStyle.Fill;
+            ChromeTab.TitleChanged += ChangeTitle;
+            ChromeTab.HistoryNewEntry += AppendHistory;
+        }
+
+        internal void NewFileTab(string path, TabPage tab)
+        {
+            string title = "FileTab " + (Tabs.TabCount + 1).ToString();
+            tab.Text = title;
+            FileTab newTab;
+            if (path != "NewFile") { newTab = new FileTab(path); }
+            else newTab = new FileTab();
+            tab.Controls.Add(newTab);
+            newTab.Dock = DockStyle.Fill;
+            newTab.TitleChanged += ChangeTitle;
+            newTab.NewTab += OpenNewTab;
+        }
+
+        public void ChangeTitle(string title, Control caller)
+        {
+            if (Tabs.InvokeRequired)
+            {
+                Action safeWrite = delegate { ChangeTitle(title, caller); };
+                Tabs.Invoke(safeWrite);
+            }
+            else caller.Parent.Text = title;
+        }
+
+        public void OpenNewTab(string url, string type, Control caller)
+        {
+            NewTab(url, type);
+        }
+
+        public void AppendHistory(string url, DateTime time, Control caller)
+        {
+            History.Add(url, caller, time);
         }
 
         private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -336,21 +384,7 @@ namespace WebBrowserCS
             settings.Show();
         }
 
-        internal void NewFileTab(string path, Panel tab)
-        {
-            string title = "FileTab " + (Tabs.Count + 1).ToString();
-            tab.Text = title;
-            FileTab newTab;
-            if (path != "NewFile") { newTab = new FileTab(path); }
-            else newTab = new FileTab();
-            Button myTabSelector = new Button { Text = title, Tag = title };
-            myTabSelector.Click += Tab_Click;
-            AddTab(tab, myTabSelector);
-            tab.Controls.Add(newTab);
-            newTab.Dock = DockStyle.Fill;
-        }
-
-        /*private void TabContextMenu_Opening(object sender, CancelEventArgs e)//not needed
+        private void TabContextMenu_Opening(object sender, CancelEventArgs e)
         {
             Point p = this.Tabs.PointToClient(Cursor.Position);
             for (int i = 0; i < this.Tabs.TabCount; i++)
@@ -554,6 +588,11 @@ namespace WebBrowserCS
         {
             IEWindow NewIE = new IEWindow();
             NewIE.OpenIE();
+        }
+
+        private void historyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            History.Show();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

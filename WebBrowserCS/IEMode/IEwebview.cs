@@ -25,6 +25,12 @@ namespace WebBrowserCS
         bool newtab = true;
         bool useExtJS = false;
         int charlimit = 30;
+
+        public delegate void OnTitleChanged(string value, Control caller);
+        public event OnTitleChanged TitleChanged;
+        public delegate void OnHistoryAppend(string value, DateTime time, Control caller);
+        public event OnHistoryAppend HistoryNewEntry;
+
         public IEwebview(string url, WebBrowserCS parent)
         {
             err = new IEExternalScript();
@@ -107,6 +113,8 @@ namespace WebBrowserCS
             Setcolor();
         }
 
+        public void ChangeTitle(string text) => TitleChanged?.Invoke(text, this);
+
         private void UriChanged(string text = null)
         {
             string url = "New Page";
@@ -125,7 +133,7 @@ namespace WebBrowserCS
                 GoToUrl.Text = url;
             }
             if (title.Length > charlimit) title = title.Substring(0, charlimit) + "...";
-            if (TabbedWindow != null) TabbedWindow.SetTitle(title);
+            ChangeTitle(title);
         }
 
         private void Window_Error(object sender, HtmlElementErrorEventArgs e)
@@ -201,12 +209,15 @@ namespace WebBrowserCS
             catch (System.NullReferenceException) { }
         }
 
+        public void AddHistory(string url) => HistoryNewEntry?.Invoke(url, DateTime.Now, this);
+
         private void WebBrowser1_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
             toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
             toolStripProgressBar1.Value = 50;
             if (igNet.Check_mode(e.Url.ToString()) != "false")
                 webBrowser1.Navigate(igNet.Check_mode(e.Url.ToString()));
+            else AddHistory(e.Url.ToString());
             status.Text = "Searching for host...";
             UriChanged();
             Reload.Image = Properties.Resources.cancel;
