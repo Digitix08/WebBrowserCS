@@ -163,6 +163,12 @@
       <DependentUpon>FileTab.cs</DependentUpon>
     </Compile>
     <Compile Include="IEMode\IEExternalScript.cs" />
+    <Compile Include="MainHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainHistory.Designer.cs">
+      <DependentUpon>MainHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="SCRErrorIE.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -224,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FileTab.resx">
       <DependentUpon>FileTab.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainHistory.resx">
+      <DependentUpon>MainHistory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SCRErrorIE.resx">
       <DependentUpon>SCRErrorIE.cs</DependentUpon>

@@ -22,7 +22,8 @@ namespace WebBrowserCS
             {
                 url = url.Substring(defaultBrowserpath.Length);
                 url = url.Substring(0, url.Length - 1);
-                switch (url){
+                switch (url)
+                {
                     case "offlineHome": return defaultPath + "home.html";
                     default: return checkOnlinePage();
                 }
@@ -32,15 +33,15 @@ namespace WebBrowserCS
 
         private string checkOnlinePage()
         {
-            if(RemoteFileExists(defaultOLPage))return defaultOLPage;
+            if (RemoteFileExists(defaultOLPage)) return defaultOLPage;
             else return defaultPath + "home.html";
         }
 
-///
-/// Checks the file exists or not.
-///
-/// The URL of the remote file.
-/// True : If the file exits, False if file not exists
+        ///
+        /// Checks the file exists or not.
+        ///
+        /// The URL of the remote file.
+        /// True : If the file exits, False if file not exists
         private bool RemoteFileExists(string url)
         {
             try
@@ -60,6 +61,6 @@ namespace WebBrowserCS
                 //Any exception will return false.
                 return false;
             }
+        }
     }
-}
 }

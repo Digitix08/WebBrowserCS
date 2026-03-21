@@ -21,6 +21,12 @@ namespace WebBrowserCS
         ChromiumWebBrowser chromiumWebBrowser1;
         int charlimit = 30;
         IGNetworkHandler igNet = new IGNetworkHandler();
+
+        public delegate void OnTitleChanged(string value, Control caller);
+        public event OnTitleChanged TitleChanged;
+        public delegate void OnHistoryAppend(string value, DateTime time, Control caller);
+        public event OnHistoryAppend HistoryNewEntry;
+
         public ChromeWebview(string url)
         {
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
@@ -58,7 +64,6 @@ namespace WebBrowserCS
         private void Chromewebview_Load(object sender, EventArgs e)
         {
             Setcolor();
-            chromiumWebBrowser1.Load(home);
             if (defaultsearch == "4") defaultsearch = Properties.Settings.Default.Search1;
             else if (defaultsearch == "3") defaultsearch = Properties.Settings.Default.Search2;
             else if (defaultsearch == "2") defaultsearch = Properties.Settings.Default.Search3;
@@ -98,7 +103,7 @@ namespace WebBrowserCS
                 GoToUrl.Invoke(new Action(() => GoToUrl.Text = url));
             }
             if (title.Length > charlimit) title = title.Substring(0, charlimit) + "...";
-            ComplicationRequired(title);
+            ChangeTitle(title);
         }
 
         private void Back_Click(object sender, EventArgs e)
@@ -171,25 +176,15 @@ namespace WebBrowserCS
             UriChanged(e.Title);
         }
 
-        public void ComplicationRequired(string text)
-        {
-            TabPage MAIN = (TabPage)this.Parent;
-            if (MAIN is TabPage)
-            {
-                if (MAIN.InvokeRequired)
-                {
-                    Action safeWrite = delegate { ComplicationRequired($"{text} (THREAD2)"); };
-                    MAIN.Invoke(safeWrite);
-                }
-                else MAIN.Text = text.Substring(0, text.Length-10);
-            }
-        }
+        public void ChangeTitle(string text) => TitleChanged?.Invoke(text, this);
 
         private void ChromiumWebBrowser1_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
         {
             if (e.IsLoading)StartBrowse();
             if (!e.IsLoading)CompleteBrowse();
         }
+
+        public void AddHistory(string url) => HistoryNewEntry?.Invoke(url, DateTime.Now, this);
 
         private void StartBrowse()
         {
@@ -204,6 +199,7 @@ namespace WebBrowserCS
                 toolStripProgressBar1.Value = 50;
                 if (igNet.Check_mode(chromiumWebBrowser1.Address) != "false")
                     chromiumWebBrowser1.Load(igNet.Check_mode(chromiumWebBrowser1.Address));
+                else AddHistory(chromiumWebBrowser1.Address);
                 status.Text = "Loading...";
                 Reload.Image = Properties.Resources.cancel;
                 Reload.Click += Cancel_Click;

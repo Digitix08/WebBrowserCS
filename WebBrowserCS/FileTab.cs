@@ -12,6 +12,12 @@ namespace WebBrowserCS
         readonly TabPage WebEdit = new TabPage();
         string filePath, fileDir, fileDispName; int row = 0, inUse = 0;
         private bool IsHTML = false;
+
+        public delegate void OnTitleChanged(string value, Control caller);
+        public event OnTitleChanged TitleChanged;
+        public delegate void OpenTab(string url, string type, Control caller);
+        public event OpenTab NewTab;
+
         public FileTab(string fpath = null)
         {
             InitializeComponent();
@@ -36,6 +42,9 @@ namespace WebBrowserCS
             aboutBox.ShowDialog();
         }
 
+        public void ChangeTitle(string text) => TitleChanged?.Invoke(text, this);
+        public void OpenNewTab(string url, string type) => NewTab?.Invoke(url, type, this);
+
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog fd = new OpenFileDialog
@@ -58,11 +67,7 @@ namespace WebBrowserCS
                 if (fileDispName.Contains("\\")) {
                     fileDispName = fileDispName.Substring(fileDispName.LastIndexOf("\\") + 1, fileDispName.Length - fileDispName.LastIndexOf("\\") - 1);
                 }
-                TabPage MAIN = (TabPage)this.Parent;
-                if (MAIN is TabPage)
-                {
-                    MAIN.Text = fileDispName;
-                }
+                ChangeTitle(fileDispName);
                 if (Path.GetExtension(fd.FileName) == ".htm" || Path.GetExtension(fd.FileName) == ".html" || Path.GetExtension(fd.FileName) == ".xhtm" || Path.GetExtension(fd.FileName) == ".xhtml")
                 {
                     HtmlPreparations(fd.FileName);
@@ -165,11 +170,7 @@ namespace WebBrowserCS
                 {
                     fileDispName = fileDispName.Substring(fileDispName.LastIndexOf("\\"), fileDispName.Length - fileDispName.LastIndexOf("\\"));
                 }
-                TabPage MAIN = (TabPage)this.Parent;
-                if (MAIN is TabPage)
-                {
-                    MAIN.Text = fileDispName;
-                }
+                ChangeTitle(fileDispName);
             }
         }
 
@@ -177,20 +178,12 @@ namespace WebBrowserCS
 
         private void PreviewInIETabToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WebBrowserCS MAIN = (WebBrowserCS)this.ParentForm;
-            if (this.ParentForm is WebBrowserCS)
-            {
-                MAIN.NewTab(fileDir, "IETab");
-            }
+            OpenNewTab(fileDir, "IETab");
         }
 
         private void PreviewInChromiumTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WebBrowserCS MAIN = (WebBrowserCS)this.ParentForm;
-            if (this.ParentForm is WebBrowserCS)
-            {
-                MAIN.NewTab(fileDir, "ChromiumTab");
-            }
+            OpenNewTab(fileDir, "ChromiumTab");
         }
 
         private void MainText_KeyDown(object sender, KeyEventArgs e)
@@ -251,11 +244,7 @@ namespace WebBrowserCS
                     {
                         fileDispName = fileDispName.Substring(fileDispName.LastIndexOf("\\") + 1, fileDispName.Length - fileDispName.LastIndexOf("\\") - 1);
                     }
-                    TabPage MAIN = (TabPage)this.Parent;
-                    if (MAIN is TabPage)
-                    {
-                        MAIN.Text = fileDispName;
-                    }
+                    ChangeTitle(fileDispName);
                     MainText.SelectionStart = 0; MainText.ScrollToCaret();
                     if (Path.GetExtension(filePath) == ".htm" || Path.GetExtension(filePath) == ".html" || Path.GetExtension(filePath) == ".xhtm" || Path.GetExtension(filePath) == ".xhtml")
                     {
