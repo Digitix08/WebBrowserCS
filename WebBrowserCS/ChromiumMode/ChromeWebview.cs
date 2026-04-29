@@ -11,7 +11,6 @@ namespace WebBrowserCS
 {
     public partial class ChromeWebview : UserControl
     {
-        WebBrowserCS TabbedWindow; 
         TableLayoutPanel table = new TableLayoutPanel();
         Button ScrErrorClose = new Button { Text = "Close DevTools" };
         SplitContainer split = new SplitContainer();
@@ -32,7 +31,6 @@ namespace WebBrowserCS
         {
             if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
             {
-                TabbedWindow = parent; 
                 InitializeComponent();
                 InitializeBrowser();
                 DisplayHandler displayer = new DisplayHandler();

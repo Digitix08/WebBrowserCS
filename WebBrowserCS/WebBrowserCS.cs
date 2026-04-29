@@ -302,9 +302,9 @@ namespace WebBrowserCS
             newTab.HistoryNewEntry += AppendHistory;
         }
 
-        internal void NewChromiumTab(string url, TabPage tab)
+        internal void NewChromiumTab(string url, Panel tab)
         {
-            string title = "Tab " + (Tabs.TabCount + 1).ToString();
+            string title = "Tab " + (Tabs.Count + 1).ToString();
             tab.Text = title;
             ChromeWebview ChromeTab = new ChromeWebview(url);
             tab.Controls.Add(ChromeTab);
@@ -313,9 +313,9 @@ namespace WebBrowserCS
             ChromeTab.HistoryNewEntry += AppendHistory;
         }
 
-        internal void NewFileTab(string path, TabPage tab)
+        internal void NewFileTab(string path, Panel tab)
         {
-            string title = "FileTab " + (Tabs.TabCount + 1).ToString();
+            string title = "FileTab " + (Tabs.Count + 1).ToString();
             tab.Text = title;
             FileTab newTab;
             if (path != "NewFile") { newTab = new FileTab(path); }
@@ -328,10 +328,10 @@ namespace WebBrowserCS
 
         public void ChangeTitle(string title, Control caller)
         {
-            if (Tabs.InvokeRequired)
+            if (caller.Parent.InvokeRequired)
             {
                 Action safeWrite = delegate { ChangeTitle(title, caller); };
-                Tabs.Invoke(safeWrite);
+                caller.Parent.Invoke(safeWrite);
             }
             else caller.Parent.Text = title;
         }
@@ -359,17 +359,6 @@ namespace WebBrowserCS
             OpenTabsLabel.Text = (Tabs.Count - 1).ToString() + " tabs open";
         }
 
-        internal void NewChromiumTab(string url, Panel tab)
-        {
-            string title = "Tab " + (Tabs.Count + 1).ToString();
-            tab.Text = title;
-            ChromeWebview ChromeTab = new ChromeWebview(url, this);
-            Button myTabSelector = new Button { Text = title, Tag = title };
-            myTabSelector.Click += Tab_Click;
-            AddTab(tab, myTabSelector);
-            tab.Controls.Add(ChromeTab);
-            ChromeTab.Dock = DockStyle.Fill;
-        }
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e) => Application.Exit();
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -384,7 +373,7 @@ namespace WebBrowserCS
             settings.Show();
         }
 
-        private void TabContextMenu_Opening(object sender, CancelEventArgs e)
+        /*private void TabContextMenu_Opening(object sender, CancelEventArgs e)
         {
             Point p = this.Tabs.PointToClient(Cursor.Position);
             for (int i = 0; i < this.Tabs.TabCount; i++)
