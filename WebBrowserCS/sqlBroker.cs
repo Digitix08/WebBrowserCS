@@ -17,9 +17,21 @@ namespace WebBrowserCS
         {
             //This part killed me in the beginning.  I was specifying "DataSource"
             //instead of "Data Source"
-            string location = Directory.GetCurrentDirectory() + "\\" + "history.db";
+            string userdata = Directory.GetCurrentDirectory() + "\\userdata\\";
+            if (!Directory.Exists(userdata)) Directory.CreateDirectory(userdata);
+            string location = userdata + "history.db";
+            if (!File.Exists(location)) SQLiteConnection.CreateFile(location);
             sqlite = new SQLiteConnection("Data Source=" + location + ";New=False");
 
+            string checkQuery = "CREATE TABLE IF NOT EXISTS \"history\" ("
+                + "\"id\"    INTEGER NOT NULL UNIQUE, \"date_time\" TEXT NOT NULL, \"website\"   TEXT NOT NULL, \"browser_eng\"   TEXT NOT NULL, \"more_info\" TEXT,"
+                + " PRIMARY KEY(\"id\" AUTOINCREMENT))";
+            SQLiteCommand cmd;
+            sqlite.Open();  //Initiate connection to the db
+            cmd = sqlite.CreateCommand();
+            cmd.CommandText = checkQuery;  //set the passed query
+            cmd.ExecuteNonQuery();
+            sqlite.Close();
         }
 
         public DataTable selectQuery(string query)
