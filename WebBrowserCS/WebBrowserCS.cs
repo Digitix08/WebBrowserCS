@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace WebBrowserCS
 {
-    public partial class WebBrowserCS : Form
+    public partial class BrowserCS : Form
     {
         string home = Properties.Settings.Default.HomePage;
         string defaultsearch, ExtFile = "AvailableExtensions.txt";
@@ -20,7 +20,7 @@ namespace WebBrowserCS
         MainHistory History;
         public List<string[]> AvailTabs = new List<string[]>();
 
-        public WebBrowserCS()
+        public BrowserCS()
         {
             InitializeComponent();
             Search1.Text = Properties.Settings.Default.Search1;
@@ -504,7 +504,7 @@ namespace WebBrowserCS
 
         private void tabbedWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WebBrowserCS wbcs = new WebBrowserCS();
+            BrowserCS wbcs = new BrowserCS();
             wbcs.Show();
         }
 

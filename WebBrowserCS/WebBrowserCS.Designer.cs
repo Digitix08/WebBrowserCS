@@ -1,7 +1,7 @@
 ﻿
 namespace WebBrowserCS
 {
-    partial class WebBrowserCS
+    partial class BrowserCS
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@ namespace WebBrowserCS
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebBrowserCS));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BrowserCS));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Tabs = new System.Windows.Forms.TabControl();
             this.tabContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);

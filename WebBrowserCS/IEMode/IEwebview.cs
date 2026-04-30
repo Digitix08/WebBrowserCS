@@ -12,7 +12,7 @@ namespace WebBrowserCS
     public partial class IEwebview : UserControl
     {
         WebBrowserEx webBrowser1;
-        WebBrowserCS TabbedWindow;
+        BrowserCS TabbedWindow;
         IEExternalScript err;
         IGNetworkHandler igNet = new IGNetworkHandler();
         UserControl errCtrl = null;
@@ -31,7 +31,7 @@ namespace WebBrowserCS
         public delegate void OnHistoryAppend(string value, DateTime time, Control caller);
         public event OnHistoryAppend HistoryNewEntry;
 
-        public IEwebview(string url, WebBrowserCS parent)
+        public IEwebview(string url, BrowserCS parent)
         {
             err = new IEExternalScript();
             TabbedWindow = parent;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,20 +13,47 @@ namespace WebBrowserCS
 {
     public partial class MainHistory : Form
     {
-        DateTime time = new DateTime();
-        WebBrowserCS MainWindow;
-
-        public MainHistory(WebBrowserCS sender)
+        DataClass dbtools = new DataClass();
+        BrowserCS MainWindow;
+        string histQueryAdd = "INSERT INTO history (date_time, website, browser_eng) VALUES ('{0}', '{1}', '{2}')";
+        string histQueryRead = "SELECT date_time, website, browser_eng FROM history ORDER BY date_time DESC";
+        public MainHistory(BrowserCS sender)
         {
             InitializeComponent();
             MainWindow = sender;
+            LoadHistoryElem();
+        }
+
+        private void LoadHistoryElem()
+        {
+            DataTable dt = dbtools.selectQuery(histQueryRead);
+            foreach (DataRow row in dt.Rows)
+            {
+                string date = row["date_time"].ToString();
+                string url = row["website"].ToString();
+                string browser = row["browser_eng"].ToString();
+                string dateACT = DateTime.Parse(date).ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                AppendText(dateACT, url, browser);
+            }
         }
 
         public void Add(string url, Control sender, DateTime time)
         {
-            GetText(time.ToString(), url, sender.Name);
+            InsText(time.ToString(), url, sender.Name);
+            string date = time.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
+            string[] histData = new string[] { date, url, sender.Name };
+            int result = dbtools.writeQuery(histData, histQueryAdd);
+            if (result != 0)
+                MessageBox.Show("write failed (" + result + ")");
         }
-        public void GetText(string desc, string text, string senderName)
+        public void InsText(string desc, string text, string senderName)
+        {
+            string[] row = { text, senderName };
+            var listViewItem = listView1.Items.Insert(0, desc);
+            listViewItem.SubItems.AddRange(row);
+        }
+
+        public void AppendText(string desc, string text, string senderName)
         {
             string[] row = { text, senderName };
             var listViewItem = listView1.Items.Add(desc);

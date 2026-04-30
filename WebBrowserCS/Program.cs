@@ -18,7 +18,7 @@ namespace WebBrowserCS
             StartArgs = CMDArgs;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new WebBrowserCS());
+            Application.Run(new BrowserCS());
         }
     }
 }
