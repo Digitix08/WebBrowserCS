@@ -183,10 +183,10 @@
     <Compile Include="MainHistory.Designer.cs">
       <DependentUpon>MainHistory.cs</DependentUpon>
     </Compile>
-    <Compile Include="SCRErrorIE.cs">
+    <Compile Include="IEMode\SCRErrorIE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SCRErrorIE.Designer.cs">
+    <Compile Include="IEMode\SCRErrorIE.Designer.cs">
       <DependentUpon>SCRErrorIE.cs</DependentUpon>
     </Compile>
     <Compile Include="MDIParent1.cs">
@@ -215,10 +215,10 @@
     <Compile Include="IEMode\IEwebview.Designer.cs">
       <DependentUpon>IEwebview.cs</DependentUpon>
     </Compile>
-    <Compile Include="SCRErrorIEControl.cs">
+    <Compile Include="IEMode\SCRErrorIEControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SCRErrorIEControl.Designer.cs">
+    <Compile Include="IEMode\SCRErrorIEControl.Designer.cs">
       <DependentUpon>SCRErrorIEControl.cs</DependentUpon>
     </Compile>
     <Compile Include="WebBrowserCS.cs">
@@ -227,7 +227,7 @@
     <Compile Include="WebBrowserCS.Designer.cs">
       <DependentUpon>WebBrowserCS.cs</DependentUpon>
     </Compile>
-    <Compile Include="WebBrowserEx.cs">
+    <Compile Include="IEMode\WebBrowserEx.cs">
       <SubType>Component</SubType>
     </Compile>
     <EmbeddedResource Include="AboutBox.resx">
@@ -251,7 +251,7 @@
     <EmbeddedResource Include="MainHistory.resx">
       <DependentUpon>MainHistory.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SCRErrorIE.resx">
+    <EmbeddedResource Include="IEMode\SCRErrorIE.resx">
       <DependentUpon>SCRErrorIE.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MDIParent1.resx">
@@ -276,7 +276,7 @@
     <EmbeddedResource Include="IEMode\IEwebview.resx">
       <DependentUpon>IEwebview.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SCRErrorIEControl.resx">
+    <EmbeddedResource Include="IEMode\SCRErrorIEControl.resx">
       <DependentUpon>SCRErrorIEControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WebBrowserCS.resx">

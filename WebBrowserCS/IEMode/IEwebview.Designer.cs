@@ -110,7 +110,7 @@ namespace WebBrowserCS
             // CurrentUrl
             // 
             this.CurrentUrl.Name = "CurrentUrl";
-            this.CurrentUrl.Size = new System.Drawing.Size(246, 15);
+            this.CurrentUrl.Size = new System.Drawing.Size(287, 15);
             this.CurrentUrl.Spring = true;
             this.CurrentUrl.Text = "CurrentUrl";
             this.CurrentUrl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
