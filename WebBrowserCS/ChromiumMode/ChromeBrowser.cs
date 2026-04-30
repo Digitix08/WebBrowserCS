@@ -272,7 +272,7 @@ namespace WebBrowserCS
 
         private void tabbedWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WebBrowserCS TabbedWindow = new WebBrowserCS();
+            BrowserCS TabbedWindow = new BrowserCS();
             TabbedWindow.Show();
         }
 

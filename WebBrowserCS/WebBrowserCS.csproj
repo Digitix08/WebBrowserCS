@@ -119,9 +119,9 @@
       <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\lib\net46\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -153,6 +153,12 @@
       <DependentUpon>ChromeWebview.cs</DependentUpon>
     </Compile>
     <Compile Include="ChromiumMode\IGLiveSpanHandler.cs" />
+    <Compile Include="CtrlObj\tab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CtrlObj\tab.Designer.cs">
+      <DependentUpon>tab.cs</DependentUpon>
+    </Compile>
     <Compile Include="sqlBroker.cs" />
     <Compile Include="IGNetworkHandler.cs" />
     <Compile Include="ColorSet.cs" />
@@ -232,6 +238,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ChromiumMode\ChromeWebview.resx">
       <DependentUpon>ChromeWebview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CtrlObj\tab.resx">
+      <DependentUpon>tab.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FileEdit.resx">
       <DependentUpon>FileEdit.cs</DependentUpon>
@@ -354,6 +363,7 @@
     <Content Include="html\home.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\gloob.png" />
     <None Include="Resources\TabbedWindow.png" />
     <None Include="Resources\IEIcon.png" />
     <None Include="Resources\Settings.png" />

@@ -13,12 +13,11 @@ namespace WebBrowserCS
 {
     public partial class MainHistory : Form
     {
-        DateTime time = new DateTime();
         DataClass dbtools = new DataClass();
-        WebBrowserCS MainWindow;
+        BrowserCS MainWindow;
         string histQueryAdd = "INSERT INTO history (date_time, website, browser_eng) VALUES ('{0}', '{1}', '{2}')";
         string histQueryRead = "SELECT date_time, website, browser_eng FROM history ORDER BY date_time DESC";
-        public MainHistory(WebBrowserCS sender)
+        public MainHistory(BrowserCS sender)
         {
             InitializeComponent();
             MainWindow = sender;
@@ -33,20 +32,27 @@ namespace WebBrowserCS
                 string url = row["website"].ToString();
                 string browser = row["browser_eng"].ToString();
                 string dateACT = DateTime.Parse(date).ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                GetText(dateACT, url, browser);
+                AppendText(dateACT, url, browser);
             }
         }
 
         public void Add(string url, Control sender, DateTime time)
         {
-            GetText(time.ToString(), url, sender.Name);
+            InsText(time.ToString(), url, sender.Name);
             string date = time.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
             string[] histData = new string[] { date, url, sender.Name };
             int result = dbtools.writeQuery(histData, histQueryAdd);
             if (result != 0)
                 MessageBox.Show("write failed (" + result + ")");
         }
-        public void GetText(string desc, string text, string senderName)
+        public void InsText(string desc, string text, string senderName)
+        {
+            string[] row = { text, senderName };
+            var listViewItem = listView1.Items.Insert(0, desc);
+            listViewItem.SubItems.AddRange(row);
+        }
+
+        public void AppendText(string desc, string text, string senderName)
         {
             string[] row = { text, senderName };
             var listViewItem = listView1.Items.Add(desc);

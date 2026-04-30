@@ -17,9 +17,9 @@ namespace WebBrowserCS
         bool IsInTab = false;
         IEwebview IETab;
         IEWindow IEWindow;
-        WebBrowserCS TabbedWindow;
+        BrowserCS TabbedWindow;
 
-        public UserControl createElement(IEwebview sender, WebBrowserCS parent)
+        public UserControl createElement(IEwebview sender, BrowserCS parent)
         {
             if (sender is IEwebview)
             {

@@ -24,6 +24,7 @@ namespace WebBrowserCS
 
         public DataTable selectQuery(string query)
         {
+            int fail = 0;
             SQLiteDataAdapter ad;
             DataTable dt = new DataTable();
 
@@ -39,6 +40,7 @@ namespace WebBrowserCS
             catch (SQLiteException ex)
             {
                 //Add your exception code here.
+                fail = ex.ErrorCode;
             }
             sqlite.Close();
             return dt;
@@ -46,7 +48,6 @@ namespace WebBrowserCS
 
         public int writeQuery(string[] data, string query)
         {
-            SQLiteDataAdapter ad;
             int fail = 0;
 
             string NewQuery = string.Format(query, data);
@@ -58,7 +59,6 @@ namespace WebBrowserCS
                 cmd = sqlite.CreateCommand();
                 cmd.CommandText = NewQuery;  //set the passed query
                 cmd.ExecuteNonQuery();
-                fail = 0;
             }
             catch (SQLiteException ex)
             {
