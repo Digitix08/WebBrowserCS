@@ -58,6 +58,7 @@ namespace WebBrowserCS
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView1_ColumnClick);
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             this.listView1.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
             this.listView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView1_KeyDown);
             // 
@@ -98,9 +99,9 @@ namespace WebBrowserCS
             // 
             this.button1.Location = new System.Drawing.Point(3, 423);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(93, 23);
             this.button1.TabIndex = 1;
-            this.button1.Text = "Clear";
+            this.button1.Text = "Delete history...";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // label1

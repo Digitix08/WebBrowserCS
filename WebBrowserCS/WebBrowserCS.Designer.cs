@@ -91,10 +91,13 @@ namespace WebBrowserCS
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TabSelectPanel = new System.Windows.Forms.Panel();
+            this.NewTabBtn = new System.Windows.Forms.Button();
             this.tabContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newChromiumTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabSelect0 = new WebBrowserCS.controls.Tab();
             this.StartPage = new System.Windows.Forms.UserControl();
             this.MoreContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -111,16 +114,13 @@ namespace WebBrowserCS
             this.Search4 = new System.Windows.Forms.ToolStripMenuItem();
             this.Search5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.TabSelectPanel = new System.Windows.Forms.Panel();
-            this.tabSelect0 = new WebBrowserCS.controls.Tab();
-            this.NewTabBtn = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.Tab0.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.TabSelectPanel.SuspendLayout();
             this.tabContextMenu.SuspendLayout();
             this.MoreContextMenuStrip.SuspendLayout();
             this.SearchContextMenuStrip.SuspendLayout();
-            this.TabSelectPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -650,6 +650,29 @@ namespace WebBrowserCS
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
+            // TabSelectPanel
+            // 
+            this.TabSelectPanel.AutoScroll = true;
+            this.TabSelectPanel.Controls.Add(this.NewTabBtn);
+            this.TabSelectPanel.Controls.Add(this.tabSelect0);
+            this.TabSelectPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TabSelectPanel.Location = new System.Drawing.Point(3, 27);
+            this.TabSelectPanel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.TabSelectPanel.Name = "TabSelectPanel";
+            this.TabSelectPanel.Size = new System.Drawing.Size(787, 27);
+            this.TabSelectPanel.TabIndex = 7;
+            // 
+            // NewTabBtn
+            // 
+            this.NewTabBtn.ContextMenuStrip = this.tabContextMenu;
+            this.NewTabBtn.Location = new System.Drawing.Point(172, 1);
+            this.NewTabBtn.Name = "NewTabBtn";
+            this.NewTabBtn.Size = new System.Drawing.Size(23, 23);
+            this.NewTabBtn.TabIndex = 1;
+            this.NewTabBtn.Text = "+";
+            this.NewTabBtn.UseVisualStyleBackColor = true;
+            this.NewTabBtn.Click += new System.EventHandler(this.NewTab_Click);
+            // 
             // tabContextMenu
             // 
             this.tabContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -680,6 +703,20 @@ namespace WebBrowserCS
             this.newTextFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newTextFileToolStripMenuItem.Text = "New text file";
             this.newTextFileToolStripMenuItem.Click += new System.EventHandler(this.FileTabToolStripMenuItem1_Click);
+            // 
+            // tabSelect0
+            // 
+            this.tabSelect0.BackColor = System.Drawing.Color.Black;
+            this.tabSelect0.ContextMenuStrip = this.tabContextMenu;
+            this.tabSelect0.Location = new System.Drawing.Point(0, 0);
+            this.tabSelect0.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.tabSelect0.Name = "tabSelect0";
+            this.tabSelect0.Padding = new System.Windows.Forms.Padding(1, 1, 1, 0);
+            this.tabSelect0.Size = new System.Drawing.Size(165, 23);
+            this.tabSelect0.TabIndex = 0;
+            this.tabSelect0.Tag = "tab0";
+            this.tabSelect0.TabSelected += new WebBrowserCS.controls.Tab.OnTabSelect(this.TabSelector);
+            this.tabSelect0.TabClosed += new WebBrowserCS.controls.Tab.OnTabClose(this.CloseTab);
             // 
             // StartPage
             // 
@@ -790,41 +827,6 @@ namespace WebBrowserCS
             this.Search5.Size = new System.Drawing.Size(144, 22);
             this.Search5.Text = "Search5";
             // 
-            // TabSelectPanel
-            // 
-            this.TabSelectPanel.AutoScroll = true;
-            this.TabSelectPanel.Controls.Add(this.NewTabBtn);
-            this.TabSelectPanel.Controls.Add(this.tabSelect0);
-            this.TabSelectPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TabSelectPanel.Location = new System.Drawing.Point(3, 27);
-            this.TabSelectPanel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.TabSelectPanel.Name = "TabSelectPanel";
-            this.TabSelectPanel.Size = new System.Drawing.Size(787, 27);
-            this.TabSelectPanel.TabIndex = 7;
-            // 
-            // tabSelect0
-            // 
-            this.tabSelect0.BackColor = System.Drawing.Color.Black;
-            this.tabSelect0.ContextMenuStrip = this.tabContextMenu;
-            this.tabSelect0.Location = new System.Drawing.Point(0, 0);
-            this.tabSelect0.Name = "tabSelect0";
-            this.tabSelect0.Padding = new System.Windows.Forms.Padding(1, 1, 1, 0);
-            this.tabSelect0.Size = new System.Drawing.Size(165, 23);
-            this.tabSelect0.TabIndex = 0;
-            this.tabSelect0.TabSelected += new WebBrowserCS.controls.Tab.OnTabSelect(this.TabSelector);
-            this.tabSelect0.TabClosed += new WebBrowserCS.controls.Tab.OnTabClose(this.CloseTab);
-            // 
-            // NewTabBtn
-            // 
-            this.NewTabBtn.ContextMenuStrip = this.tabContextMenu;
-            this.NewTabBtn.Location = new System.Drawing.Point(172, 1);
-            this.NewTabBtn.Name = "NewTabBtn";
-            this.NewTabBtn.Size = new System.Drawing.Size(23, 23);
-            this.NewTabBtn.TabIndex = 1;
-            this.NewTabBtn.Text = "+";
-            this.NewTabBtn.UseVisualStyleBackColor = true;
-            this.NewTabBtn.Click += new System.EventHandler(this.NewTab_Click);
-            // 
             // BrowserCS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -843,10 +845,10 @@ namespace WebBrowserCS
             this.Tab0.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.TabSelectPanel.ResumeLayout(false);
             this.tabContextMenu.ResumeLayout(false);
             this.MoreContextMenuStrip.ResumeLayout(false);
             this.SearchContextMenuStrip.ResumeLayout(false);
-            this.TabSelectPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

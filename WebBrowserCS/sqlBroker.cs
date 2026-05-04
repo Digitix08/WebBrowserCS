@@ -34,13 +34,17 @@ namespace WebBrowserCS
             sqlite.Close();
         }
 
-        public DataTable selectQuery(string query)
+        public DataTable selectQuery(string query, string[]data = null)
         {
+            if(data != null)
+            {
+                query = string.Format(query, data);
+            }
             int fail = 0;
             SQLiteDataAdapter ad;
             DataTable dt = new DataTable();
 
-            try
+            //try
             {
                 SQLiteCommand cmd;
                 sqlite.Open();  //Initiate connection to the db
@@ -49,11 +53,11 @@ namespace WebBrowserCS
                 ad = new SQLiteDataAdapter(cmd);
                 ad.Fill(dt); //fill the datasource
             }
-            catch (SQLiteException ex)
+            /*catch (SQLiteException ex)
             {
                 //Add your exception code here.
                 fail = ex.ErrorCode;
-            }
+            }*/
             sqlite.Close();
             return dt;
         }
