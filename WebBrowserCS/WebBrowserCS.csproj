@@ -363,6 +363,7 @@
     <Content Include="html\home.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\loading.png" />
     <None Include="Resources\gloob.png" />
     <None Include="Resources\TabbedWindow.png" />
     <None Include="Resources\IEIcon.png" />
@@ -372,7 +373,6 @@
     <None Include="Resources\ChromiumWindow.png" />
     <None Include="Resources\IEWindow.png" />
     <None Include="Resources\ChromiumIcon.png" />
-    <None Include="Resources\IEIcon.bmp" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

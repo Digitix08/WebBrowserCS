@@ -14,46 +14,17 @@ namespace WebBrowserCS
         private Control parent;
         private Form fullScreenForm;
 
+        bool isfullscreen = false;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public delegate void OnProgressChange(int value);
         public event OnProgressChange ProgressChanged;
-
-        private object _favIcon;
-
-        /// <summary>
-        /// For binding to System.Windows.Window.Icon.
-        /// </summary>
-        public object FavIcon
-        {
-            get { return _favIcon; }
-            set { _favIcon = value; OnPropertyChanged("FavIcon"); }
-        }
-
-        /*private BitmapDecoder _decoder;
-        private BitmapDecoder Decoder
-        {
-            get => _decoder;
-            set
-            {
-                if (_decoder != null) _decoder.DownloadCompleted -= decoderDownloadCompleted;
-                _decoder = value;
-                if (_decoder != null) _decoder.DownloadCompleted += decoderDownloadCompleted;
-            }
-        }
-
-        private void decoderDownloadCompleted(object sender, EventArgs e)
-        {
-            FavIcon = Decoder.Frames.OrderBy(f => f.Width).FirstOrDefault();
-            Decoder = null;
-        }*/
+        public delegate void OnFaviconChange(string url);
+        public event OnFaviconChange FaviconChanged;
 
         protected void OnPropertyChanged(string propertyName)
         {
-            /*   if (!Application.Current.Dispatcher.CheckAccess())
-                   Application.Current.Dispatcher.Invoke(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)));
-               else PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));*/
-            MessageBox.Show(propertyName);
         }
 
 
@@ -79,12 +50,12 @@ namespace WebBrowserCS
 
         public void OnFaviconUrlChange(IWebBrowser chromiumWebBrowser, IBrowser browser, IList<string> urls)
         {
-            var baseUrl = new Uri(browser.MainFrame.Url).GetLeftPart(UriPartial.Authority);
-            MessageBox.Show(string.Join("\n", urls));
-            /*Application.Current.Dispatcher.Invoke(() =>
+            string FavUrl = urls[0];
+            foreach(string url in urls)
             {
-                Decoder = BitmapDecoder.Create(new Uri(baseUrl + "/favicon.ico"), BitmapCreateOptions.None, BitmapCacheOption.OnDemand);
-            });*/
+                if (url.Contains("favicon.ico")) FavUrl = url;
+            }
+            FaviconChanged?.Invoke(FavUrl);
         }
 
         public void OnFullscreenModeChange(IWebBrowser chromiumWebBrowser, IBrowser browser, bool fullscreen)
@@ -103,6 +74,7 @@ namespace WebBrowserCS
                     };
                     fullScreenForm.Controls.Add(chrWebBrowser);
                     fullScreenForm.ShowDialog(parent.FindForm());
+                    isfullscreen = true;
                 }
                 else
                 {
@@ -111,6 +83,7 @@ namespace WebBrowserCS
                     fullScreenForm.Close();
                     fullScreenForm.Dispose();
                     fullScreenForm = null;
+                    isfullscreen = false;
                 }
             });
         }

@@ -27,6 +27,8 @@ namespace WebBrowserCS
         public event OnTitleChanged TitleChanged;
         public delegate void OnHistoryAppend(string value, DateTime time, Control caller);
         public event OnHistoryAppend HistoryNewEntry;
+        public delegate void OnFaviconChange(string url, Control caller, bool update = false);
+        public event OnFaviconChange FaviconChanged;
 
         public ChromeWebview(string url)
         {
@@ -45,6 +47,7 @@ namespace WebBrowserCS
         private void InitializeBrowser()
         {
             displayer.ProgressChanged += progressChanged;
+            displayer.FaviconChanged += faviconChanged;
             chromiumWebBrowser1 = new ChromiumWebBrowser();
             tableLayoutPanel1.Controls.Add(chromiumWebBrowser1, 0, 1);
             tableLayoutPanel1.SetColumnSpan(chromiumWebBrowser1, 10);
@@ -106,6 +109,7 @@ namespace WebBrowserCS
             }
             if (title.Length > charlimit) title = title.Substring(0, charlimit) + "...";
             ChangeTitle(title);
+            FaviconChanged?.Invoke("", this, true);
         }
 
         private void Back_Click(object sender, EventArgs e)
@@ -222,6 +226,11 @@ namespace WebBrowserCS
                 toolStripProgressBar1.Value = System.Convert.ToInt32(progress);
                 status.Text = "Downloading...";
             }
+        }
+
+        private void faviconChanged(string uri)
+        {
+            FaviconChanged?.Invoke(uri, this, false);
         }
 
         private void CompleteBrowse()

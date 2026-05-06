@@ -14,7 +14,7 @@ namespace WebBrowserCS.controls
     {
         public string Title = "Tab";
         public Control ControlledTab = null;
-        public string Uri = "";
+        public string Uri = "", FavUrl = "";
         bool selected = false;
 
         public delegate void OnTitleChanged(string value, Control caller);
@@ -54,12 +54,27 @@ namespace WebBrowserCS.controls
 
         public void setData(string text = "", Uri URL = null, Control tab = null)
         {
-            if (text != null) Title = text;
             if (URL != null) Uri = URL.ToString();
             if (tab != null) ControlledTab = tab;
 
-            label1.Text = Title;
             TitleChanged?.Invoke(text, this);
+        }
+
+        public void setTitle(string text)
+        {
+            Title = text;
+            label1.Text = Title;
+        }
+
+        public void setFavicon(string url)
+        {
+            FavUrl = url;
+            pictureBox1.LoadAsync(FavUrl);
+        }
+
+        public void clearFavicon()
+        {
+            pictureBox1.Image = Properties.Resources.globe;
         }
 
         protected void OnResize(object sender, EventArgs e)
@@ -81,6 +96,15 @@ namespace WebBrowserCS.controls
         private void button1_Click(object sender, EventArgs e)
         {
             if (Tag != null) TabClosed?.Invoke(this);
+        }
+
+        private void pictureBox1_LoadCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                // You got the Error image, e.Error tells you why
+                MessageBox.Show(e.Error.Message + " (" + FavUrl + ")");
+            }
         }
 
         private void TabClicked(object sender, EventArgs e)

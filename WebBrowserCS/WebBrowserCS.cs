@@ -21,7 +21,6 @@ namespace WebBrowserCS
         MainHistory History;
         public List<string[]> AvailTabs = new List<string[]>();
         List<Panel> Tabs = new List<Panel>();
-        List<Button> TabSelectorsB = new List<Button>();
         List<Tab> TabSelectors = new List<Tab>();
 
         public BrowserCS()
@@ -179,14 +178,30 @@ namespace WebBrowserCS
             SelectedTab = tabIndex;
             if (SelectedTab != SelTabOld)
             {
-                if (SelTabOld >= TabSelectors.Count) SelTabOld = TabSelectors.Count - 1;
-                TabSelectors[SelTabOld].DeselectTab();
-                TabSelectors[SelectedTab].SelectTab();
-                SelTabOld = SelectedTab;
-                Panel panel = Tabs[SelectedTab];
-                tableLayoutPanel1.Controls.Remove(tableLayoutPanel1.GetControlFromPosition(0, 2));
-                tableLayoutPanel1.Controls.Add(panel, 0, 2);
+                if (SelTabOld >= TabSelectors.Count || SelTabOld < 0) SelTabOld = TabSelectors.Count - 1;
+                if (SelTabOld >= 0)
+                {
+                    TabSelectors[SelTabOld].DeselectTab();
+                    TabSelectors[SelectedTab].SelectTab();
+                    SelTabOld = SelectedTab;
+                    Panel panel = Tabs[SelectedTab];
+                    tableLayoutPanel1.Controls.Remove(tableLayoutPanel1.GetControlFromPosition(0, 2));
+                    tableLayoutPanel1.Controls.Add(panel, 0, 2);
+                }
             }
+            toolStripMenuItem1.Enabled = TabSelectors.Count != 0;
+        }
+
+        private void MoveLeft(int arrayPos)
+        {
+            int Amount = TabSelectors[0].Width + 5;
+            for (int i = arrayPos; i< TabSelectors.Count; i++)
+            {
+                Point newpos = new Point(TabSelectors[i].Location.X - Amount, TabSelectors[i].Location.Y);
+                TabSelectors[i].Location = newpos;
+            }
+            NewTabBtn.Location = new Point(NewTabBtn.Location.X - Amount, NewTabBtn.Location.Y);
+            pos -= Amount;
         }
 
         private void CloseTab(Control caller)
@@ -199,6 +214,7 @@ namespace WebBrowserCS
                 {
                     if (c.Tag != null && c.Tag == toErase)
                     {
+                        MoveLeft(TabSelectors.IndexOf((Tab)caller));
                         Tabs.Remove(c);
                         TabSelectors.Remove((Tab)caller);
                         SelectedTab = Tabs.Count - 1;
@@ -221,6 +237,7 @@ namespace WebBrowserCS
                     {
                         if (c.Tag != null && c.Tag == tabToErase)
                         {
+                            MoveLeft(TabSelectors.IndexOf(c));
                             TabSelectors.Remove(c);
                             Tabs.Remove(toErase);
                             c.Dispose();
@@ -369,6 +386,7 @@ namespace WebBrowserCS
             ChromeTab.Dock = DockStyle.Fill;
             ChromeTab.TitleChanged += ChangeTitle;
             ChromeTab.HistoryNewEntry += AppendHistory;
+            ChromeTab.FaviconChanged += ChangeFavicon;
         }
 
         internal void NewFileTab(string path, Panel tab)
@@ -397,7 +415,7 @@ namespace WebBrowserCS
             else
             {
                 caller.Parent.Text = title;
-                TabSelectors[SelectedTab].setData(title);
+                TabSelectors[SelectedTab].setTitle(title);
             }
         }
 
@@ -409,6 +427,22 @@ namespace WebBrowserCS
         public void AppendHistory(string url, DateTime time, Control caller)
         {
             History.Add(url, caller, time);
+        }
+
+        public void ChangeFavicon(string url, Control caller, bool update)
+        {
+            if (caller.Parent.InvokeRequired)
+            {
+                Action safeWrite = delegate { ChangeFavicon(url, caller, update); };
+                caller.Parent.Invoke(safeWrite);
+            }
+            else
+            {
+                if(url.Length > 0)
+                    TabSelectors[SelectedTab].setFavicon(url);
+                else
+                    TabSelectors[SelectedTab].clearFavicon();
+            }
         }
 
         private void CloseToolStripMenuItem_Click(object sender, EventArgs e)

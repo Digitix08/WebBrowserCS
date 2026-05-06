@@ -59,7 +59,9 @@ namespace WebBrowserCS.controls
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.ErrorImage = global::WebBrowserCS.Properties.Resources.globe;
             this.pictureBox1.Image = global::WebBrowserCS.Properties.Resources.globe;
+            this.pictureBox1.InitialImage = global::WebBrowserCS.Properties.Resources.loading;
             this.pictureBox1.Location = new System.Drawing.Point(1, 1);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(1);
             this.pictureBox1.Name = "pictureBox1";
@@ -67,6 +69,7 @@ namespace WebBrowserCS.controls
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.pictureBox1_LoadCompleted);
             this.pictureBox1.Click += new System.EventHandler(this.TabClicked);
             this.pictureBox1.Resize += new System.EventHandler(this.OnResize);
             // 

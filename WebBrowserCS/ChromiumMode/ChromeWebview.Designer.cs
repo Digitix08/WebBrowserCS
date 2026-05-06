@@ -30,8 +30,6 @@ namespace WebBrowserCS
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.GoTo = new System.Windows.Forms.PictureBox();
-            this.Search = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.CurrentUrl = new System.Windows.Forms.ToolStripStatusLabel();
@@ -41,15 +39,17 @@ namespace WebBrowserCS
             this.DebMode = new System.Windows.Forms.ToolStripDropDownButton();
             this.dockedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.standaloneWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GoToUrl = new System.Windows.Forms.TextBox();
+            this.GoTo = new System.Windows.Forms.PictureBox();
+            this.Search = new System.Windows.Forms.PictureBox();
             this.Forward = new System.Windows.Forms.PictureBox();
             this.Reload = new System.Windows.Forms.PictureBox();
             this.GoHome = new System.Windows.Forms.PictureBox();
             this.Back = new System.Windows.Forms.PictureBox();
-            this.GoToUrl = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GoTo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Search)).BeginInit();
-            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Forward)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Reload)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GoHome)).BeginInit();
@@ -84,36 +84,6 @@ namespace WebBrowserCS
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(533, 306);
             this.tableLayoutPanel1.TabIndex = 1;
-            // 
-            // GoTo
-            // 
-            this.GoTo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GoTo.Image = global::WebBrowserCS.Properties.Resources.go;
-            this.GoTo.Location = new System.Drawing.Point(475, 2);
-            this.GoTo.Margin = new System.Windows.Forms.Padding(2);
-            this.GoTo.Name = "GoTo";
-            this.GoTo.Size = new System.Drawing.Size(26, 26);
-            this.GoTo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.GoTo.TabIndex = 16;
-            this.GoTo.TabStop = false;
-            this.GoTo.Click += new System.EventHandler(this.GoTo_Click);
-            this.GoTo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
-            this.GoTo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
-            // 
-            // Search
-            // 
-            this.Search.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Search.Image = global::WebBrowserCS.Properties.Resources.search;
-            this.Search.Location = new System.Drawing.Point(505, 2);
-            this.Search.Margin = new System.Windows.Forms.Padding(2);
-            this.Search.Name = "Search";
-            this.Search.Size = new System.Drawing.Size(26, 26);
-            this.Search.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.Search.TabIndex = 33;
-            this.Search.TabStop = false;
-            this.Search.Click += new System.EventHandler(this.Search_Click);
-            this.Search.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
-            this.Search.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
             // 
             // statusStrip1
             // 
@@ -193,6 +163,49 @@ namespace WebBrowserCS
             this.standaloneWindowToolStripMenuItem.Text = "Standalone window";
             this.standaloneWindowToolStripMenuItem.Click += new System.EventHandler(this.DevToolsToolStripMenuItem_Click);
             // 
+            // GoToUrl
+            // 
+            this.GoToUrl.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.GoToUrl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GoToUrl.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GoToUrl.Location = new System.Drawing.Point(122, 2);
+            this.GoToUrl.Margin = new System.Windows.Forms.Padding(2);
+            this.GoToUrl.MaximumSize = new System.Drawing.Size(24577, 100);
+            this.GoToUrl.Name = "GoToUrl";
+            this.GoToUrl.Size = new System.Drawing.Size(349, 29);
+            this.GoToUrl.TabIndex = 17;
+            this.GoToUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GoToUrl_KeyDown);
+            // 
+            // GoTo
+            // 
+            this.GoTo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GoTo.Image = global::WebBrowserCS.Properties.Resources.go;
+            this.GoTo.Location = new System.Drawing.Point(475, 2);
+            this.GoTo.Margin = new System.Windows.Forms.Padding(2);
+            this.GoTo.Name = "GoTo";
+            this.GoTo.Size = new System.Drawing.Size(26, 26);
+            this.GoTo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.GoTo.TabIndex = 16;
+            this.GoTo.TabStop = false;
+            this.GoTo.Click += new System.EventHandler(this.GoTo_Click);
+            this.GoTo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
+            this.GoTo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
+            // 
+            // Search
+            // 
+            this.Search.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Search.Image = global::WebBrowserCS.Properties.Resources.search;
+            this.Search.Location = new System.Drawing.Point(505, 2);
+            this.Search.Margin = new System.Windows.Forms.Padding(2);
+            this.Search.Name = "Search";
+            this.Search.Size = new System.Drawing.Size(26, 26);
+            this.Search.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Search.TabIndex = 33;
+            this.Search.TabStop = false;
+            this.Search.Click += new System.EventHandler(this.Search_Click);
+            this.Search.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
+            this.Search.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
+            // 
             // Forward
             // 
             this.Forward.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -253,19 +266,6 @@ namespace WebBrowserCS
             this.Back.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
             this.Back.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Picture_invert);
             // 
-            // GoToUrl
-            // 
-            this.GoToUrl.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.GoToUrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GoToUrl.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GoToUrl.Location = new System.Drawing.Point(122, 2);
-            this.GoToUrl.Margin = new System.Windows.Forms.Padding(2);
-            this.GoToUrl.MaximumSize = new System.Drawing.Size(24577, 100);
-            this.GoToUrl.Name = "GoToUrl";
-            this.GoToUrl.Size = new System.Drawing.Size(349, 29);
-            this.GoToUrl.TabIndex = 17;
-            this.GoToUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GoToUrl_KeyDown);
-            // 
             // ChromeWebview
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -277,10 +277,10 @@ namespace WebBrowserCS
             this.Load += new System.EventHandler(this.Chromewebview_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GoTo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Search)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GoTo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Search)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Forward)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Reload)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GoHome)).EndInit();
