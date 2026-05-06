@@ -286,6 +286,7 @@ namespace WebBrowserCS
             ChromeTab.Dock = DockStyle.Fill;
             ChromeTab.TitleChanged += ChangeTitle;
             ChromeTab.HistoryNewEntry += AppendHistory;
+            ChromeTab.FaviconChanged += ChangeFavicon;
         }
 
         internal void NewFileTab(string path, TabPage tab)
@@ -319,6 +320,22 @@ namespace WebBrowserCS
         public void AppendHistory(string url, DateTime time, Control caller)
         {
             History.Add(url, caller, time);
+        }
+
+        public void ChangeFavicon(string url, Control caller, bool update)
+        {
+            if (caller.Parent.InvokeRequired)
+            {
+                Action safeWrite = delegate { ChangeFavicon(url, caller, update); };
+                caller.Parent.Invoke(safeWrite);
+            }
+            else
+            {
+                if(url.Length > 0)
+                    TabSelectors[SelectedTab].setFavicon(url);
+                else
+                    TabSelectors[SelectedTab].clearFavicon();
+            }
         }
 
         private void CloseToolStripMenuItem_Click(object sender, EventArgs e)

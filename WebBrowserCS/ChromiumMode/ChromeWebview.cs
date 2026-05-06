@@ -21,11 +21,14 @@ namespace WebBrowserCS
         ChromiumWebBrowser chromiumWebBrowser1;
         int charlimit = 30;
         IGNetworkHandler igNet = new IGNetworkHandler();
+        DisplayHandler displayer = new DisplayHandler();
 
         public delegate void OnTitleChanged(string value, Control caller);
         public event OnTitleChanged TitleChanged;
         public delegate void OnHistoryAppend(string value, DateTime time, Control caller);
         public event OnHistoryAppend HistoryNewEntry;
+        public delegate void OnFaviconChange(string url, Control caller, bool update = false);
+        public event OnFaviconChange FaviconChanged;
 
         public ChromeWebview(string url)
         {
@@ -33,7 +36,7 @@ namespace WebBrowserCS
             {
                 InitializeComponent();
                 InitializeBrowser();
-                DisplayHandler displayer = new DisplayHandler();
+                
                 chromiumWebBrowser1.DisplayHandler = displayer;
                 chromiumWebBrowser1.Load(url);
                 defaultsearch = System.Convert.ToString(Properties.Settings.Default.DefaultSearch);
@@ -43,6 +46,8 @@ namespace WebBrowserCS
 
         private void InitializeBrowser()
         {
+            displayer.ProgressChanged += progressChanged;
+            displayer.FaviconChanged += faviconChanged;
             chromiumWebBrowser1 = new ChromiumWebBrowser();
             tableLayoutPanel1.Controls.Add(chromiumWebBrowser1, 0, 1);
             tableLayoutPanel1.SetColumnSpan(chromiumWebBrowser1, 10);
@@ -104,6 +109,7 @@ namespace WebBrowserCS
             }
             if (title.Length > charlimit) title = title.Substring(0, charlimit) + "...";
             ChangeTitle(title);
+            FaviconChanged?.Invoke("", this, true);
         }
 
         private void Back_Click(object sender, EventArgs e)
@@ -206,6 +212,27 @@ namespace WebBrowserCS
             }
         }
 
+        private void progressChanged(int value)
+        {
+            if (this.InvokeRequired)
+            {
+                Action safeWrite = delegate { progressChanged(value); };
+                this.Invoke(safeWrite);
+            }
+            else
+            {
+                long progress = value;
+                if (progress >= 1) toolStripProgressBar1.Style = ProgressBarStyle.Blocks;
+                toolStripProgressBar1.Value = System.Convert.ToInt32(progress);
+                status.Text = "Downloading...";
+            }
+        }
+
+        private void faviconChanged(string uri)
+        {
+            FaviconChanged?.Invoke(uri, this, false);
+        }
+
         private void CompleteBrowse()
         {
             if (this.InvokeRequired)
@@ -221,12 +248,6 @@ namespace WebBrowserCS
                     toolStripProgressBar1.Value = 100;
                 }
                 string title = chromiumWebBrowser1.Address;
-                int oldstep = toolStripProgressBar1.Step;
-                int step = oldstep;
-                step = toolStripProgressBar1.Maximum - toolStripProgressBar1.Value;
-                toolStripProgressBar1.Step = step;
-                toolStripProgressBar1.PerformStep();
-                toolStripProgressBar1.Step = oldstep;
                 status.Text = "Done";
                 Reload.Image = Properties.Resources.arrow_reload;
                 Reload.Click += Reload_Click;
