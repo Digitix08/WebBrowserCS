@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using mshtml;
+using System.Net;
 
 namespace WebBrowserCS
 {
@@ -30,6 +31,8 @@ namespace WebBrowserCS
         public event OnTitleChanged TitleChanged;
         public delegate void OnHistoryAppend(string value, DateTime time, Control caller);
         public event OnHistoryAppend HistoryNewEntry;
+        public delegate void OnFaviconChange(string url, Control caller, bool update = false);
+        public event OnFaviconChange FaviconChanged;
 
         public IEwebview(string url, BrowserCS parent)
         {
@@ -50,14 +53,16 @@ namespace WebBrowserCS
         }
         private void InitIEWebview()
         {
-            webBrowser1 = new WebBrowserEx();
-            webBrowser1.Dock = DockStyle.Fill;
+            webBrowser1 = new WebBrowserEx()
+            {
+                Dock = DockStyle.Fill,
+                ObjectForScripting = err
+            };
             webBrowser1.ProgressChanged += WebBrowser1_ProgressChanged;
             webBrowser1.NewWindow += WebBrowser1_NewWindow;
             webBrowser1.Navigated += WebBrowser1_Navigated;
             webBrowser1.Navigating += WebBrowser1_Navigating;
             webBrowser1.DocumentCompleted += WebBrowser1_DocumentCompleted;
-            webBrowser1.ObjectForScripting = err;
         }
 
         public void SetCLogState(bool state)
@@ -70,7 +75,7 @@ namespace WebBrowserCS
             webBrowser1.ScriptErrorsSuppressed = state;
         }
 
-        void AxBrowser_NewWindow(string URL, int Flags, string TargetFrameName, ref object PostData, string Headers, ref bool Processed)
+        private void AxBrowser_NewWindow(string URL, int Flags, string TargetFrameName, ref object PostData, string Headers, ref bool Processed)
         {
             Processed = true;
             IEWindow browser = new IEWindow();
@@ -89,14 +94,11 @@ namespace WebBrowserCS
 
         private void IEwebview_Load(object sender, EventArgs e)
         {
-            webBrowser1.ObjectForScripting = err;
             if (defaultsearch == "4") defaultsearch = Properties.Settings.Default.Search1;
             else if (defaultsearch == "3") defaultsearch = Properties.Settings.Default.Search2;
             else if (defaultsearch == "2") defaultsearch = Properties.Settings.Default.Search3;
             else if (defaultsearch == "1") defaultsearch = Properties.Settings.Default.Search4;
             else if (defaultsearch == "0") defaultsearch = Properties.Settings.Default.Search5;
-            SHDocVw.WebBrowser_V1 axBrowser = (SHDocVw.WebBrowser_V1)webBrowser1.ActiveXInstance;
-            axBrowser.NewWindow += AxBrowser_NewWindow;
             table.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
             table.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
@@ -111,9 +113,12 @@ namespace WebBrowserCS
             ScrErrorClose.Click += ScrErrClose_Click;
             split.Panel2.Controls.Add(table);
             Setcolor();
+            SHDocVw.WebBrowser_V1 axBrowser = (SHDocVw.WebBrowser_V1)webBrowser1.ActiveXInstance;
+            axBrowser.NewWindow += AxBrowser_NewWindow;
         }
 
         public void ChangeTitle(string text) => TitleChanged?.Invoke(text, this);
+        public void ChangeFavicon(string url) => FaviconChanged?.Invoke(url, this, false);
 
         private void UriChanged(string text = null)
         {
@@ -134,6 +139,7 @@ namespace WebBrowserCS
             }
             if (title.Length > charlimit) title = title.Substring(0, charlimit) + "...";
             ChangeTitle(title);
+            ChangeFavicon("");
         }
 
         private void Window_Error(object sender, HtmlElementErrorEventArgs e)
@@ -186,6 +192,45 @@ namespace WebBrowserCS
             UriChanged();
             Reload.Image = Properties.Resources.arrow_reload;
             Reload.Click += Reload_Click;
+            try
+            {
+                Uri url = webBrowser1.Url;
+                string favicon = null;
+                mshtml.HTMLDocument document = webBrowser1.Document.DomDocument as mshtml.HTMLDocument;
+                if (document != null)
+                {
+                    mshtml.IHTMLElementCollection linkTags = document.getElementsByTagName("link");
+                    foreach (object obj in linkTags)
+                    {
+                        mshtml.HTMLLinkElement link = obj as mshtml.HTMLLinkElement;
+                        if (link != null)
+                        {
+                            if (!String.IsNullOrEmpty(link.rel) && !String.IsNullOrEmpty(link.href) &&
+                                link.rel.Equals("shortcut icon", StringComparison.CurrentCultureIgnoreCase))
+                            {
+                                //TODO: Bug - Can't handle relative favicon URL's
+                                favicon = link.href;
+                            }
+                        }
+                    }
+                }
+                if (String.IsNullOrEmpty(favicon) && !String.IsNullOrEmpty(url.Host))
+                {
+                    if (url.IsDefaultPort)
+                        favicon = String.Format("{0}://{1}/favicon.ico", url.Scheme, url.Host);
+                    else
+                        favicon = String.Format("{0}://{1}:{2}/favicon.ico", url.Scheme, url.Host, url.Port);
+                }
+                if (!String.IsNullOrEmpty(favicon))
+                {
+                    MessageBox.Show(favicon);
+                    ChangeFavicon(favicon);
+                }
+            }
+            catch
+            {
+                ChangeFavicon("");
+            }
         }
 
         private void WebBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)

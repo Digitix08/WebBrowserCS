@@ -33,11 +33,12 @@ namespace WebBrowserCS
 
         private string checkOnlinePage()
         {
-            if (RemoteFileExists(defaultOLPage)) return defaultOLPage;
+            bool result = RemoteFileExists(defaultOLPage);
+            if (result) return defaultOLPage;
             else return defaultPath + "home.html";
         }
 
-        ///
+        ///BAD IT MAKES ALL TABS FREEZE
         /// Checks the file exists or not.
         ///
         /// The URL of the remote file.
@@ -51,7 +52,8 @@ namespace WebBrowserCS
                 //Setting the Request method HEAD, you can also use GET too.
                 request.Method = "HEAD";
                 //Getting the Web Response.
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                HttpWebResponse response;
+                response = request.GetResponse() as HttpWebResponse;
                 //Returns TRUE if the Status code == 200
                 response.Close();
                 return (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Moved || response.StatusCode == HttpStatusCode.Redirect);
