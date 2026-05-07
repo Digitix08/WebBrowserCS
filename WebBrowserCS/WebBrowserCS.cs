@@ -65,13 +65,15 @@ namespace WebBrowserCS
                 else StartArgsHandler(Program.StartArgs[0]);
             }
             Setcolor();
-            if (igNet.Check_mode(home) != "false")
-                home = igNet.Check_mode(home);
-            if (defaultsearch == "4") defaultsearch = Properties.Settings.Default.Search1;
-            else if (defaultsearch == "3") defaultsearch = Properties.Settings.Default.Search2;
-            else if (defaultsearch == "2") defaultsearch = Properties.Settings.Default.Search3;
-            else if (defaultsearch == "1") defaultsearch = Properties.Settings.Default.Search4;
-            else if (defaultsearch == "0") defaultsearch = Properties.Settings.Default.Search5;
+            OLCheck();
+            switch (defaultsearch) {
+                case "4": defaultsearch = Properties.Settings.Default.Search1; break;
+                case "3": defaultsearch = Properties.Settings.Default.Search2; break;
+                case "2": defaultsearch = Properties.Settings.Default.Search3; break;
+                case "1": defaultsearch = Properties.Settings.Default.Search4; break;
+                case "0": defaultsearch = Properties.Settings.Default.Search5; break;
+                default: break;
+            }
 
             AddTab(Tab0, tabSelect0);
             tabSelect0.setData("Start page");
@@ -80,6 +82,13 @@ namespace WebBrowserCS
             AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[0].Text, "NewIETab" });
             AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[1].Text, "NewChromiumTab" });
             LoadExtensions();
+        }
+
+        private async void OLCheck()
+        {
+            string result = await igNet.Check_mode(home);
+            if (igNet.Check_mode(home) != "false")
+                home = igNet.Check_mode(home);
         }
 
         private void LoadExtensions()
@@ -347,19 +356,6 @@ namespace WebBrowserCS
             else MessageBox.Show("The file " + loc + "does not exist");
         }
 
-        /*private void Tabs_MouseClick(object sender, MouseEventArgs e) //not needed
-        {
-            Point pointerXY = new Point((Size)e.Location);
-            pointerXY.Offset(Location);
-            if (e.Button == MouseButtons.Left)
-            {
-                if (Tabs.SelectedTab == Tabs.TabPages["creatTab"])
-                {
-                    NewTab(home, "IETab");
-                }
-            }
-        }*/
-
         internal void NewIETab(string url, Panel tab)
         {
             string title = "IETab " + (Tabs.Count + 1).ToString();
@@ -464,21 +460,6 @@ namespace WebBrowserCS
             settings.Show();
         }
 
-        /*private void TabContextMenu_Opening(object sender, CancelEventArgs e)
-        {
-            Point p = this.Tabs.PointToClient(Cursor.Position);
-            for (int i = 0; i < this.Tabs.TabCount; i++)
-            {
-                Rectangle r = this.Tabs.GetTabRect(i);
-                if (r.Contains(p))
-                {
-                    this.Tabs.SelectedIndex = i; // i is the index of tab under cursor
-                    return;
-                }
-            }
-            e.Cancel = true;
-        }*/
-
         private void CreateTab_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => NewTab(home);
         private void IETabToolStripMenuItem_Click(object sender, EventArgs e) => NewTab(home);
         private void FileTabToolStripMenuItem1_Click(object sender, EventArgs e) => NewTab("NewFile", "FileTab");
@@ -516,16 +497,6 @@ namespace WebBrowserCS
                 if (OpenTabs <= 5)
                 {
                     Panel myTabPage = new Panel();
-                    /*if (Tabs.SelectedIndex == 0 && Tabs.TabCount > 1)
-                    {
-                        Tabs.TabPages.Insert(Tabs.SelectedIndex + 1, myTabPage);
-                        Tabs.SelectedIndex += 1;
-                    }
-                    else
-                    {
-                        Tabs.TabPages.Insert(Tabs.SelectedIndex, myTabPage);
-                        Tabs.SelectedIndex -= 1;
-                    }*/
                     switch (NewTabType)
                     {
                         case ("IETab"): NewIETab(URL, myTabPage); break;
@@ -649,18 +620,18 @@ namespace WebBrowserCS
             wbcs.Show();
         }
 
-        private void newIEInstanceactualToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewIEInstanceactualToolStripMenuItem_Click(object sender, EventArgs e)
         {
             IEWindow NewIE = new IEWindow();
             NewIE.OpenIE();
         }
 
-        private void historyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void HistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             History.Show();
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //IEwebview.Save();
         }

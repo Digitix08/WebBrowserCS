@@ -47,7 +47,7 @@ namespace WebBrowserCS
         private void InitializeBrowser()
         {
             displayer.ProgressChanged += progressChanged;
-            displayer.FaviconChanged += faviconChanged;
+            displayer.FaviconChanged += ChangeFavicon;
             chromiumWebBrowser1 = new ChromiumWebBrowser();
             tableLayoutPanel1.Controls.Add(chromiumWebBrowser1, 0, 1);
             tableLayoutPanel1.SetColumnSpan(chromiumWebBrowser1, 10);
@@ -109,7 +109,7 @@ namespace WebBrowserCS
             }
             if (title.Length > charlimit) title = title.Substring(0, charlimit) + "...";
             ChangeTitle(title);
-            FaviconChanged?.Invoke("", this, true);
+            ChangeFavicon("");
         }
 
         private void Back_Click(object sender, EventArgs e)
@@ -182,7 +182,8 @@ namespace WebBrowserCS
             UriChanged(e.Title);
         }
 
-        public void ChangeTitle(string text) => TitleChanged?.Invoke(text, this);
+        private void ChangeTitle(string text) => TitleChanged?.Invoke(text, this);
+        private void ChangeFavicon(string uri) => FaviconChanged?.Invoke(uri, this, false);
 
         private void ChromiumWebBrowser1_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
         {
@@ -226,11 +227,6 @@ namespace WebBrowserCS
                 toolStripProgressBar1.Value = System.Convert.ToInt32(progress);
                 status.Text = "Downloading...";
             }
-        }
-
-        private void faviconChanged(string uri)
-        {
-            FaviconChanged?.Invoke(uri, this, false);
         }
 
         private void CompleteBrowse()

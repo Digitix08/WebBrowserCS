@@ -415,7 +415,7 @@ namespace WebBrowserCS
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveToolStripMenuItem.Text = "&Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
@@ -455,7 +455,7 @@ namespace WebBrowserCS
             this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
             this.historyToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.historyToolStripMenuItem.Text = "History";
-            this.historyToolStripMenuItem.Click += new System.EventHandler(this.historyToolStripMenuItem_Click);
+            this.historyToolStripMenuItem.Click += new System.EventHandler(this.HistoryToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -556,7 +556,7 @@ namespace WebBrowserCS
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(200, 22);
             this.toolStripMenuItem2.Text = "History";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.historyToolStripMenuItem_Click);
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.HistoryToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
@@ -596,7 +596,7 @@ namespace WebBrowserCS
             this.newIEInstanceactualToolStripMenuItem.Name = "newIEInstanceactualToolStripMenuItem";
             this.newIEInstanceactualToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.newIEInstanceactualToolStripMenuItem.Text = "New IE Instance [actual]";
-            this.newIEInstanceactualToolStripMenuItem.Click += new System.EventHandler(this.newIEInstanceactualToolStripMenuItem_Click);
+            this.newIEInstanceactualToolStripMenuItem.Click += new System.EventHandler(this.NewIEInstanceactualToolStripMenuItem_Click);
             // 
             // mdiparentToolStripMenuItem
             // 
