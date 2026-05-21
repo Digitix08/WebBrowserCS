@@ -210,6 +210,7 @@ namespace WebBrowserCS
                             {
                                 //TODO: Bug - Can't handle relative favicon URL's
                                 favicon = link.href;
+                                if(!favicon.Contains("://"))favicon = String.Format("{0}://{1}/{2}", url.Scheme, url.Host, favicon);
                             }
                         }
                     }
@@ -223,7 +224,6 @@ namespace WebBrowserCS
                 }
                 if (!String.IsNullOrEmpty(favicon))
                 {
-                    MessageBox.Show(favicon);
                     ChangeFavicon(favicon);
                 }
             }
