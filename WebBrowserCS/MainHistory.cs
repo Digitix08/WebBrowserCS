@@ -22,10 +22,10 @@ namespace WebBrowserCS
         {
             InitializeComponent();
             MainWindow = sender;
-            LoadHistoryElem();
+            LoadHistoryData();
         }
 
-        private void LoadHistoryElem() {
+        private void LoadHistoryData() {
             DataTable dt = dbtools.selectQuery(histQueryRead);
             foreach (DataRow row in dt.Rows)
             {
@@ -73,13 +73,13 @@ namespace WebBrowserCS
                 else listView1.Sorting = (SortOrder)1;
         }
 
-        private void listView1_DoubleClick(object sender, EventArgs e) => LoadHistory();
+        private void listView1_DoubleClick(object sender, EventArgs e) => LoadHistoryElem();
         private void listView1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode.Equals(Keys.Enter)) LoadHistory();
+            if (e.KeyCode.Equals(Keys.Enter)) LoadHistoryElem();
         }
 
-        private void LoadHistory()
+        private void LoadHistoryElem()
         {
             if (listView1.SelectedItems.Count > 0)
             {
@@ -88,7 +88,7 @@ namespace WebBrowserCS
             }
         }
 
-        private void histEraseElem(object sender, EventArgs e)
+        private void EraseHistoryElem(object sender, EventArgs e)
         {
             button1.Text = "Erasing history...";
             button1.Enabled = false;
@@ -129,12 +129,42 @@ namespace WebBrowserCS
             if (listView1.SelectedItems.Count > 0)
             {
                 button1.Text = "Erase selected";
-                button1.Click += histEraseElem;
+                button1.Click += EraseHistoryElem;
             }
             else
             {
                 button1.Text = "Delete history...";
-                button1.Click -= histEraseElem;
+                button1.Click -= EraseHistoryElem;
+            }
+        }
+
+        private void listView1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                Point ContextLoc = Control.MousePosition;
+                if (listView1.SelectedItems.Count == 1)
+                {
+                    SingleElemContextMenu.Show(ContextLoc);
+                }
+                else if(listView1.SelectedItems.Count > 1)
+                {
+                    MoreElemContextMenu.Show(ContextLoc);
+                }
+            }
+        }
+
+        private void navigateToEntryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadHistoryElem();
+        }
+
+        private void copyEntryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count > 0)
+            {
+                string url = listView1.SelectedItems[0].SubItems[1].Text; //, listView1.SelectedItems[0].SubItems[2].Text);
+                Clipboard.SetText(url);
             }
         }
     }

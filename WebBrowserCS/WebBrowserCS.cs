@@ -85,10 +85,10 @@ namespace WebBrowserCS
         }
 
         private async void OLCheck()
-        {
+        {/*
             string result = await igNet.Check_mode(home);
             if (igNet.Check_mode(home) != "false")
-                home = igNet.Check_mode(home);
+                home = igNet.Check_mode(home);*/
         }
 
         private void LoadExtensions()
@@ -368,6 +368,7 @@ namespace WebBrowserCS
             newTab.Dock = DockStyle.Fill;
             newTab.TitleChanged += ChangeTitle;
             newTab.HistoryNewEntry += AppendHistory;
+            newTab.FaviconChanged += ChangeFavicon;
         }
 
         internal void NewChromiumTab(string url, Panel tab)

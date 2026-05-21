@@ -180,6 +180,7 @@ namespace WebBrowserCS
             this.More2.TabIndex = 40;
             this.More2.Text = "⏷";
             this.More2.UseVisualStyleBackColor = true;
+            this.More2.Click += new System.EventHandler(this.More2_Click);
             // 
             // Search
             // 
@@ -190,6 +191,7 @@ namespace WebBrowserCS
             this.Search.TabIndex = 39;
             this.Search.Text = "Search";
             this.Search.UseVisualStyleBackColor = true;
+            this.Search.Click += new System.EventHandler(this.Search_Click);
             // 
             // More1
             // 
@@ -200,6 +202,7 @@ namespace WebBrowserCS
             this.More1.TabIndex = 38;
             this.More1.Text = "⏷";
             this.More1.UseVisualStyleBackColor = true;
+            this.More1.Click += new System.EventHandler(this.More1_Click);
             // 
             // Go
             // 
@@ -210,6 +213,7 @@ namespace WebBrowserCS
             this.Go.TabIndex = 37;
             this.Go.Text = "Go!";
             this.Go.UseVisualStyleBackColor = true;
+            this.Go.Click += new System.EventHandler(this.Go_Click);
             // 
             // label2
             // 
@@ -239,6 +243,7 @@ namespace WebBrowserCS
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(335, 26);
             this.textBox2.TabIndex = 34;
+            this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
             // 
             // textBox1
             // 
@@ -248,6 +253,7 @@ namespace WebBrowserCS
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(335, 26);
             this.textBox1.TabIndex = 33;
+            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 
             // CreateTab
             // 
