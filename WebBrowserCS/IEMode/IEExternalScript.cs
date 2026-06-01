@@ -18,6 +18,7 @@ namespace WebBrowserCS
         IEwebview IETab;
         IEWindow IEWindow;
         BrowserCS TabbedWindow;
+        ExtensionLoader ExtLoad;
 
         public UserControl createElement(IEwebview sender, BrowserCS parent)
         {
@@ -27,6 +28,7 @@ namespace WebBrowserCS
                 ScrError.Dispose();
                 IETab = sender;
                 TabbedWindow = parent;
+                ExtLoad = new ExtensionLoader(parent);
                 return ScrErrorCtrl;
             }
             return null;
@@ -145,7 +147,7 @@ namespace WebBrowserCS
                 if (Tab.Tag!=null && !string.IsNullOrEmpty(Tab.Tag.ToString())){
                     string Tag = Tab.Tag.ToString();
                     if (Tag.EndsWith(tabID)){
-                        TabbedWindow.ExternalLaunch(Tag, tabID, true, URLToGo);
+                        ExtLoad.LaunchExtension(Tag, tabID, true, URLToGo);
                     }
                 }
             } 

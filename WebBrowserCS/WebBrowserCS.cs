@@ -13,10 +13,10 @@ namespace WebBrowserCS
     public partial class BrowserCS : Form
     {
         string home = Properties.Settings.Default.HomePage;
-        string defaultsearch, ExtFile = "AvailableExtensions.txt";
-        string[] ExtDelimit = new string[] { "_;_" };
-        int OpenTabs = 0;
+        string defaultsearch;
+        int OpenTabs = 0, pos = 0, SelectedTab = 0, SelTabOld = 0;
         IGNetworkHandler igNet = new IGNetworkHandler();
+        ExtensionLoader ExtLoad;
         MainHistory History;
         public List<string[]> AvailTabs = new List<string[]>();
 
@@ -30,6 +30,7 @@ namespace WebBrowserCS
             Search5.Text = Properties.Settings.Default.Search5;
             defaultsearch = System.Convert.ToString(Properties.Settings.Default.DefaultSearch);
             History = new MainHistory(this);
+            ExtLoad = new ExtensionLoader(this);
         }
 
         private void Setcolor()
@@ -107,7 +108,7 @@ namespace WebBrowserCS
 
             AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[0].Text, "NewIETab" });
             AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[1].Text, "NewChromiumTab" });
-            LoadExtensions();
+            ExtLoad.LoadExtensions();
         }
 
         private async void OLCheck()
@@ -166,13 +167,13 @@ namespace WebBrowserCS
         private void Ext_Click(object sender, EventArgs e)
         {
             string tag = ((ToolStripMenuItem)sender).Tag.ToString();
-            ExternalLaunch(tag, ((ToolStripMenuItem)sender).Text, false, home);
+            ExtLoad.LaunchExtension(tag, ((ToolStripMenuItem)sender).Text, false, home);
         }
 
         private void Ext_Tab_Click(object sender, EventArgs e)
         {
             string tag = ((ToolStripMenuItem)sender).Tag.ToString();
-            ExternalLaunch(tag, ((ToolStripMenuItem)sender).Text, true, home);
+            ExtLoad.LaunchExtension(tag, ((ToolStripMenuItem)sender).Text, true, home);
         }
 
         public void ExternalLaunch(string tag, string name, bool isTab, string vars = "")
