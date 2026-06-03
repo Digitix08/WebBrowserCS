@@ -14,7 +14,7 @@ namespace WebBrowserCS
     {
         string home = Properties.Settings.Default.HomePage;
         string defaultsearch;
-        int OpenTabs = 0, pos = 0, SelectedTab = 0, SelTabOld = 0;
+        int OpenTabs = 0, pos = 0, SelectedTab = 0, SelTabOld = -1;
         IGNetworkHandler igNet = new IGNetworkHandler();
         ExtensionLoader ExtLoad;
         MainHistory History;
@@ -31,6 +31,9 @@ namespace WebBrowserCS
             defaultsearch = System.Convert.ToString(Properties.Settings.Default.DefaultSearch);
             History = new MainHistory(this);
             ExtLoad = new ExtensionLoader(this);
+            AddTab(Tab0, tabSelect0);
+            tabSelect0.setData("Start page");
+            tabSelect0.SelectTab();
         }
 
         private void Setcolor()
@@ -52,16 +55,54 @@ namespace WebBrowserCS
             ColorSet.SetColorIncludingChildren(this, typeof(ToolStrip), default, default);
         }
 
+        private void WebBrowserCS_Load(object sender, EventArgs e)
+        {
+            //BrowserCS.BrowserCS_show();
+            if (Program.StartArgs.Length != 0)
+            {
+                if (Program.StartArgs[0] == "/help" || Program.StartArgs[0] == "/h") Console.WriteLine("please use command line to only specify filepaths");
+                else StartArgsHandler(Program.StartArgs[0]);
+            }
+            Setcolor();
+            OLCheck();
+            switch (defaultsearch) {
+                case "4": defaultsearch = Properties.Settings.Default.Search1; break;
+                case "3": defaultsearch = Properties.Settings.Default.Search2; break;
+                case "2": defaultsearch = Properties.Settings.Default.Search3; break;
+                case "1": defaultsearch = Properties.Settings.Default.Search4; break;
+                case "0": defaultsearch = Properties.Settings.Default.Search5; break;
+                default: break;
+            }
+
+            AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[0].Text, "NewIETab" });
+            AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[1].Text, "NewChromiumTab" });
+            ExtLoad.LoadExtensions();
+            SelectTab(TabSelectors.Count - 1);
+        }
+
+        private async void OLCheck()
+        {/*
+            string result = await igNet.Check_mode(home);
+            if (igNet.Check_mode(home) != "false")
+                home = igNet.Check_mode(home);*/
+        }
+
+                home = igNet.Check_mode(home);*/
+        }
+
+       
+
         private void StartArgsHandler(string Args)
         {
             if (Args.Contains("StartIE")) IERedirect();
-            if (Args.IndexOf("\\") != -1 && Path.GetExtension(Args) != null || Args.Contains("http"))
+            if ((Args.IndexOf("\\") != -1 && Path.GetExtension(Args) != null) || Args.Contains("http"))
             {
                 string path = Path.GetExtension(Args);
                 if (path == ".html" || path == ".htm" || Args.Contains("http"))
                 {
                     NewTab(Args);
                 }
+                else if (path == ".xml") NewTab(Args);
                 else if (path == ".txt") NewTab(Args, "FileTab");
             }
         }
