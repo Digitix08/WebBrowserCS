@@ -16,6 +16,8 @@ namespace WebBrowserCS.controls
         public Control ControlledTab = null;
         public string Uri = "", FavUrl = "";
         bool selected = false;
+        Color BtnAccentColor = Color.Red;
+        Color BtnSwapColor = Control.DefaultBackColor;
 
         public delegate void OnTitleChanged(string value, Control caller);
         public event OnTitleChanged TitleChanged;
@@ -30,13 +32,13 @@ namespace WebBrowserCS.controls
             label1.Text = Title;
         }
 
-        public void SelectTab()
-        {
+        public void SelectTab() {
             if (!selected)
             {
                 Color tablecolor = tableLayoutPanel1.BackColor;
                 tableLayoutPanel1.BackColor = tableLayoutPanel1.ForeColor;
                 tableLayoutPanel1.ForeColor = tablecolor;
+                button1.BackColor = BtnAccentColor;
                 selected = true;
             }
         }
@@ -48,6 +50,7 @@ namespace WebBrowserCS.controls
                 Color tablecolor = tableLayoutPanel1.BackColor;
                 tableLayoutPanel1.BackColor = tableLayoutPanel1.ForeColor;
                 tableLayoutPanel1.ForeColor = tablecolor;
+                button1.BackColor = BtnSwapColor;
                 selected = false;
             }
         }

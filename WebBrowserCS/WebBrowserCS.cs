@@ -15,7 +15,7 @@ namespace WebBrowserCS
     {
         string home = Properties.Settings.Default.HomePage;
         string defaultsearch;
-        int OpenTabs = 0, pos = 0, SelectedTab = 0, SelTabOld = 0;
+        int OpenTabs = 0, pos = 0, SelectedTab = 0, SelTabOld = -1;
         IGNetworkHandler igNet = new IGNetworkHandler();
         ExtensionLoader ExtLoad;
         MainHistory History;
@@ -34,6 +34,9 @@ namespace WebBrowserCS
             defaultsearch = System.Convert.ToString(Properties.Settings.Default.DefaultSearch);
             History = new MainHistory(this);
             ExtLoad = new ExtensionLoader(this);
+            AddTab(Tab0, tabSelect0);
+            tabSelect0.setData("Start page");
+            tabSelect0.SelectTab();
         }
 
         private void Setcolor()
@@ -76,13 +79,10 @@ namespace WebBrowserCS
                 default: break;
             }
 
-            AddTab(Tab0, tabSelect0);
-            tabSelect0.setData("Start page");
-            tabSelect0.SelectTab();
-
             AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[0].Text, "NewIETab" });
             AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[1].Text, "NewChromiumTab" });
             ExtLoad.LoadExtensions();
+            SelectTab(TabSelectors.Count - 1);
         }
 
         private async void OLCheck()
@@ -92,18 +92,17 @@ namespace WebBrowserCS
                 home = igNet.Check_mode(home);*/
         }
 
-       
-
         private void StartArgsHandler(string Args)
         {
             if (Args.Contains("StartIE")) IERedirect();
-            if (Args.IndexOf("\\") != -1 && Path.GetExtension(Args) != null || Args.Contains("http"))
+            if ((Args.IndexOf("\\") != -1 && Path.GetExtension(Args) != null) || Args.Contains("http"))
             {
                 string path = Path.GetExtension(Args);
                 if (path == ".html" || path == ".htm" || Args.Contains("http"))
                 {
                     NewTab(Args);
                 }
+                else if (path == ".xml") NewTab(Args);
                 else if (path == ".txt") NewTab(Args, "FileTab");
             }
         }
