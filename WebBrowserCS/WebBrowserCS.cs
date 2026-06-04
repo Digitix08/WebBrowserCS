@@ -95,17 +95,6 @@ namespace WebBrowserCS
                 else StartArgsHandler(Program.StartArgs[0]);
             }
             Setcolor();
-<<<<<<< HEAD
-            if(igNet.Check_mode(home) != "false")
-                home = igNet.Check_mode(home);
-            if (defaultsearch == "4") defaultsearch = Properties.Settings.Default.Search1;
-            else if (defaultsearch == "3") defaultsearch = Properties.Settings.Default.Search2;
-            else if (defaultsearch == "2") defaultsearch = Properties.Settings.Default.Search3;
-            else if (defaultsearch == "1") defaultsearch = Properties.Settings.Default.Search4;
-            else if (defaultsearch == "0") defaultsearch = Properties.Settings.Default.Search5;
-            AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[0].Text, "NewIETab" });
-            AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[1].Text, "NewChromiumTab" });
-=======
             OLCheck();
             switch (defaultsearch) {
                 case "4": defaultsearch = Properties.Settings.Default.Search1; break;
@@ -116,10 +105,6 @@ namespace WebBrowserCS
                 default: break;
             }
 
-            AddTab(Tab0, tabSelect0);
-            tabSelect0.setData("Start page");
-            tabSelect0.SelectTab();
-
             AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[0].Text, "NewIETab" });
             AvailTabs.Add(new string[] { newTabToolStripMenuItem.DropDownItems[1].Text, "NewChromiumTab" });
             LoadExtensions();
@@ -127,14 +112,13 @@ namespace WebBrowserCS
 
         private async void OLCheck()
         {
-            string result = await igNet.Check_mode(home);
+            string result = igNet.Check_mode(home);
             if (igNet.Check_mode(home) != "false")
                 home = igNet.Check_mode(home);
         }
 
         private void LoadExtensions()
         {
->>>>>>> 9519c78 (found big problem with extensions)
             if (File.Exists(ExtFile))
             {
                 StreamReader extens = new StreamReader(ExtFile);
@@ -249,7 +233,6 @@ namespace WebBrowserCS
             else MessageBox.Show("The file " + loc + "does not exist");
         }
 
-<<<<<<< HEAD
         private void Tabs_MouseClick(object sender, MouseEventArgs e)
         {
             Point pointerXY = new Point((Size)e.Location);
@@ -264,9 +247,6 @@ namespace WebBrowserCS
         }
 
         internal void NewIETab(string url, TabPage tab)
-=======
-        internal void NewIETab(string url, Panel tab)
->>>>>>> 9519c78 (found big problem with extensions)
         {
             string title = "IETab " + (Tabs.TabCount + 1).ToString();
             tab.Text = title;
@@ -324,7 +304,7 @@ namespace WebBrowserCS
 
         public void ChangeFavicon(string url, Control caller, bool update)
         {
-            if (caller.Parent.InvokeRequired)
+            /*if (caller.Parent.InvokeRequired)
             {
                 Action safeWrite = delegate { ChangeFavicon(url, caller, update); };
                 caller.Parent.Invoke(safeWrite);
@@ -335,7 +315,7 @@ namespace WebBrowserCS
                     TabSelectors[SelectedTab].setFavicon(url);
                 else
                     TabSelectors[SelectedTab].clearFavicon();
-            }
+            }*/
         }
 
         private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -364,7 +344,6 @@ namespace WebBrowserCS
             settings.Show();
         }
 
-<<<<<<< HEAD
         private void TabContextMenu_Opening(object sender, CancelEventArgs e)
         {
             Point p = this.Tabs.PointToClient(Cursor.Position);
@@ -380,8 +359,6 @@ namespace WebBrowserCS
             e.Cancel = true;
         }
 
-=======
->>>>>>> 9519c78 (found big problem with extensions)
         private void CreateTab_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => NewTab(home);
         private void IETabToolStripMenuItem_Click(object sender, EventArgs e) => NewTab(home);
         private void FileTabToolStripMenuItem1_Click(object sender, EventArgs e) => NewTab("NewFile", "FileTab");
@@ -418,7 +395,6 @@ namespace WebBrowserCS
             {
                 if (OpenTabs <= 5)
                 {
-<<<<<<< HEAD
                     TabPage myTabPage = new TabPage();
                     if (Tabs.SelectedIndex == 0 && Tabs.TabCount > 1)
                     {
@@ -430,9 +406,6 @@ namespace WebBrowserCS
                         Tabs.TabPages.Insert(Tabs.SelectedIndex, myTabPage);
                         Tabs.SelectedIndex -= 1;
                     }
-=======
-                    Panel myTabPage = new Panel();
->>>>>>> 9519c78 (found big problem with extensions)
                     switch (NewTabType)
                     {
                         case ("IETab"): NewIETab(URL, myTabPage); break;
