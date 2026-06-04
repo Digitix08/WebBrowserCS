@@ -260,7 +260,7 @@ namespace WebBrowserCS
 
         internal void NewChromiumTab(string url, TabPage tab)
         {
-            string title = "ChrTab " + (Tabs.Count + 1).ToString();
+            string title = "ChrTab " + (OpenTabs + 1).ToString();
             tab.Text = title;
             ChromeWebview ChromeTab = new ChromeWebview(url);
             tab.Controls.Add(ChromeTab);

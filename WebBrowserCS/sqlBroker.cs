@@ -34,8 +34,12 @@ namespace WebBrowserCS
             sqlite.Close();
         }
 
-        public DataTable selectQuery(string query)
+        public DataTable selectQuery(string query, string[] data = null)
         {
+            if (data != null)
+            {
+                query = string.Format(query, data);
+            }
             SQLiteDataAdapter ad;
             DataTable dt = new DataTable();
 
