@@ -484,7 +484,7 @@ namespace WebBrowserCS
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.saveToolStripMenuItem.Text = "&Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
@@ -514,6 +514,21 @@ namespace WebBrowserCS
             this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.printPreviewToolStripMenuItem.Text = "Print Pre&view";
             // 
+<<<<<<< HEAD
+=======
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(143, 6);
+            // 
+            // historyToolStripMenuItem
+            // 
+            this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
+            this.historyToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.historyToolStripMenuItem.Text = "History";
+            this.historyToolStripMenuItem.Click += new System.EventHandler(this.HistoryToolStripMenuItem_Click);
+            // 
+>>>>>>> 9519c78 (found big problem with extensions)
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -608,6 +623,21 @@ namespace WebBrowserCS
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
+<<<<<<< HEAD
+=======
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(200, 22);
+            this.toolStripMenuItem2.Text = "History";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.HistoryToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(197, 6);
+            // 
+>>>>>>> 9519c78 (found big problem with extensions)
             // customizeToolStripMenuItem
             // 
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
@@ -641,7 +671,7 @@ namespace WebBrowserCS
             this.newIEInstanceactualToolStripMenuItem.Name = "newIEInstanceactualToolStripMenuItem";
             this.newIEInstanceactualToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
             this.newIEInstanceactualToolStripMenuItem.Text = "New IE Instance [actual]";
-            this.newIEInstanceactualToolStripMenuItem.Click += new System.EventHandler(this.newIEInstanceactualToolStripMenuItem_Click);
+            this.newIEInstanceactualToolStripMenuItem.Click += new System.EventHandler(this.NewIEInstanceactualToolStripMenuItem_Click);
             // 
             // mdiparentToolStripMenuItem
             // 
