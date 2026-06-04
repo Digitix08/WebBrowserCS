@@ -29,7 +29,6 @@ namespace WebBrowserCS.controls
         public Tab()
         {
             InitializeComponent();
-            label1.Text = Title;
         }
 
         public void SelectTab() {
@@ -108,6 +107,11 @@ namespace WebBrowserCS.controls
                 // You got the Error image, e.Error tells you why
                 MessageBox.Show(e.Error.Message + " (" + FavUrl + ")");
             }
+        }
+
+        private void Tab_Load(object sender, EventArgs e)
+        {
+            label1.Text = Title;
         }
 
         private void TabClicked(object sender, EventArgs e)
