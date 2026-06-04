@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WebBrowserCS.controls;
 
 namespace WebBrowserCS
 {
@@ -34,7 +33,6 @@ namespace WebBrowserCS
 
             foreach (Control child in parent.Controls)
             {
-                if(!(child is Tab))
                 SetColorIncludingChildren(child, controlType, default, default);
             }
         }
