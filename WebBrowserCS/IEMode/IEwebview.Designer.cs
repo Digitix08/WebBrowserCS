@@ -74,7 +74,7 @@ namespace WebBrowserCS
             this.tableLayoutPanel1.Controls.Add(this.GoHome, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -141,7 +141,7 @@ namespace WebBrowserCS
             this.GoToUrl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GoToUrl.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GoToUrl.Location = new System.Drawing.Point(122, 2);
-            this.GoToUrl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GoToUrl.Margin = new System.Windows.Forms.Padding(2);
             this.GoToUrl.MaximumSize = new System.Drawing.Size(24577, 100);
             this.GoToUrl.Name = "GoToUrl";
             this.GoToUrl.Size = new System.Drawing.Size(419, 29);
@@ -153,7 +153,7 @@ namespace WebBrowserCS
             this.GoTo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GoTo.Image = global::WebBrowserCS.Properties.Resources.go;
             this.GoTo.Location = new System.Drawing.Point(545, 2);
-            this.GoTo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GoTo.Margin = new System.Windows.Forms.Padding(2);
             this.GoTo.Name = "GoTo";
             this.GoTo.Size = new System.Drawing.Size(26, 26);
             this.GoTo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -168,7 +168,7 @@ namespace WebBrowserCS
             this.Search.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Search.Image = global::WebBrowserCS.Properties.Resources.search;
             this.Search.Location = new System.Drawing.Point(575, 2);
-            this.Search.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Search.Margin = new System.Windows.Forms.Padding(2);
             this.Search.Name = "Search";
             this.Search.Size = new System.Drawing.Size(26, 26);
             this.Search.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -183,7 +183,7 @@ namespace WebBrowserCS
             this.Back.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Back.Image = global::WebBrowserCS.Properties.Resources.arrow_back;
             this.Back.Location = new System.Drawing.Point(2, 2);
-            this.Back.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Back.Margin = new System.Windows.Forms.Padding(2);
             this.Back.Name = "Back";
             this.Back.Size = new System.Drawing.Size(26, 26);
             this.Back.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -198,7 +198,7 @@ namespace WebBrowserCS
             this.Forward.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Forward.Image = global::WebBrowserCS.Properties.Resources.arrow_forward;
             this.Forward.Location = new System.Drawing.Point(92, 2);
-            this.Forward.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Forward.Margin = new System.Windows.Forms.Padding(2);
             this.Forward.Name = "Forward";
             this.Forward.Size = new System.Drawing.Size(26, 26);
             this.Forward.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -213,7 +213,7 @@ namespace WebBrowserCS
             this.Reload.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Reload.Image = global::WebBrowserCS.Properties.Resources.arrow_reload;
             this.Reload.Location = new System.Drawing.Point(62, 2);
-            this.Reload.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Reload.Margin = new System.Windows.Forms.Padding(2);
             this.Reload.Name = "Reload";
             this.Reload.Size = new System.Drawing.Size(26, 26);
             this.Reload.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -228,7 +228,7 @@ namespace WebBrowserCS
             this.GoHome.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GoHome.Image = global::WebBrowserCS.Properties.Resources.home;
             this.GoHome.Location = new System.Drawing.Point(32, 2);
-            this.GoHome.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GoHome.Margin = new System.Windows.Forms.Padding(2);
             this.GoHome.Name = "GoHome";
             this.GoHome.Size = new System.Drawing.Size(26, 26);
             this.GoHome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -243,7 +243,7 @@ namespace WebBrowserCS
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "IEwebview";
             this.Size = new System.Drawing.Size(603, 363);
             this.Load += new System.EventHandler(this.IEwebview_Load);

@@ -197,7 +197,7 @@ namespace WebBrowserCS
         private void FileTab_Load(object sender, EventArgs e)
         {
             Setcolor();
-            if (filePath != null)
+            if (filePath != null && filePath.Length > 0 && !filePath.StartsWith("igbrowser://"))
             {
                 row = 0;
                 MainText.Clear();
