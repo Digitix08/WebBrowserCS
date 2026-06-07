@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace WebBrowserCS
     {
         string home = Properties.Settings.Default.HomePage;
         string defaultsearch;
+        string[] SupportedHTMLTypes = { ".htm", ".html", ".xhtm", ".xhtml", ".mhtm", ".mhtml" };
         int OpenTabs = 0;
         IGNetworkHandler igNet = new IGNetworkHandler();
         ExtensionLoader ExtLoad;
@@ -89,7 +91,7 @@ namespace WebBrowserCS
             if ((Args.IndexOf("\\") != -1 && Path.GetExtension(Args) != null) || Args.Contains("http"))
             {
                 string path = Path.GetExtension(Args);
-                if (path == ".html" || path == ".htm" || Args.Contains("http"))
+                if (SupportedHTMLTypes.Contains(path) || Args.Contains("http"))
                 {
                     NewTab(Args);
                 }
