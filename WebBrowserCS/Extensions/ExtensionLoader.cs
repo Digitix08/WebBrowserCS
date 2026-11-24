@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WebBrowserCS.controls;
 
-namespace WebBrowserCS
+namespace WebBrowserCS.Extensions
 {
     class ExtensionLoader
     {
@@ -35,7 +35,7 @@ namespace WebBrowserCS
 
                         line = line.Substring(line.IndexOf("_;_") + 3, line.Length - line.IndexOf("_;_") - 3);
                         string[] args = line.Split(ExtDelimit, StringSplitOptions.None);
-                        if (args.Length >= 3) { if (args[2] == "isTab") { isTab = true; line = line.Substring(0, line.IndexOf("_;_isTab")); } }
+                        if (args.Length >= 3) { if (args[2] == "isTab") { isTab = true; } }
                         string Tag = line;
 
                         string path = Directory.GetCurrentDirectory() + "\\" + args[0];
@@ -78,7 +78,7 @@ namespace WebBrowserCS
                         if (tabRaw is UserControl)
                         {
                             UserControl tab = (UserControl)tabRaw;
-                            Host.LoadTab(tab, name);
+                            Host.LoadTabOld(tab, name);
                         }
                         else MessageBox.Show("The call did not return the adequate contents for a tab", "Invalid value returned");
                     }

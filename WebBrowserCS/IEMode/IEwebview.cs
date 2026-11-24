@@ -63,6 +63,17 @@ namespace WebBrowserCS
             webBrowser1.Navigated += WebBrowser1_Navigated;
             webBrowser1.Navigating += WebBrowser1_Navigating;
             webBrowser1.DocumentCompleted += WebBrowser1_DocumentCompleted;
+            webBrowser1.HandleCreated += WebBrowser1_HandleCreated;
+        }
+
+        private void WebBrowser1_HandleCreated(object sender, EventArgs e)
+        {
+            initScrError();
+        }
+
+        private void initScrError()
+        {
+            IEMode.PopupCatcher.Start(this);
         }
 
         public void SetCLogState(bool state)
@@ -113,8 +124,8 @@ namespace WebBrowserCS
             ScrErrorClose.Click += ScrErrClose_Click;
             split.Panel2.Controls.Add(table);
             Setcolor();
-            SHDocVw.WebBrowser_V1 axBrowser = (SHDocVw.WebBrowser_V1)webBrowser1.ActiveXInstance;
-            axBrowser.NewWindow += AxBrowser_NewWindow;
+            /*SHDocVw.WebBrowser_V1 axBrowser = (SHDocVw.WebBrowser_V1)webBrowser1.ActiveXInstance;
+            axBrowser.NewWindow += AxBrowser_NewWindow;*/
         }
 
         public void ChangeTitle(string text) => TitleChanged?.Invoke(text, this);
@@ -140,11 +151,6 @@ namespace WebBrowserCS
             if (title.Length > charlimit) title = title.Substring(0, charlimit) + "...";
             ChangeTitle(title);
             ChangeFavicon("");
-        }
-
-        private void Window_Error(object sender, HtmlElementErrorEventArgs e)
-        {     
-            e.Handled = true;
         }
 
         private void Back_Click(object sender, EventArgs e)

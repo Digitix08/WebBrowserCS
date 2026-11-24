@@ -1,23 +1,30 @@
-﻿using System;
+﻿using IGExtensionCS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WebBrowserCS.controls;
+using WebBrowserCS.Extensions;
 
 namespace WebBrowserCS
 {
     public partial class BrowserCS : Form
     {
+        [DllImport("user32.dll")]
+        public static extern int SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+
         string home = Properties.Settings.Default.HomePage;
         string defaultsearch;
         int OpenTabs = 0, pos = 0, SelectedTab = 0, SelTabOld = -1;
         IGNetworkHandler igNet = new IGNetworkHandler();
-        ExtensionLoader ExtLoad;
+        ExtensionLoader ExtLoadOld;
+        ExtensionLoaderNew ExtLoad;
         MainHistory History;
         public List<string[]> AvailTabs = new List<string[]>();
         List<Panel> Tabs = new List<Panel>();
@@ -33,7 +40,8 @@ namespace WebBrowserCS
             Search5.Text = Properties.Settings.Default.Search5;
             defaultsearch = System.Convert.ToString(Properties.Settings.Default.DefaultSearch);
             History = new MainHistory(this);
-            ExtLoad = new ExtensionLoader(this);
+            ExtLoadOld = new ExtensionLoader(this);
+            ExtLoad = new ExtensionLoaderNew(this);
             AddTab(Tab0, tabSelect0);
             tabSelect0.setData("Start page");
             tabSelect0.SelectTab();
@@ -174,7 +182,6 @@ namespace WebBrowserCS
             if (caller != null && caller.Tag != null && caller is Tab) //erase the given tag
             {
                 object toErase = caller.Tag;
-
                 foreach (Panel c in Tabs)
                 {
                     if (c.Tag != null && c.Tag == toErase)
@@ -241,12 +248,13 @@ namespace WebBrowserCS
         }
 
         //ecternal launch
-        public void ProcessTab(string Name, string Tag, string[] args)
+        public void ProcessTab(string Name, string Tag, string[] args, bool isNew = false)
         {
             ToolStripMenuItem ext = new ToolStripMenuItem { Text = Name, Tag = Tag };
             ToolStripMenuItem ext2 = new ToolStripMenuItem { Text = Name, Tag = Tag };
             ToolStripMenuItem ext3 = new ToolStripMenuItem { Text = Name, Tag = Tag };
-            ext.Click += Ext_Tab_Click; ext2.Click += Ext_Tab_Click; ext3.Click += Ext_Tab_Click;
+            if (!isNew) { ext.Click += Ext_Tab_Click; ext2.Click += Ext_Tab_Click; ext3.Click += Ext_Tab_Click; }
+            else { ext.Click += Ext_Tab_Click_New; ext2.Click += Ext_Tab_Click_New; ext3.Click += Ext_Tab_Click_New; }
             newTabToolStripMenuItem.DropDownItems.Add(ext);
             tabContextMenu.Items.Add(ext2);
             MoreContextMenuStrip.Items.Add(ext3);
@@ -263,33 +271,46 @@ namespace WebBrowserCS
         private void Ext_Click(object sender, EventArgs e)
         {
             string tag = ((ToolStripMenuItem)sender).Tag.ToString();
-            ExtLoad.LaunchExtension(tag, ((ToolStripMenuItem)sender).Text, false, home);
+            ExtLoadOld.LaunchExtension(tag, ((ToolStripMenuItem)sender).Text, false, home);
         }
 
         private void Ext_Tab_Click(object sender, EventArgs e)
         {
             string tag = ((ToolStripMenuItem)sender).Tag.ToString();
-            ExtLoad.LaunchExtension(tag, ((ToolStripMenuItem)sender).Text, true, home);
+            ExtLoadOld.LaunchExtension(tag, ((ToolStripMenuItem)sender).Text, true, home);
         }
 
-        public void LoadTab(UserControl tab, string name)
+        private void Ext_Tab_Click_New(object sender, EventArgs e)
+        {
+            string tag = ((ToolStripMenuItem)sender).Tag.ToString();
+            ExtLoad.LaunchExtension(tag, true, home);
+        }
+
+        public void LoadTabOld(UserControl tab, string name)
         {
             Panel myTabPage = new Panel();
             string title = name + " " + (Tabs.Count + 1).ToString();
             Tab myTabSelector = createTabBtn(title, title);
-            /*if (Tabs.SelectedIndex == 0 && Tabs.Controls.Count > 0)
-            {*/
             AddTab(myTabPage, myTabSelector);
-            //Tabs.SelectedIndex += 1;
-            /*}
-            else
-            {
-                Tabs.TabPages.Insert(Tabs.SelectedIndex, myTabPage);
-                //Tabs.SelectedIndex -= 1;
-            }*/
             myTabPage.Text = title;
+            myTabPage.Tag = title;
             myTabPage.Controls.Add(tab);
             tab.Dock = DockStyle.Fill;
+        }
+
+        public void LoadTab(IntPtr tab, IExtension TheExt)
+        {
+            Panel myTabPage = new Panel();
+            SetParent(tab, myTabPage.Handle);
+            string title = TheExt.Name + " " + (Tabs.Count + 1).ToString();
+            Tab myTabSelector = createTabBtn(title, title);
+            AddTab(myTabPage, myTabSelector);
+            myTabPage.Tag = title;
+            myTabPage.Text = title;
+            ((ITab)TheExt).TitleChanged += TabTitle =>
+            {
+                ChangeTitle(TabTitle, myTabPage);
+            };
         }
 
         internal void NewIETab(string url, Panel tab)
@@ -340,14 +361,17 @@ namespace WebBrowserCS
 
         public void ChangeTitle(string title, Control caller)
         {
-            if (caller.Parent.InvokeRequired)
+            Control parent = caller.Parent;
+            /*MessageBox.Show(caller.ToString());
+            MessageBox.Show(parent.ToString());*/
+            if (parent.InvokeRequired)
             {
                 Action safeWrite = delegate { ChangeTitle(title, caller); };
-                caller.Parent.Invoke(safeWrite);
+                parent.Invoke(safeWrite);
             }
             else
             {
-                caller.Parent.Text = title;
+                parent.Text = title;
                 TabSelectors[SelectedTab].setTitle(title);
             }
         }

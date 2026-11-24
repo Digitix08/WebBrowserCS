@@ -24,7 +24,11 @@ namespace WebBrowserCS
             sqlite = new SQLiteConnection("Data Source=" + location + ";New=False");
 
             string checkQuery = "CREATE TABLE IF NOT EXISTS \"history\" ("
-                + "\"id\"    INTEGER NOT NULL UNIQUE, \"date_time\" TEXT NOT NULL, \"website\"   TEXT NOT NULL, \"browser_eng\"   TEXT NOT NULL, \"more_info\" TEXT,"
+                + "\"id\" INTEGER NOT NULL UNIQUE,"
+                + "\"date_time\" TEXT NOT NULL,"
+                + "\"website\" TEXT NOT NULL,"
+                + "\"browser_eng\" TEXT NOT NULL,"
+                + "\"more_info\" TEXT,"
                 + " PRIMARY KEY(\"id\" AUTOINCREMENT))";
             SQLiteCommand cmd;
             sqlite.Open();  //Initiate connection to the db
@@ -40,7 +44,8 @@ namespace WebBrowserCS
             {
                 query = string.Format(query, data);
             }
-            int fail = 0;
+            //unused failure mode
+            //int fail = 0;
             SQLiteDataAdapter ad;
             DataTable dt = new DataTable();
 

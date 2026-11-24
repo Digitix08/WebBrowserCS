@@ -69,7 +69,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
@@ -159,7 +159,9 @@
     <Compile Include="CtrlObj\tab.Designer.cs">
       <DependentUpon>tab.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExtensionLoader.cs" />
+    <Compile Include="Extensions\ExtensionLoader.cs" />
+    <Compile Include="Extensions\ExtLoadNew.cs" />
+    <Compile Include="IEMode\ErrorCloser.cs" />
     <Compile Include="sqlBroker.cs" />
     <Compile Include="IGNetworkHandler.cs" />
     <Compile Include="ColorSet.cs" />
