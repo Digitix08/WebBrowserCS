@@ -35,7 +35,7 @@ namespace WebBrowserCS
             return null;
         }
 
-        public Form createStandaloneElement(IEWindow sender)
+        public SCRErrorIE createStandaloneElement(IEWindow sender)
         {
             if (sender is IEWindow)
             {

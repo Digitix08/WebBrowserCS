@@ -14,24 +14,47 @@ namespace WebBrowserCS
 {
     public partial class IEWindow : Form
     {
+        public WebBrowserEx webBrowser1;
         string home = Properties.Settings.Default.HomePage;
         bool newtab = true;
         bool useExtJS = false;
         string defaultsearch;
         IEExternalScript err;
         IGNetworkHandler igNet = new IGNetworkHandler();
-        Form errForm = null;
+        SCRErrorIE errForm = null;
         public IEWindow()
         {
             err = new IEExternalScript();
             errForm = err.createStandaloneElement(this); 
             InitializeComponent();
+            InitIEWebview();
+            tableLayoutPanel1.Controls.Add(webBrowser1, 0, 1);
             /*Search1.Text = Properties.Settings.Default.Search1;
             Search2.Text = Properties.Settings.Default.Search2;
             Search3.Text = Properties.Settings.Default.Search3;
             Search4.Text = Properties.Settings.Default.Search4;
             Search5.Text = Properties.Settings.Default.Search5;*/
             defaultsearch = System.Convert.ToString(Properties.Settings.Default.DefaultSearch);
+        }
+
+        private void InitIEWebview()
+        {
+            webBrowser1 = new WebBrowserEx()
+            {
+                Dock = DockStyle.Fill,
+                ObjectForScripting = err
+            };
+            webBrowser1.ProgressChanged += WebBrowser1_ProgressChanged;
+            webBrowser1.NewWindow += WebBrowser1_NewWindow;
+            webBrowser1.Navigated += WebBrowser1_Navigated;
+            webBrowser1.Navigating += WebBrowser1_Navigating;
+            webBrowser1.DocumentCompleted += WebBrowser1_DocumentCompleted;
+            webBrowser1.ScriptError += WebBrowser1_ScriptError;
+        }
+
+        private void WebBrowser1_ScriptError(string page, string row, string column, string error, string text)
+        {
+            errForm.LogError(page, row, column, error, text);
         }
 
         public void SetCLogState(bool state)
@@ -41,7 +64,7 @@ namespace WebBrowserCS
 
         public void SetJSErrState(bool state)
         {
-            webBrowser1.ScriptErrorsSuppressed = state;
+            //webBrowser1.ScriptErrorsSuppressed = state;
         }
 
         public void OpenIE()
@@ -257,7 +280,7 @@ namespace WebBrowserCS
 
         private void WebBrowser1_NewWindow(object sender, CancelEventArgs e)
         {
-            var url = webBrowser1.Document.ActiveElement.GetAttribute("href");
+            var url = CurrentUrl.Text;
             if (newtab)
             {
                 e.Cancel = true;

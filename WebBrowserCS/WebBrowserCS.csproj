@@ -161,7 +161,6 @@
     </Compile>
     <Compile Include="Extensions\ExtensionLoader.cs" />
     <Compile Include="Extensions\ExtLoadNew.cs" />
-    <Compile Include="IEMode\ErrorCloser.cs" />
     <Compile Include="sqlBroker.cs" />
     <Compile Include="IGNetworkHandler.cs" />
     <Compile Include="ColorSet.cs" />

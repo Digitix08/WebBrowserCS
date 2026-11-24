@@ -63,17 +63,13 @@ namespace WebBrowserCS
             webBrowser1.Navigated += WebBrowser1_Navigated;
             webBrowser1.Navigating += WebBrowser1_Navigating;
             webBrowser1.DocumentCompleted += WebBrowser1_DocumentCompleted;
-            webBrowser1.HandleCreated += WebBrowser1_HandleCreated;
+            webBrowser1.ScriptError += WebBrowser1_ScriptError;
         }
 
-        private void WebBrowser1_HandleCreated(object sender, EventArgs e)
+        private void WebBrowser1_ScriptError(string page, string row, string column, string error, string text)
         {
-            initScrError();
-        }
-
-        private void initScrError()
-        {
-            IEMode.PopupCatcher.Start(this);
+            string nl = Environment.NewLine;
+            //MessageBox.Show("page: " + page + nl + "row: " + row + nl + "char: " + column + nl + "code: " + error + nl + "description: " + text, "Script Error");
         }
 
         public void SetCLogState(bool state)

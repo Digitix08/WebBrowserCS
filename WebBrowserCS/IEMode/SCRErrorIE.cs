@@ -13,7 +13,8 @@ namespace WebBrowserCS
 {
     public partial class SCRErrorIE : Form
     {
-        TextBox textBox1 = new TextBox();
+        TextBox LogTextBox = new TextBox();
+        TextBox ErrTextBox = new TextBox();
         DateTime time = new DateTime();
         public void log(string s)
         {
@@ -23,21 +24,21 @@ namespace WebBrowserCS
         public void info(string s)
         {
             string[] row = { s };
-            var listViewItem = listView1.Items.Add("Info:");
+            var listViewItem = logList.Items.Add("Info:");
             listViewItem.SubItems.AddRange(row);
             listViewItem.BackColor = Color.Aqua;
         }
         public void warn(string s)
         {
             string[] row = { s };
-            var listViewItem = listView1.Items.Add("Warn:");
+            var listViewItem = logList.Items.Add("Warn:");
             listViewItem.SubItems.AddRange(row);
             listViewItem.BackColor = Color.Orange;
         }
         public void error(string s)
         {
             string[] row = { s };
-            var listViewItem = listView1.Items.Add("ERROR:");
+            var listViewItem = logList.Items.Add("ERROR:");
             listViewItem.SubItems.AddRange(row);
             listViewItem.BackColor = Color.Red;
             listViewItem.ForeColor = Color.White;
@@ -45,9 +46,16 @@ namespace WebBrowserCS
         public void GetText(string desc, string text)
         {
             string[] row = { text };
-            var listViewItem = listView1.Items.Add(desc);
+            var listViewItem = logList.Items.Add(desc);
             listViewItem.SubItems.AddRange(row);
         }
+        public void LogError(string page, string row, string column, string error, string text)
+        {
+            string[] line = { row, error, text };
+            var listViewItem = errorList.Items.Add(page);
+            listViewItem.SubItems.AddRange(line);
+        }
+
         public SCRErrorIE()
         {
             InitializeComponent();
@@ -64,28 +72,50 @@ namespace WebBrowserCS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            listView1.Items.Clear();
+            logList.Items.Clear();
         }
-        private void listView1_KeyUp(object sender, KeyEventArgs e) {if(e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return) GetItem(); }
-        private void listView1_DoubleClick(object sender, EventArgs e) => GetItem();
-        private void GetItem()
+        private void listView1_KeyUp(object sender, KeyEventArgs e) {if(e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return) GetLog(); }
+        private void listView1_DoubleClick(object sender, EventArgs e) => GetLog();
+        private void GetLog()
         {
-            if (!tableLayoutPanel1.Controls.Contains(textBox1))
+            if (!LogLayoutPanel.Controls.Contains(LogTextBox))
             {
-                if (listView1.SelectedItems.Count > 0)
+                if (logList.SelectedItems.Count > 0)
                 {
-                    tableLayoutPanel1.SetColumnSpan(listView1, 1);
-                    tableLayoutPanel1.Controls.Add(textBox1, 1, 1);
-                    textBox1.Multiline = true;
-                    textBox1.Dock = DockStyle.Fill;
-                    textBox1.Text = listView1.SelectedItems[0].SubItems[1].Text;
+                    LogLayoutPanel.SetColumnSpan(logList, 1);
+                    LogLayoutPanel.Controls.Add(LogTextBox, 1, 1);
+                    LogTextBox.Multiline = true;
+                    LogTextBox.Dock = DockStyle.Fill;
+                    LogTextBox.Text = logList.SelectedItems[0].SubItems[1].Text;
                 }
             }
             else
             {
-                tableLayoutPanel1.Controls.Remove(textBox1);
-                tableLayoutPanel1.SetColumnSpan(listView1, 2);
+                LogLayoutPanel.Controls.Remove(LogTextBox);
+                LogLayoutPanel.SetColumnSpan(logList, 2);
             }
         }
+        private void GetError()
+        {
+            if (!ErrLayoutPanel.Controls.Contains(ErrTextBox))
+            {
+                if (errorList.SelectedItems.Count > 0)
+                {
+                    ErrLayoutPanel.SetColumnSpan(logList, 1);
+                    ErrLayoutPanel.Controls.Add(ErrTextBox, 1, 1);
+                    ErrTextBox.Multiline = true;
+                    ErrTextBox.Dock = DockStyle.Fill;
+                    ErrTextBox.Text = errorList.SelectedItems[0].SubItems[0].Text;
+                }
+            }
+            else
+            {
+                ErrLayoutPanel.Controls.Remove(ErrTextBox);
+                ErrLayoutPanel.SetColumnSpan(errorList, 2);
+            }
+        }
+
+        private void errorList_DoubleClick(object sender, EventArgs e) => GetError();
+        private void errorList_KeyUp(object sender, KeyEventArgs e) { if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return) GetLog(); }
     }
 }
