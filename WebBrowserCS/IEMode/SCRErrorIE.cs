@@ -13,9 +13,9 @@ namespace WebBrowserCS
 {
     public partial class SCRErrorIE : Form
     {
-        TextBox LogTextBox = new TextBox();
-        TextBox ErrTextBox = new TextBox();
+        TextBox textBox1 = new TextBox() { Multiline = true };
         DateTime time = new DateTime();
+
         public void log(string s)
         {
             time = DateTime.Now;
@@ -43,17 +43,31 @@ namespace WebBrowserCS
             listViewItem.BackColor = Color.Red;
             listViewItem.ForeColor = Color.White;
         }
+        public void LogError(string page, string row, string column, string error, string text)
+        {
+            string errorText = "Page:" + Environment.NewLine
+                + page + Environment.NewLine
+                + "Row: " + row + Environment.NewLine
+                + "Character: " + column + Environment.NewLine
+                + "Error Code: " + error + Environment.NewLine
+                + "Description: " + text;
+            string[] line = { text, errorText };
+            var listViewItem = logList.Items.Add("Script Error");
+            listViewItem.SubItems.AddRange(line);
+            listViewItem.BackColor = Color.Red;
+            listViewItem.ForeColor = Color.White;
+        }
+        public void LogNaviChange(string page)
+        {
+            string[] line = { page };
+            var listViewItem = logList.Items.Add("Navigated");
+            listViewItem.SubItems.AddRange(line);
+        }
         public void GetText(string desc, string text)
         {
             string[] row = { text };
             var listViewItem = logList.Items.Add(desc);
             listViewItem.SubItems.AddRange(row);
-        }
-        public void LogError(string page, string row, string column, string error, string text)
-        {
-            string[] line = { row, error, text };
-            var listViewItem = errorList.Items.Add(page);
-            listViewItem.SubItems.AddRange(line);
         }
 
         public SCRErrorIE()
@@ -74,48 +88,26 @@ namespace WebBrowserCS
         {
             logList.Items.Clear();
         }
-        private void listView1_KeyUp(object sender, KeyEventArgs e) {if(e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return) GetLog(); }
-        private void listView1_DoubleClick(object sender, EventArgs e) => GetLog();
-        private void GetLog()
+        private void logList_KeyUp(object sender, KeyEventArgs e) { if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return) GetItem(); }
+        private void logList_DoubleClick(object sender, EventArgs e) => GetItem();
+        private void GetItem()
         {
-            if (!LogLayoutPanel.Controls.Contains(LogTextBox))
+            if (!LogLayoutPanel.Controls.Contains(textBox1))
             {
                 if (logList.SelectedItems.Count > 0)
                 {
                     LogLayoutPanel.SetColumnSpan(logList, 1);
-                    LogLayoutPanel.Controls.Add(LogTextBox, 1, 1);
-                    LogTextBox.Multiline = true;
-                    LogTextBox.Dock = DockStyle.Fill;
-                    LogTextBox.Text = logList.SelectedItems[0].SubItems[1].Text;
+                    LogLayoutPanel.Controls.Add(textBox1, 1, 1);
+                    textBox1.Multiline = true;
+                    textBox1.Dock = DockStyle.Fill;
+                    textBox1.Text = logList.SelectedItems[0].SubItems[logList.SelectedItems[0].SubItems.Count - 1].Text;
                 }
             }
             else
             {
-                LogLayoutPanel.Controls.Remove(LogTextBox);
+                LogLayoutPanel.Controls.Remove(textBox1);
                 LogLayoutPanel.SetColumnSpan(logList, 2);
             }
         }
-        private void GetError()
-        {
-            if (!ErrLayoutPanel.Controls.Contains(ErrTextBox))
-            {
-                if (errorList.SelectedItems.Count > 0)
-                {
-                    ErrLayoutPanel.SetColumnSpan(logList, 1);
-                    ErrLayoutPanel.Controls.Add(ErrTextBox, 1, 1);
-                    ErrTextBox.Multiline = true;
-                    ErrTextBox.Dock = DockStyle.Fill;
-                    ErrTextBox.Text = errorList.SelectedItems[0].SubItems[0].Text;
-                }
-            }
-            else
-            {
-                ErrLayoutPanel.Controls.Remove(ErrTextBox);
-                ErrLayoutPanel.SetColumnSpan(errorList, 2);
-            }
-        }
-
-        private void errorList_DoubleClick(object sender, EventArgs e) => GetError();
-        private void errorList_KeyUp(object sender, KeyEventArgs e) { if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return) GetLog(); }
     }
 }

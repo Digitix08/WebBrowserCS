@@ -54,7 +54,7 @@ namespace WebBrowserCS
 
         private void WebBrowser1_ScriptError(string page, string row, string column, string error, string text)
         {
-            errForm.LogError(page, row, column, error, text);
+            err.LogError(this, page, row, column, error, text);
         }
 
         public void SetCLogState(bool state)
@@ -261,12 +261,18 @@ namespace WebBrowserCS
                 catch (System.NullReferenceException) { }
         }
 
+        public void AddHistory(string url)
+        {
+            err.LogNaviChange(this, url);
+        }
+
         private void WebBrowser1_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
             toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
             toolStripProgressBar1.Value = 50;
             if (igNet.Check_mode(e.Url.ToString()) != "false")
                 webBrowser1.Navigate(igNet.Check_mode(e.Url.ToString()));
+            else AddHistory(e.Url.ToString());
             status.Text = "Searching for host...";
             UriChanged();
             Reload.Image = Properties.Resources.cancel;

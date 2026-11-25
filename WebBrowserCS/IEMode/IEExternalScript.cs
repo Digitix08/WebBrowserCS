@@ -154,11 +154,35 @@ namespace WebBrowserCS
             } 
         }
 
-        public void sendData(UserControl sender, bool JsDisable)
+        public void sendData(object sender, bool JsDisable)
         {
             if (sender is UserControl)
             {
                 if (IsInTab) ScrErrorCtrl.sendData(JsDisable);
+            }
+        }
+
+        public void LogError(object sender, string page, string row, string column, string error, string text)
+        {
+            if (sender is UserControl)
+            {
+                if (IsInTab) ScrErrorCtrl.LogError(page, row, column, error, text);
+            }
+            else if (sender is Form)
+            {
+                ScrError.LogError(page, row, column, error, text);
+            }
+        }
+
+        public void LogNaviChange(object sender, string page)
+        {
+            if (sender is UserControl)
+            {
+                if (IsInTab) ScrErrorCtrl.LogNaviChange(page);
+            }
+            else if (sender is Form)
+            {
+                ScrError.LogNaviChange(page);
             }
         }
     }

@@ -15,7 +15,7 @@ namespace WebBrowserCS
     {
         IEwebview webview = null;
         IEWindow standalone = null;
-        TextBox textBox1 = new TextBox();
+        TextBox textBox1 = new TextBox() { Multiline = true };
         DateTime time = new DateTime();
         public void sendData(bool JSDisabled)
         {
@@ -53,6 +53,26 @@ namespace WebBrowserCS
             listViewItem.BackColor = Color.Red;
             listViewItem.ForeColor = Color.White;
         }
+        public void LogError(string page, string row, string column, string error, string text)
+        {
+            string errorText = "Page:" + Environment.NewLine
+                + page + Environment.NewLine
+                + "Row: " + row + Environment.NewLine
+                + "Character: " + column + Environment.NewLine
+                + "Error Code: " + error + Environment.NewLine
+                + "Description: " + text;
+            string[] line = { text, errorText };
+            var listViewItem = listView1.Items.Add("Script Error");
+            listViewItem.SubItems.AddRange(line);
+            listViewItem.BackColor = Color.Red;
+            listViewItem.ForeColor = Color.White;
+        }
+        public void LogNaviChange(string page)
+        {
+            string[] line = { page };
+            var listViewItem = listView1.Items.Add("Navigated");
+            listViewItem.SubItems.AddRange(line);
+        }
         public void GetText(string desc, string text)
         {
             string[] row = { text };
@@ -84,21 +104,21 @@ namespace WebBrowserCS
         private void listView1_DoubleClick(object sender, EventArgs e) => GetItem();
         private void GetItem()
         {
-            if (!tableLayoutPanel1.Controls.Contains(textBox1))
+            if (!ScrErrorPanel.Controls.Contains(textBox1))
             {
                 if (listView1.SelectedItems.Count > 0)
                 {
-                    tableLayoutPanel1.SetColumnSpan(listView1, 1);
-                    tableLayoutPanel1.Controls.Add(textBox1, 1, 0);
+                    ScrErrorPanel.SetColumnSpan(listView1, 2);
+                    ScrErrorPanel.Controls.Add(textBox1, 2, 0);
                     textBox1.Multiline = true;
                     textBox1.Dock = DockStyle.Fill;
-                    textBox1.Text = listView1.SelectedItems[0].SubItems[1].Text;
+                    textBox1.Text = listView1.SelectedItems[0].SubItems[listView1.SelectedItems[0].SubItems.Count - 1].Text;
                 }
             }
             else
             {
-                tableLayoutPanel1.Controls.Remove(textBox1);
-                tableLayoutPanel1.SetColumnSpan(listView1, 2);
+                ScrErrorPanel.Controls.Remove(textBox1);
+                ScrErrorPanel.SetColumnSpan(listView1, 3);
             }
         }
 
