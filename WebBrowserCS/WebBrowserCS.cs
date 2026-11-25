@@ -307,6 +307,13 @@ namespace WebBrowserCS
             AddTab(myTabPage, myTabSelector);
             myTabPage.Tag = title;
             myTabPage.Text = title;
+            myTabPage.Resize += (sender, e) =>
+            {
+                ((ITab)TheExt).OnResize(
+                    myTabPage.ClientSize.Width,
+                    myTabPage.ClientSize.Height
+                );
+            };
             ((ITab)TheExt).TitleChanged += TabTitle =>
             {
                 ChangeTitle(TabTitle, myTabPage);
@@ -361,19 +368,27 @@ namespace WebBrowserCS
 
         public void ChangeTitle(string title, Control caller)
         {
-            Control parent = caller.Parent;
-            /*MessageBox.Show(caller.ToString());
-            MessageBox.Show(parent.ToString());*/
-            if (parent.InvokeRequired)
+            if (caller.InvokeRequired)
             {
-                Action safeWrite = delegate { ChangeTitle(title, caller); };
-                parent.Invoke(safeWrite);
+                caller.Invoke(new Action(() => ChangeTitle(title, caller)));
+                return;
             }
-            else
+
+            caller.Text = title;
+
+            int index = -1;
+
+            for (int i = 0; i < Tabs.Count; i++)
             {
-                parent.Text = title;
-                TabSelectors[SelectedTab].setTitle(title);
+                if (Tabs[i] == caller || Tabs[i].Contains(caller))
+                {
+                    index = i;
+                    break;
+                }
             }
+
+            if (index >= 0)
+                TabSelectors[index].setTitle(title);
         }
 
         public void OpenNewTab(string url, string type, Control caller)

@@ -18,14 +18,13 @@ namespace WebBrowserCS
         IGNetworkHandler igNet = new IGNetworkHandler();
         UserControl errCtrl = null;
         TableLayoutPanel table = new TableLayoutPanel();
-        Button ScrErrorClose = new Button {Text = "Close Log", Dock = DockStyle.Fill };
+        Button ScrErrorClose = new Button {Text = "Close Log" };
         SplitContainer split = new SplitContainer();
-        Label lb = new Label {Text = "Log viewer", Dock = DockStyle.Fill, Width = 500 };
+        Label lb = new Label {Text = "Log viewer" };
         string home = Properties.Settings.Default.HomePage;
         string defaultsearch;
         bool newtab = true;
         bool useExtJS = false;
-        bool ScrErrShown = false;
         int charlimit = 30;
 
         public delegate void OnTitleChanged(string value, Control caller);
@@ -69,7 +68,8 @@ namespace WebBrowserCS
 
         private void WebBrowser1_ScriptError(string page, string row, string column, string error, string text)
         {
-            err.LogError(this, page, row, column, error, text);
+            string nl = Environment.NewLine;
+            //MessageBox.Show("page: " + page + nl + "row: " + row + nl + "char: " + column + nl + "code: " + error + nl + "description: " + text, "Script Error");
         }
 
         public void SetCLogState(bool state)
@@ -111,6 +111,7 @@ namespace WebBrowserCS
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
             lb.Font = new Font("Arial", 15, FontStyle.Bold, GraphicsUnit.Point);
+            lb.Width = 500;
             table.Controls.Add(ScrErrorClose, 0, 0);
             table.Controls.Add(errCtrl, 0, 1);
             table.Controls.Add(lb, 1, 0);
@@ -255,11 +256,7 @@ namespace WebBrowserCS
             catch (System.NullReferenceException) { }
         }
 
-        public void AddHistory(string url)
-        {
-            HistoryNewEntry?.Invoke(url, DateTime.Now, this);
-            err.LogNaviChange(this, url);
-        }
+        public void AddHistory(string url) => HistoryNewEntry?.Invoke(url, DateTime.Now, this);
 
         private void WebBrowser1_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
@@ -339,31 +336,17 @@ namespace WebBrowserCS
 
         private void ScrErr_Click(object sender, EventArgs e)
         {
-            ScrErrShowHide();
-        }
-
-        private void ScrErrShowHide()
-        {
-            if(ScrErrShown == false)
-            {
-                tableLayoutPanel1.Controls.Remove(webBrowser1);
-                tableLayoutPanel1.Controls.Add(split, 0, 1);
-                split.Panel1.Controls.Add(webBrowser1);
-                tableLayoutPanel1.SetColumnSpan(split, 10);
-                ScrErrShown = true;
-            }
-            else
-            {
-                split.Panel1.Controls.Remove(webBrowser1);
-                tableLayoutPanel1.Controls.Remove(split);
-                tableLayoutPanel1.Controls.Add(webBrowser1, 0, 1);
-                ScrErrShown = false;
-            }
+            tableLayoutPanel1.Controls.Remove(webBrowser1);
+            tableLayoutPanel1.Controls.Add(split, 0, 1);
+            split.Panel1.Controls.Add(webBrowser1);
+            tableLayoutPanel1.SetColumnSpan(split, 10);
         }
 
         private void ScrErrClose_Click(object sender, EventArgs e)
         {
-            ScrErrShowHide();
+            split.Panel1.Controls.Remove(webBrowser1);
+            tableLayoutPanel1.Controls.Remove(split);
+            tableLayoutPanel1.Controls.Add(webBrowser1, 0, 1);
         }
 
         private void Cancel_Click(object sender, EventArgs e)
@@ -383,16 +366,6 @@ namespace WebBrowserCS
                 }
             }
             ((PictureBox)sender).Image = pic;
-        }
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == Keys.F12)
-            {
-                ScrErrShowHide();
-                return true;
-            }
-
-            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }
