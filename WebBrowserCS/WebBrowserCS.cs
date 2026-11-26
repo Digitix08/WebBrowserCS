@@ -318,6 +318,10 @@ namespace WebBrowserCS
             {
                 ChangeTitle(TabTitle, myTabPage);
             };
+            ((ITab)TheExt).FaviconChanged += TabFavicon =>
+            {
+                ChangeFavicon(TabFavicon, myTabPage, true);
+            };
         }
 
         internal void NewIETab(string url, Panel tab)
