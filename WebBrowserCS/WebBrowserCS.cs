@@ -265,7 +265,7 @@ namespace WebBrowserCS
         {
             ToolStripMenuItem ext = new ToolStripMenuItem { Text = Name, Tag = Tag };
             newWindowToolStripMenuItem.DropDownItems.Add(ext);
-            ext.Click += Ext_Click;
+            ext.Click += Ext_Click_New;
         }
 
         private void Ext_Click(object sender, EventArgs e)
@@ -278,6 +278,12 @@ namespace WebBrowserCS
         {
             string tag = ((ToolStripMenuItem)sender).Tag.ToString();
             ExtLoadOld.LaunchExtension(tag, ((ToolStripMenuItem)sender).Text, true, home);
+        }
+
+        private void Ext_Click_New(object sender, EventArgs e)
+        {
+            string tag = ((ToolStripMenuItem)sender).Tag.ToString();
+            ExtLoad.LaunchExtension(tag, false, home);
         }
 
         private void Ext_Tab_Click_New(object sender, EventArgs e)
@@ -322,6 +328,7 @@ namespace WebBrowserCS
             {
                 ChangeFavicon(TabFavicon, myTabPage, true);
             };
+            ((ITab)TheExt).OnResize(myTabPage.ClientSize.Width,myTabPage.ClientSize.Height);
         }
 
         internal void NewIETab(string url, Panel tab)

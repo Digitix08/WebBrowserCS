@@ -56,14 +56,14 @@ namespace WebBrowserCS
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 7;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel1.Controls.Add(this.statusStrip1, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.GoToUrl, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.GoTo, 5, 0);
@@ -74,13 +74,13 @@ namespace WebBrowserCS
             this.tableLayoutPanel1.Controls.Add(this.GoHome, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(603, 363);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(804, 447);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // statusStrip1
@@ -94,23 +94,23 @@ namespace WebBrowserCS
             this.status,
             this.toolStripStatusLabel2,
             this.ScrErr});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 343);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 422);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(603, 20);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 13, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(804, 25);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(150, 14);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(200, 17);
             this.toolStripProgressBar1.Step = 1;
             // 
             // CurrentUrl
             // 
             this.CurrentUrl.Name = "CurrentUrl";
-            this.CurrentUrl.Size = new System.Drawing.Size(287, 15);
+            this.CurrentUrl.Size = new System.Drawing.Size(394, 19);
             this.CurrentUrl.Spring = true;
             this.CurrentUrl.Text = "CurrentUrl";
             this.CurrentUrl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -119,19 +119,19 @@ namespace WebBrowserCS
             // status
             // 
             this.status.Name = "status";
-            this.status.Size = new System.Drawing.Size(35, 15);
+            this.status.Size = new System.Drawing.Size(45, 19);
             this.status.Text = "Done";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(52, 15);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(67, 19);
             this.toolStripStatusLabel2.Text = "IE-based";
             // 
             // ScrErr
             // 
             this.ScrErr.Name = "ScrErr";
-            this.ScrErr.Size = new System.Drawing.Size(66, 15);
+            this.ScrErr.Size = new System.Drawing.Size(82, 19);
             this.ScrErr.Text = "Log output";
             this.ScrErr.Click += new System.EventHandler(this.ScrErr_Click);
             // 
@@ -140,11 +140,11 @@ namespace WebBrowserCS
             this.GoToUrl.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.GoToUrl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GoToUrl.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GoToUrl.Location = new System.Drawing.Point(122, 2);
-            this.GoToUrl.Margin = new System.Windows.Forms.Padding(2);
-            this.GoToUrl.MaximumSize = new System.Drawing.Size(24577, 100);
+            this.GoToUrl.Location = new System.Drawing.Point(163, 2);
+            this.GoToUrl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.GoToUrl.MaximumSize = new System.Drawing.Size(32768, 100);
             this.GoToUrl.Name = "GoToUrl";
-            this.GoToUrl.Size = new System.Drawing.Size(419, 29);
+            this.GoToUrl.Size = new System.Drawing.Size(558, 34);
             this.GoToUrl.TabIndex = 24;
             this.GoToUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GoToUrl_KeyDown);
             // 
@@ -152,10 +152,10 @@ namespace WebBrowserCS
             // 
             this.GoTo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GoTo.Image = global::WebBrowserCS.Properties.Resources.go;
-            this.GoTo.Location = new System.Drawing.Point(545, 2);
-            this.GoTo.Margin = new System.Windows.Forms.Padding(2);
+            this.GoTo.Location = new System.Drawing.Point(727, 2);
+            this.GoTo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GoTo.Name = "GoTo";
-            this.GoTo.Size = new System.Drawing.Size(26, 26);
+            this.GoTo.Size = new System.Drawing.Size(34, 33);
             this.GoTo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.GoTo.TabIndex = 23;
             this.GoTo.TabStop = false;
@@ -167,10 +167,10 @@ namespace WebBrowserCS
             // 
             this.Search.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Search.Image = global::WebBrowserCS.Properties.Resources.search;
-            this.Search.Location = new System.Drawing.Point(575, 2);
-            this.Search.Margin = new System.Windows.Forms.Padding(2);
+            this.Search.Location = new System.Drawing.Point(767, 2);
+            this.Search.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Search.Name = "Search";
-            this.Search.Size = new System.Drawing.Size(26, 26);
+            this.Search.Size = new System.Drawing.Size(34, 33);
             this.Search.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Search.TabIndex = 26;
             this.Search.TabStop = false;
@@ -182,10 +182,10 @@ namespace WebBrowserCS
             // 
             this.Back.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Back.Image = global::WebBrowserCS.Properties.Resources.arrow_back;
-            this.Back.Location = new System.Drawing.Point(2, 2);
-            this.Back.Margin = new System.Windows.Forms.Padding(2);
+            this.Back.Location = new System.Drawing.Point(3, 2);
+            this.Back.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Back.Name = "Back";
-            this.Back.Size = new System.Drawing.Size(26, 26);
+            this.Back.Size = new System.Drawing.Size(34, 33);
             this.Back.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Back.TabIndex = 25;
             this.Back.TabStop = false;
@@ -197,10 +197,10 @@ namespace WebBrowserCS
             // 
             this.Forward.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Forward.Image = global::WebBrowserCS.Properties.Resources.arrow_forward;
-            this.Forward.Location = new System.Drawing.Point(92, 2);
-            this.Forward.Margin = new System.Windows.Forms.Padding(2);
+            this.Forward.Location = new System.Drawing.Point(123, 2);
+            this.Forward.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Forward.Name = "Forward";
-            this.Forward.Size = new System.Drawing.Size(26, 26);
+            this.Forward.Size = new System.Drawing.Size(34, 33);
             this.Forward.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Forward.TabIndex = 22;
             this.Forward.TabStop = false;
@@ -212,10 +212,10 @@ namespace WebBrowserCS
             // 
             this.Reload.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Reload.Image = global::WebBrowserCS.Properties.Resources.arrow_reload;
-            this.Reload.Location = new System.Drawing.Point(62, 2);
-            this.Reload.Margin = new System.Windows.Forms.Padding(2);
+            this.Reload.Location = new System.Drawing.Point(83, 2);
+            this.Reload.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Reload.Name = "Reload";
-            this.Reload.Size = new System.Drawing.Size(26, 26);
+            this.Reload.Size = new System.Drawing.Size(34, 33);
             this.Reload.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Reload.TabIndex = 20;
             this.Reload.TabStop = false;
@@ -227,10 +227,10 @@ namespace WebBrowserCS
             // 
             this.GoHome.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GoHome.Image = global::WebBrowserCS.Properties.Resources.home;
-            this.GoHome.Location = new System.Drawing.Point(32, 2);
-            this.GoHome.Margin = new System.Windows.Forms.Padding(2);
+            this.GoHome.Location = new System.Drawing.Point(43, 2);
+            this.GoHome.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GoHome.Name = "GoHome";
-            this.GoHome.Size = new System.Drawing.Size(26, 26);
+            this.GoHome.Size = new System.Drawing.Size(34, 33);
             this.GoHome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.GoHome.TabIndex = 21;
             this.GoHome.TabStop = false;
@@ -240,12 +240,12 @@ namespace WebBrowserCS
             // 
             // IEwebview
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "IEwebview";
-            this.Size = new System.Drawing.Size(603, 363);
+            this.Size = new System.Drawing.Size(804, 447);
             this.Load += new System.EventHandler(this.IEwebview_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

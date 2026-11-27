@@ -77,7 +77,7 @@ namespace WebBrowserCS.Extensions
 
                                         if (ext is IWindow winExt)
                                         {
-                                            //Host.ProcessWindow(ext.Name, ) //to be filled
+                                            Host.ProcessWindow(ext.Name, ext.Id, args);
                                         }
 
                                         if (!(ext is ITab) && !(ext is IWindow))
@@ -136,6 +136,19 @@ namespace WebBrowserCS.Extensions
                 else if (!(TheExt is ITab) && isTab)
                 {
                     MessageBox.Show("The extension you are using does not support tabs." + Environment.NewLine + "Details: " + Environment.NewLine + "IGExtension v2" + Environment.NewLine + "Name: " + TheExt.Name, "Invalid extension call mode");
+                }
+                else if(TheExt is IWindow)
+                {
+                    try
+                    {
+                        TheExt.Initialize(TheHost);
+                        ((IWindow)TheExt).OnWindowOpened();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is System.BadImageFormatException || ex is System.Reflection.TargetInvocationException) { MessageBox.Show("The build you are using is not compatible with this extension." + Environment.NewLine + "Details:" + Environment.NewLine + "IGExtension v2" + Environment.NewLine + "Name: " + TheExt.Name, "Invalid extension runtime version. 32 bit extensions need the anycpu build!"); }
+                        if (ex is System.ArgumentNullException) { MessageBox.Show("The extension you are using does not support tabs." + Environment.NewLine + "Details:" + Environment.NewLine + "IGExtension v2" + Environment.NewLine + "Name: " + TheExt.Name, "Invalid extension call mode"); }
+                    }
                 }
             }
         }
