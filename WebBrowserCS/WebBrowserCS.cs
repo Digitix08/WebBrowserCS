@@ -26,6 +26,7 @@ namespace WebBrowserCS
         ExtensionLoader ExtLoadOld;
         ExtensionLoaderNew ExtLoad;
         MainHistory History;
+        public EXTLogger ExtLog;
         public List<string[]> AvailTabs = new List<string[]>();
         List<Panel> Tabs = new List<Panel>();
         List<Tab> TabSelectors = new List<Tab>();
@@ -42,6 +43,7 @@ namespace WebBrowserCS
             History = new MainHistory(this);
             ExtLoadOld = new ExtensionLoader(this);
             ExtLoad = new ExtensionLoaderNew(this);
+            ExtLog = new EXTLogger();
             AddTab(Tab0, tabSelect0);
             tabSelect0.setData("Start page");
             tabSelect0.SelectTab();
@@ -605,6 +607,11 @@ namespace WebBrowserCS
         {
             BrowserCS wbcs = new BrowserCS();
             wbcs.Show();
+        }
+
+        private void scriptErrorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExtLog.Show();
         }
 
         private void NewIEInstanceactualToolStripMenuItem_Click(object sender, EventArgs e)

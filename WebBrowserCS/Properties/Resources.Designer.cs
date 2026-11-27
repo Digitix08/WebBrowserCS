@@ -121,6 +121,16 @@ namespace WebBrowserCS.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon BrowserCSIcon {
+            get {
+                object obj = ResourceManager.GetObject("BrowserCSIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap cancel {
@@ -313,10 +323,40 @@ namespace WebBrowserCS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Scr {
+            get {
+                object obj = ResourceManager.GetObject("Scr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap ScriptError {
             get {
                 object obj = ResourceManager.GetObject("ScriptError", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon ScriptErrorIcon {
+            get {
+                object obj = ResourceManager.GetObject("ScriptErrorIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon ScriptIcon {
+            get {
+                object obj = ResourceManager.GetObject("ScriptIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

@@ -12,11 +12,15 @@ namespace WebBrowserCS.Extensions
 {
     class ExtLoadHost : IHostContext
     {
+        ExtensionLoaderNew loader;
+
+        public void SetLoader(ExtensionLoaderNew theLoader) { loader = theLoader; }
+
         public void OpenTab(string title, object content) { }
 
         public void CloseTab(object tab) { }
 
-        public void Log(string message) { }
+        public void Log(string message) { loader.LogExtension(message); }
 
         public void AddToHistory(HistoryEntry entry) {
             //add history
@@ -40,13 +44,15 @@ namespace WebBrowserCS.Extensions
         public void LoadExtensions()
         {
             TheHost = new ExtLoadHost();
+            TheHost.SetLoader(this);
+
             if (File.Exists(ExtFile))
             {
                 StreamReader extens = new StreamReader(ExtFile);
                 string line = extens.ReadLine();
                 while (line != null)
                 {
-                    if (line[0] != '#')
+                    if (!String.IsNullOrWhiteSpace(line) && line[0] != '#')
                     {
                         //we care about args[1]
                         //string Name = line.Substring(0, line.IndexOf("_;_"));
@@ -130,7 +136,8 @@ namespace WebBrowserCS.Extensions
                     catch (Exception ex)
                     {
                         if (ex is System.BadImageFormatException || ex is System.Reflection.TargetInvocationException) { MessageBox.Show("The build you are using is not compatible with this extension." + Environment.NewLine + "Details:" + Environment.NewLine + "IGExtension v2" + Environment.NewLine + "Name: " + TheExt.Name, "Invalid extension runtime version. 32 bit extensions need the anycpu build!"); }
-                        if (ex is System.ArgumentNullException) { MessageBox.Show("The extension you are using does not support tabs." + Environment.NewLine + "Details:" + Environment.NewLine + "IGExtension v2" + Environment.NewLine + "Name: " + TheExt.Name, "Invalid extension call mode"); }
+                        else if (ex is System.ArgumentNullException) { MessageBox.Show("The extension you are using does not support tabs." + Environment.NewLine + "Details:" + Environment.NewLine + "IGExtension v2" + Environment.NewLine + "Name: " + TheExt.Name, "Invalid extension call mode"); }
+                        else { LogExtError(ex.Message, ex.StackTrace, ex.Source, ex.HResult.ToString()); }
                     }
                 }
                 else if (!(TheExt is ITab) && isTab)
@@ -151,6 +158,19 @@ namespace WebBrowserCS.Extensions
                     }
                 }
             }
+        }
+        public void LogExtension(string message)
+        {
+            Host.ExtLog.log(message);
+        }
+        public void LogExtError(string message, string stacktrace, string source, string hresult)
+        {
+            string msg = "Exception in Extension!" + Environment.NewLine
+                + "Message: " + message + Environment.NewLine
+                + "HRESULT: " + hresult + Environment.NewLine
+                + "Stack Trace:" + Environment.NewLine
+                + stacktrace + Environment.NewLine;
+            Host.ExtLog.error(msg);
         }
     }
 }

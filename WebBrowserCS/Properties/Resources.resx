@@ -118,66 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="go" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\go.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="home" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\home.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="arrow_forward" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow_forward.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="arrow_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="arrow_reload" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow_reload.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="cut" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cut.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="new" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\new.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="open" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="paste" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\paste.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="print" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\print.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="printPreview" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\printPreview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="save" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="help" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        dAAAEnQB3mYfeAAAApZJREFUOE+NkltI01Ecx/cc9Fxi770ZvfZWEAn1EBKU4FtvZogWinkZc97Kuanz
-        Ms15zTUduamom9puNud0eXclOYZuTvOuhRcoPv03lcwU/MKPAwc+n3PO7/xE50Xd4KGkZJzs7EGyshwc
-        bV8sIThUExPr1NXPonk/g1R6QdEx7HKtU66awGpb46M5QL95Hm2LB0m283zRabirexmH4ycD1h1s1i36
-        +9bR6xdpap4WbjT0r+g03NEZxGLeoqdnlfaOZdoEsFU3T1PjHCqVB7l8jJy8oUPBaVhvCIRBgyFIi3aB
-        xkYvNTWzlJdPo1CMkp8/wotkMwnPjZxo2GYY1rbMo9MtoHnno75ujpb2ALLWTWJL94mR7SCpCSAvnyT+
-        mRF9++ChQNs6hVzhpq7By9vqr1SWeVCWTKHWBUnSQpUVPi8I5Yd6+y8e5/lpM3uY8/sQiSU2tLpJJFI7
-        suJhZEWjvCl0U9vsJVEDumFYXNomo8DEvSfq8Gpw7XIn0U2h0oXoZYoR33IAk2WMtPQ+xGJb+M9zm1ZQ
-        WQjnGB4Z84fX0nonUs0ScfEmRBlZGoqVvSxtB5lfFd5XYkGaa+dhwQaGsUNBKKFbhAS3HlRS0TxK08AB
-        EdcrEL0uGhJO7hfKiNkxxcbBd6zOL0SLA+hPCHZ+7IfhlBwTcytCLyx7XInM/zsHkhw76Zl9FJfZ8AYX
-        UHUvIu/cPcLBKZwur3HhFeApoZnJpR6iY9T/T2R6pplXgqjL8o27yeN0uQ/Y+w3GT36ibhczswgVXWtc
-        vqkkT2k5e6QzxRZS03ppaJvhRqwJca0PrWOPZusuSYoZLkUpSEj9wMBo4GzBcVTVboqUTuKethNxLZer
-        kRncf1SFTGVjaDIowCLRH7cEcC693uZVAAAAAElFTkSuQmCC
-</value>
-  </data>
   <data name="redo" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
@@ -189,6 +133,25 @@
         CZjZl7VDMai77iHXT0sBHTNRlLvjyKncTQGwhWnoPyutIShM62I5vXhcCvDsETT4nlHkuKF7mEwJSBb2
         mcz9lzCNviDfdvK9wkdl0W0beiMwjLyAa79Crff55yAG0TuvYXTzKO2N/m4SJp0rhir6bMnjv5ZM9gbF
         Nwe3KROasAAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="arrow_back_disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\arrow_back_disabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="undo" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        dAAAEnQB3mYfeAAAAaZJREFUOE+9kd1LkwEUxvendNfoTtzUFMdQhzbFRsSoZTMtpXmzpWJG+G66XQz2
+        UWyEWOaNX9sotVqNECJ3o3cpiDcWQcOJa82Ze3f7650OIx3ie2EPnJtznufH4RzFuSoYzRN8JzKxKDK7
+        JBKWKhIXKY5Pl39BpFCeOZHhUA77VI6XHw8BJSGeSIqZlcNBIfTkTZ6uQIYG2wo1XTEq70RpHPzGWKwE
+        oNAYntph4rOIPSTy9G0es3cbnW0Zzf1F1Ldf0WB9z+X2WYzuDNOSrxj9q76xbXqe7/NgPMdN7x7Vd6NU
+        dSxI4fCB2TAUo+zGJLqHmzimcycBnf4kzSNpbvn2GRhPo2wOoGoLHRkvaAU0PXF0A19xhEsArjm3qOj7
+        zpWR1MEmHd4fCJO//gVY4uiFJM5SgLrBBNreDaoty6jaP1Bmeo2y5dmRscI8T61lCYPrJ7bRxEnAcR2/
+        9EV9QFp/k+7gLj7pvcX22VV17xPX3VmMwhd5YbN/F611lauuLK2P1rlkeCEP0PQ4IYV/09S/RrkpIn91
+        k/TW+v4N1G1z8sP/QQrFH5d0EMFcAw8NAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="search_help" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -209,56 +172,105 @@
         Dgj4DgumBO27WIIGAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="undo" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="help" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        dAAAEnQB3mYfeAAAAaZJREFUOE+9kd1LkwEUxvendNfoTtzUFMdQhzbFRsSoZTMtpXmzpWJG+G66XQz2
-        UWyEWOaNX9sotVqNECJ3o3cpiDcWQcOJa82Ze3f7650OIx3ie2EPnJtznufH4RzFuSoYzRN8JzKxKDK7
-        JBKWKhIXKY5Pl39BpFCeOZHhUA77VI6XHw8BJSGeSIqZlcNBIfTkTZ6uQIYG2wo1XTEq70RpHPzGWKwE
-        oNAYntph4rOIPSTy9G0es3cbnW0Zzf1F1Ldf0WB9z+X2WYzuDNOSrxj9q76xbXqe7/NgPMdN7x7Vd6NU
-        dSxI4fCB2TAUo+zGJLqHmzimcycBnf4kzSNpbvn2GRhPo2wOoGoLHRkvaAU0PXF0A19xhEsArjm3qOj7
-        zpWR1MEmHd4fCJO//gVY4uiFJM5SgLrBBNreDaoty6jaP1Bmeo2y5dmRscI8T61lCYPrJ7bRxEnAcR2/
-        9EV9QFp/k+7gLj7pvcX22VV17xPX3VmMwhd5YbN/F611lauuLK2P1rlkeCEP0PQ4IYV/09S/RrkpIn91
-        k/TW+v4N1G1z8sP/QQrFH5d0EMFcAw8NAAAAAElFTkSuQmCC
+        dAAAEnQB3mYfeAAAApZJREFUOE+NkltI01Ecx/cc9Fxi770ZvfZWEAn1EBKU4FtvZogWinkZc97Kuanz
+        Ms15zTUduamom9puNud0eXclOYZuTvOuhRcoPv03lcwU/MKPAwc+n3PO7/xE50Xd4KGkZJzs7EGyshwc
+        bV8sIThUExPr1NXPonk/g1R6QdEx7HKtU66awGpb46M5QL95Hm2LB0m283zRabirexmH4ycD1h1s1i36
+        +9bR6xdpap4WbjT0r+g03NEZxGLeoqdnlfaOZdoEsFU3T1PjHCqVB7l8jJy8oUPBaVhvCIRBgyFIi3aB
+        xkYvNTWzlJdPo1CMkp8/wotkMwnPjZxo2GYY1rbMo9MtoHnno75ujpb2ALLWTWJL94mR7SCpCSAvnyT+
+        mRF9++ChQNs6hVzhpq7By9vqr1SWeVCWTKHWBUnSQpUVPi8I5Yd6+y8e5/lpM3uY8/sQiSU2tLpJJFI7
+        suJhZEWjvCl0U9vsJVEDumFYXNomo8DEvSfq8Gpw7XIn0U2h0oXoZYoR33IAk2WMtPQ+xGJb+M9zm1ZQ
+        WQjnGB4Z84fX0nonUs0ScfEmRBlZGoqVvSxtB5lfFd5XYkGaa+dhwQaGsUNBKKFbhAS3HlRS0TxK08AB
+        EdcrEL0uGhJO7hfKiNkxxcbBd6zOL0SLA+hPCHZ+7IfhlBwTcytCLyx7XInM/zsHkhw76Zl9FJfZ8AYX
+        UHUvIu/cPcLBKZwur3HhFeApoZnJpR6iY9T/T2R6pplXgqjL8o27yeN0uQ/Y+w3GT36ibhczswgVXWtc
+        vqkkT2k5e6QzxRZS03ppaJvhRqwJca0PrWOPZusuSYoZLkUpSEj9wMBo4GzBcVTVboqUTuKethNxLZer
+        kRncf1SFTGVjaDIowCLRH7cEcC693uZVAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="ChromiumIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ChromiumIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ScriptErrorIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\SCRError.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ChromiumWindow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ChromiumWindow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="printPreview" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\printPreview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IEIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\IEIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="arrow_reload" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow_reload.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IEWindow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IEWindow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MDIParent" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MDIParent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ChromiumIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ChromiumIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ScriptError" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ScriptError.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="IEIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IEIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TabbedWindow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TabbedWindow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="arrow_back_disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\arrow_back_disabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MDIParent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MDIParent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="arrow_forward_disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\arrow_forward_disabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="BrowserCSIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\cancel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="print" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\print.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ScriptIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scr.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="globe" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gloob.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="paste" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\paste.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cut" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cut.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\cancel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="new" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\new.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="go" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\go.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="arrow_forward_disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\arrow_forward_disabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="arrow_forward" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow_forward.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="arrow_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ChromiumWindow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ChromiumWindow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="loading" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\loading.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="open" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ScriptError" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ScriptError.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Scr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Scr.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
